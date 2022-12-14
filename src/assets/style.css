@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
+:root {
+  --h-height: 80px;
+  --f-height: 100px;
+}
+
+/* mixins */
+a, a:hover, a:focus, a:active {
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, address {
+  line-height: 130%;
+  margin-bottom: 0px;
+}
+
+/* Form elements */
+input, textarea {
+  background: #fff;
+  border: none;
+  border-radius: 0px;
+  padding: 0.75em 1.5em;
+  width: 100%;
+  line-height: normal;
+  outline: none;
+  display: block;
+  transition: 0.3s ease;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #737373;
+  font-weight: 400;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #737373;
+  font-weight: 400;
+}
+input::placeholder, textarea::placeholder {
+  color: #737373;
+  font-weight: 400;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: unset;
+  display: block;
+  font-family: inherit;
+  outline: none;
+  color: inherit;
+}
+
+.btn, .btn-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75em 1.5em;
+  text-align: center;
+  transition: 0.3s ease;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 1em;
+  font-weight: 500;
+  border-radius: 0px;
+}
+.btn-1 {
+  color: #fff;
+  background: #004aad;
+}
+.btn-1:hover, .btn-1:focus, .btn-1:active {
+  color: #fff;
+  background: #004aad;
+}
+
+.fs-08 {
+  font-size: 0.8em;
+}
+.fs-09 {
+  font-size: 0.9em;
+}
+.fs-10 {
+  font-size: 1em;
+}
+.fs-11 {
+  font-size: 1.1em;
+}
+.fs-12 {
+  font-size: 1.2em;
+}
+.fs-13 {
+  font-size: 1.3em;
+}
+.fs-14 {
+  font-size: 1.4em;
+}
+.fs-15 {
+  font-size: 1.5em;
+}
+.fs-16 {
+  font-size: 1.6em;
+}
+.fs-17 {
+  font-size: 1.7em;
+}
+.fs-18 {
+  font-size: 1.8em;
+}
+.fs-19 {
+  font-size: 1.9em;
+}
+.fs-20 {
+  font-size: 2em;
+}
+.fs-25 {
+  font-size: 2.5em;
+}
+.fs-30 {
+  font-size: 3em;
+}
+.fs-35 {
+  font-size: 3.5em;
+}
+.fs-40 {
+  font-size: 4em;
+}
+
+.fw-3 {
+  font-weight: 300;
+}
+.fw-4 {
+  font-weight: 400;
+}
+.fw-5 {
+  font-weight: 500;
+}
+.fw-6 {
+  font-weight: 600;
+}
+.fw-7 {
+  font-weight: 700;
+}
+.fw-8 {
+  font-weight: 800;
+}
+.fw-9 {
+  font-weight: 900;
+}
+
+body {
+  margin: 0;
+  font-family: "Mulish";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  color: #0D0D0D;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+@media (max-width: 1399px) {
+  body {
+    font-size: 15px;
+  }
+}
+@media (max-width: 1199px) {
+  body {
+    font-size: 14px;
+  }
+}
+@media (max-width: 991px) {
+  body {
+    padding-bottom: var(--m-footer);
+  }
+}
+
+header {
+  background-color: #004aad;
+  color: #fff;
+  height: var(--h-height);
+}
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header .container .logo {
+  width: 150px;
+}
+header .container form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header .container form button {
+  font-size: 2em;
+}
+header .container nav ul {
+  list-style: none;
+  padding-left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header .container nav ul li:not(:first-child) {
+  margin-left: 1em;
+}
+header .container nav ul li a {
+  font-size: 1.2em;
+}
+
+main {
+  min-height: calc(100vh - var(--h-height) - var(--f-height));
+}
+
+footer {
+  background-color: #404040;
+  color: #fff;
+  height: var(--f-height);
+}/*# sourceMappingURL=style.css.map */

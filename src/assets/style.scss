@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --h-height: 80px;
+    --f-height: 100px;
+    // @media (max-width: 1199px){
+    //     --f-height: 270px;
+    // }
+}
+
+$main-font: "Mulish";
+$color-1: #004aad;
+$gray-1: #F2F2F2;
+$gray-2: #BFBFBF;
+$gray-3: #737373;
+$gray-4: #404040;
+$gray-5: #0D0D0D;
+$transition: .3s ease;
+
+/* mixins */
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@mixin no-appearance {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    outline: none;
+}
+@mixin safariFix {
+    isolation: isolate;
+    transform: translateZ(0);
+}
+
+a, a:hover, a:focus, a:active {
+    color: inherit;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, address {
+    line-height: 130%;
+    margin-bottom: 0px;
+}
+
+/* Form elements */
+input, textarea {
+    background: #fff;
+    border: none;
+    border-radius: 0px;
+    padding: .75em 1.5em;
+    width: 100%;
+    line-height: normal;
+    outline: none;
+    display: block;
+    transition: $transition;
+    &:-moz-placeholder, &::-moz-placeholder,
+    &::-webkit-input-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder {
+        color: $gray-3;
+        font-weight: 400;
+    }
+    &::placeholder {
+        color: $gray-3;
+        font-weight: 400;
+    }
+}
+
+button {
+    background: none;
+    border: none;
+    padding: unset;
+    display: block;
+    font-family: inherit;
+    outline: none;
+    color: inherit;
+}
+.btn {
+    @include flex-center;
+    padding: .75em 1.5em;
+    text-align: center;
+    transition: $transition;
+    width: fit-content;
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 0px;
+    &-1 {
+        @extend .btn;
+        color: #fff;
+        background: $color-1;
+        &:hover, &:focus, &:active {
+            color: #fff;
+            background: $color-1;
+        }
+    }
+}
+
+
+.fs {
+    &-08 {font-size: 0.8em;}
+    &-09 {font-size: 0.9em;}
+    &-10 {font-size: 1em;}
+    &-11 {font-size: 1.1em;}
+    &-12 {font-size: 1.2em;}
+    &-13 {font-size: 1.3em;}
+    &-14 {font-size: 1.4em;}
+    &-15 {font-size: 1.5em;}
+    &-16 {font-size: 1.6em;}
+    &-17 {font-size: 1.7em;}
+    &-18 {font-size: 1.8em;}
+    &-19 {font-size: 1.9em;}
+    &-20 {font-size: 2em;}
+    &-25 {font-size: 2.5em;}
+    &-30 {font-size: 3em;}
+    &-35 {font-size: 3.5em;}
+    &-40 {font-size: 4em;}
+}
+.fw {
+    &-3 {font-weight: 300;}
+    &-4 {font-weight: 400;}
+    &-5 {font-weight: 500;}
+    &-6 {font-weight: 600;}
+    &-7 {font-weight: 700;}
+    &-8 {font-weight: 800;}
+    &-9 {font-weight: 900;}
+}
+
+
+body {
+    margin: 0;
+    font-family: $main-font;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    color: $gray-5;
+    font-weight: 400;
+    overflow-x: hidden;
+    @media (max-width: 1399px){
+        font-size: 15px;
+    }
+    @media (max-width: 1199px){
+        font-size: 14px;
+    }
+    @media (max-width: 991px){
+        padding-bottom: var(--m-footer);
+    }
+}
+
+header {
+    background-color: $color-1;
+    color: #fff;
+    height: var(--h-height);
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .logo {
+            width: 150px;
+        }
+        form {
+            @include flex-center();
+            button {
+                font-size: 2em;
+            }
+        }
+        nav {
+            ul {
+                list-style: none;
+                padding-left: 0px;
+                @include flex-center();
+                li {
+                    &:not(:first-child){margin-left: 1em;}
+                    a {
+                        font-size: 1.2em;
+                    }
+                }
+            }
+        }
+    }
+}
+
+main {
+    min-height: calc(100vh - var(--h-height) - var(--f-height));
+}
+
+footer {
+    background-color: $gray-4;
+    color: #fff;
+    height: var(--f-height);
+}
