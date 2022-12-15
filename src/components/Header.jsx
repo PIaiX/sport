@@ -1,17 +1,17 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
-import logo from '../assets/imgs/logo.png'
-import { TfiSearch } from "react-icons/tfi"
+import logo from '../assets/imgs/logo-colored.png'
+import { RiSearchEyeLine, RiSearch2Line } from "react-icons/ri";
 
 const Header = () => {
     return (
         <header>
             <Container>
                 <img src={logo} alt="logo" className='logo'/>
-                <form action="">
+                <form action="" className='form-search'>
                     <input type="search" placeholder='Найти'/>
-                    <button type='submit'>
-                        <TfiSearch/>
+                    <button type='submit' className='btn-2'>
+                        <RiSearch2Line/>
                     </button>
                 </form>
                 <nav>

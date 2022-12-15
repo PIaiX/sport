@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 :root {
-  --h-height: 80px;
+  --h-height: 100px;
   --f-height: 100px;
 }
 
@@ -19,9 +19,9 @@ h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, selec
 
 /* Form elements */
 input, textarea {
-  background: #fff;
+  background: #CAF0F8;
   border: none;
-  border-radius: 0px;
+  border-radius: 1em;
   padding: 0.75em 1.5em;
   width: 100%;
   line-height: normal;
@@ -30,15 +30,15 @@ input, textarea {
   transition: 0.3s ease;
 }
 input::-moz-placeholder, textarea::-moz-placeholder {
-  color: #737373;
+  color: #7A8290;
   font-weight: 400;
 }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-  color: #737373;
+  color: #7A8290;
   font-weight: 400;
 }
 input::placeholder, textarea::placeholder {
-  color: #737373;
+  color: #7A8290;
   font-weight: 400;
 }
 
@@ -52,7 +52,7 @@ button {
   color: inherit;
 }
 
-.btn, .btn-1 {
+.btn, .btn-2, .btn-1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,13 +64,21 @@ button {
   width: fit-content;
   font-size: 1em;
   font-weight: 500;
-  border-radius: 0px;
+  border-radius: 1em;
 }
 .btn-1 {
   color: #fff;
   background: #004aad;
 }
 .btn-1:hover, .btn-1:focus, .btn-1:active {
+  color: #fff;
+  background: #03045E;
+}
+.btn-2 {
+  color: #fff;
+  background: #00B4D8;
+}
+.btn-2:hover, .btn-2:focus, .btn-2:active {
   color: #fff;
   background: #004aad;
 }
@@ -155,7 +163,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-  color: #0D0D0D;
+  background-color: #FFFFFF;
+  color: #000000;
   font-weight: 400;
   overflow-x: hidden;
 }
@@ -176,14 +185,13 @@ body {
 }
 
 header {
-  background-color: #004aad;
-  color: #fff;
   height: var(--h-height);
 }
 header .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
 }
 header .container .logo {
   width: 150px;
@@ -192,9 +200,18 @@ header .container form {
   display: flex;
   justify-content: center;
   align-items: center;
+  align-items: stretch;
+}
+header .container form input {
+  border-radius: 1em 0 0 1em;
 }
 header .container form button {
-  font-size: 2em;
+  width: 3em;
+  padding: 0px;
+  border-radius: 0 1em 1em 0;
+}
+header .container form button svg {
+  font-size: 1.5em;
 }
 header .container nav ul {
   list-style: none;
@@ -208,14 +225,50 @@ header .container nav ul li:not(:first-child) {
 }
 header .container nav ul li a {
   font-size: 1.2em;
+  color: #004aad;
+  transition: 0.3s ease;
+}
+header .container nav ul li a:hover, header .container nav ul li a:focus {
+  color: #03045E;
 }
 
 main {
   min-height: calc(100vh - var(--h-height) - var(--f-height));
 }
 
+.main-slider .swiper-slide {
+  width: 70%;
+}
+.main-slider .swiper-slide figure {
+  position: relative;
+  border-radius: 1em;
+  overflow: hidden;
+  border: 3px solid #CAF0F8;
+  height: 400px;
+}
+.main-slider .swiper-slide figure img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.main-slider .swiper-slide figure figcaption {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FFFFFF;
+  height: 100%;
+  padding: 2em;
+}
+
 footer {
-  background-color: #404040;
+  background-color: #31353B;
   color: #fff;
   height: var(--f-height);
 }/*# sourceMappingURL=style.css.map */

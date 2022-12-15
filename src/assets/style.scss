@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-    --h-height: 80px;
+    --h-height: 100px;
     --f-height: 100px;
     // @media (max-width: 1199px){
     //     --f-height: 270px;
@@ -9,12 +9,17 @@
 }
 
 $main-font: "Mulish";
-$color-1: #004aad;
-$gray-1: #F2F2F2;
-$gray-2: #BFBFBF;
-$gray-3: #737373;
-$gray-4: #404040;
-$gray-5: #0D0D0D;
+$color-1: #03045E;
+$color-2: #004aad;
+$color-3: #00B4D8;
+$color-4: #90E0EF;
+$color-5: #CAF0F8;
+$achromat-1: #000000;
+$achromat-2: #31353B;
+$achromat-3: #7A8290;
+$achromat-4: #D2D5DA;
+$achromat-5: #FFFFFF;
+$radius: 1em;
 $transition: .3s ease;
 
 /* mixins */
@@ -48,9 +53,9 @@ h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, selec
 
 /* Form elements */
 input, textarea {
-    background: #fff;
+    background: $color-5;
     border: none;
-    border-radius: 0px;
+    border-radius: $radius;
     padding: .75em 1.5em;
     width: 100%;
     line-height: normal;
@@ -59,11 +64,11 @@ input, textarea {
     transition: $transition;
     &:-moz-placeholder, &::-moz-placeholder,
     &::-webkit-input-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder {
-        color: $gray-3;
+        color: $achromat-3;
         font-weight: 400;
     }
     &::placeholder {
-        color: $gray-3;
+        color: $achromat-3;
         font-weight: 400;
     }
 }
@@ -85,14 +90,23 @@ button {
     width: fit-content;
     font-size: 1em;
     font-weight: 500;
-    border-radius: 0px;
+    border-radius: $radius;
     &-1 {
         @extend .btn;
         color: #fff;
-        background: $color-1;
+        background: $color-2;
         &:hover, &:focus, &:active {
             color: #fff;
             background: $color-1;
+        }
+    }
+    &-2 {
+        @extend .btn;
+        color: #fff;
+        background: $color-3;
+        &:hover, &:focus, &:active {
+            color: #fff;
+            background: $color-2;
         }
     }
 }
@@ -134,7 +148,8 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
-    color: $gray-5;
+    background-color: $achromat-5;
+    color: $achromat-1;
     font-weight: 400;
     overflow-x: hidden;
     @media (max-width: 1399px){
@@ -149,20 +164,26 @@ body {
 }
 
 header {
-    background-color: $color-1;
-    color: #fff;
     height: var(--h-height);
     .container {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        height: 100%;
         .logo {
             width: 150px;
         }
         form {
             @include flex-center();
+            align-items: stretch;
+            input {
+                border-radius: $radius 0 0 $radius;
+            }
             button {
-                font-size: 2em;
+                width: 3em;
+                padding: 0px;
+                border-radius: 0 $radius $radius 0;
+                svg{font-size: 1.5em;}
             }
         }
         nav {
@@ -174,6 +195,11 @@ header {
                     &:not(:first-child){margin-left: 1em;}
                     a {
                         font-size: 1.2em;
+                        color: $color-2;
+                        transition: $transition;
+                        &:hover, &:focus {
+                            color: $color-1;
+                        }
                     }
                 }
             }
@@ -185,8 +211,40 @@ main {
     min-height: calc(100vh - var(--h-height) - var(--f-height));
 }
 
+.main-slider {
+    .swiper-slide {
+        width: 70%;
+        figure {
+            position: relative;
+            border-radius: $radius;
+            overflow: hidden;
+            border: 3px solid $color-5;
+            height: 400px;
+            img {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                object-fit: cover;
+            }
+            figcaption {
+                position: relative;
+                z-index: 2;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                color: $achromat-5;
+                height: 100%;
+                padding: 2em;
+            }
+        }
+    }
+}
+
 footer {
-    background-color: $gray-4;
+    background-color: $achromat-2;
     color: #fff;
     height: var(--f-height);
 }
