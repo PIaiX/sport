@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 :root {
   --h-height: 100px;
@@ -13,15 +14,15 @@ a, a:hover, a:focus, a:active {
 }
 
 h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, address {
-  line-height: 130%;
+  line-height: 120%;
   margin-bottom: 0px;
 }
 
 /* Form elements */
 input, textarea {
-  background: #CAF0F8;
+  background: #D6E7FF;
   border: none;
-  border-radius: 1em;
+  border-radius: 0em;
   padding: 0.75em 1.5em;
   width: 100%;
   line-height: normal;
@@ -64,23 +65,51 @@ button {
   width: fit-content;
   font-size: 1em;
   font-weight: 500;
-  border-radius: 1em;
+  border-radius: 0em;
 }
 .btn-1 {
   color: #fff;
-  background: #004aad;
+  background: #004AAD;
 }
 .btn-1:hover, .btn-1:focus, .btn-1:active {
   color: #fff;
-  background: #03045E;
+  background: #002C66;
 }
 .btn-2 {
-  color: #fff;
-  background: #00B4D8;
+  color: #4797FF;
+  background: transparent;
+  border: 1px solid currentColor;
 }
 .btn-2:hover, .btn-2:focus, .btn-2:active {
-  color: #fff;
-  background: #004aad;
+  color: #004AAD;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 2.5em;
+  font-weight: 800;
+  text-align: left;
+  margin-bottom: 1em;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 1em;
+}
+
+h4 {
+  font-size: 1.25em;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 0.5em;
 }
 
 .fs-08 {
@@ -157,6 +186,70 @@ button {
   font-weight: 900;
 }
 
+nav.pagination {
+  width: 100%;
+  margin-top: 2em;
+}
+nav.pagination ul {
+  width: 100%;
+  list-style: none;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav.pagination ul li:not(:first-child) {
+  margin-left: 0.5em;
+}
+nav.pagination ul li button {
+  font-size: 1.2em;
+  font-weight: 500;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0em;
+  background-color: transparent;
+  color: #001229;
+  transition: 0.3s ease;
+}
+nav.pagination ul li button:hover, nav.pagination ul li button:focus {
+  background-color: #D6E7FF;
+}
+nav.pagination ul li button:active {
+  background-color: #4797FF;
+  color: #FFFFFF;
+}
+nav.pagination ul li button.active {
+  background-color: #004AAD;
+  color: #FFFFFF;
+}
+
+.swiper {
+  position: unset;
+}
+.swiper-button, .swiper-button-next, .swiper-button-prev {
+  top: 50%;
+  margin: 0px;
+  width: 3em;
+  height: 3em;
+  background-color: #004AAD;
+  color: #FFFFFF;
+  border-radius: 0em;
+}
+.swiper-button::after, .swiper-button-next::after, .swiper-button-prev::after {
+  font-size: 1.5em;
+}
+.swiper-button-prev {
+  left: 0px;
+  transform: translateY(-50%) translateX(-50%);
+}
+.swiper-button-next {
+  right: 0px;
+  transform: translateY(-50%) translateX(50%);
+}
+
 body {
   margin: 0;
   font-family: "Mulish";
@@ -203,12 +296,12 @@ header .container form {
   align-items: stretch;
 }
 header .container form input {
-  border-radius: 1em 0 0 1em;
+  border-radius: 0em 0 0 0em;
 }
 header .container form button {
   width: 3em;
   padding: 0px;
-  border-radius: 0 1em 1em 0;
+  border-radius: 0 0em 0em 0;
 }
 header .container form button svg {
   font-size: 1.5em;
@@ -225,11 +318,11 @@ header .container nav ul li:not(:first-child) {
 }
 header .container nav ul li a {
   font-size: 1.2em;
-  color: #004aad;
+  color: #004AAD;
   transition: 0.3s ease;
 }
 header .container nav ul li a:hover, header .container nav ul li a:focus {
-  color: #03045E;
+  color: #4797FF;
 }
 
 main {
@@ -241,9 +334,9 @@ main {
 }
 .main-slider .swiper-slide figure {
   position: relative;
-  border-radius: 1em;
+  border-radius: 0em;
   overflow: hidden;
-  border: 3px solid #CAF0F8;
+  border: 3px solid #D6E7FF;
   height: 400px;
 }
 .main-slider .swiper-slide figure img {
@@ -255,6 +348,7 @@ main {
   z-index: 1;
   -o-object-fit: cover;
      object-fit: cover;
+  filter: brightness(0.75);
 }
 .main-slider .swiper-slide figure figcaption {
   position: relative;
@@ -266,9 +360,151 @@ main {
   height: 100%;
   padding: 2em;
 }
+.main-slider .swiper-slide figure figcaption h2 {
+  margin-bottom: 0.5em;
+}
+.main-slider .swiper-slide figure figcaption ul {
+  list-style: none;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  opacity: 0.75;
+  font-size: 0.8em;
+}
+.main-slider .swiper-slide figure figcaption ul li:not(:first-child) {
+  margin-left: 0.5em;
+}
+.main-slider .swiper-slide figure figcaption ul li:not(:first-child)::before {
+  content: "·";
+  margin-right: 0.5em;
+}
+
+.date-slider .swiper-slide {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.date-slider .swiper-slide .month {
+  width: 100%;
+  position: relative;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+.date-slider .swiper-slide .month span {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0px;
+  top: 0px;
+  transition: left 200ms linear 0s;
+}
+.date-slider .swiper-slide .days {
+  display: flex;
+}
+.date-slider .swiper-slide .days button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 1em;
+  border-radius: 0em;
+  background-color: transparent;
+  transition: 0.3s ease;
+}
+.date-slider .swiper-slide .days button.active {
+  background-color: #4797FF;
+  color: #FFFFFF;
+}
+.date-slider .swiper-slide .days button:not(:first-child) {
+  margin-left: 0.5em;
+}
+.date-slider .swiper-slide .days button div:first-child {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.event img {
+  width: 100%;
+  height: 200px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: 1em;
+  filter: brightness(0.75);
+  border-radius: 0em;
+}
+.event address {
+  font-size: 0.9em;
+  margin-bottom: 1em;
+  color: #7A8290;
+}
+.event .time {
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #31353B;
+}
+
+.text {
+  width: 100%;
+  overflow-x: scroll;
+  display: flex;
+  margin-top: 100px;
+  padding: 1em 0;
+}
+.text .line {
+  width: 1500px !important;
+  position: relative;
+  background-color: pink;
+  margin-right: 2em;
+  flex-shrink: 0;
+}
+.text .line .sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0px;
+  top: 0px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  transition: left 200ms linear 0s;
+}
 
 footer {
-  background-color: #31353B;
-  color: #fff;
+  background-color: #000000;
+  color: #FFFFFF;
   height: var(--f-height);
+}
+footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+footer .container .sign {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer .container .sign img {
+  max-height: 40px;
+  margin-left: 0.5em;
+}
+footer .container nav ul {
+  list-style: none;
+  padding-left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer .container nav ul li:not(:first-child) {
+  margin-left: 1em;
+}
+footer .container nav ul li a {
+  font-size: 1.2em;
+  color: #FFFFFF;
+  transition: 0.3s ease;
+}
+footer .container nav ul li a:hover, footer .container nav ul li a:focus {
+  color: #D6E7FF;
 }/*# sourceMappingURL=style.css.map */

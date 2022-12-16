@@ -9,17 +9,17 @@
 }
 
 $main-font: "Mulish";
-$color-1: #03045E;
-$color-2: #004aad;
-$color-3: #00B4D8;
-$color-4: #90E0EF;
-$color-5: #CAF0F8;
+$color-1: #001229;
+$color-2: #002C66;
+$color-3: #004AAD;
+$color-4: #4797FF;
+$color-5: #D6E7FF;
 $achromat-1: #000000;
 $achromat-2: #31353B;
 $achromat-3: #7A8290;
 $achromat-4: #D2D5DA;
 $achromat-5: #FFFFFF;
-$radius: 1em;
+$radius: 0em;
 $transition: .3s ease;
 
 /* mixins */
@@ -47,7 +47,7 @@ a, a:hover, a:focus, a:active {
     cursor: pointer;
 }
 h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, address {
-    line-height: 130%;
+    line-height: 120%;
     margin-bottom: 0px;
 }
 
@@ -94,24 +94,47 @@ button {
     &-1 {
         @extend .btn;
         color: #fff;
-        background: $color-2;
-        &:hover, &:focus, &:active {
-            color: #fff;
-            background: $color-1;
-        }
-    }
-    &-2 {
-        @extend .btn;
-        color: #fff;
         background: $color-3;
         &:hover, &:focus, &:active {
             color: #fff;
             background: $color-2;
         }
     }
+    &-2 {
+        @extend .btn;
+        color: $color-4;
+        background: transparent;
+        border: 1px solid currentColor;
+        &:hover, &:focus, &:active {
+            color: $color-3;
+        }
+    }
 }
 
-
+h1 {
+    font-size: 2em;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 1em;
+}
+h2 {
+    font-size: 2.5em;
+    font-weight: 800;
+    text-align: left;
+    margin-bottom: 1em;
+}
+h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 1em;
+}
+h4 {
+    font-size: 1.25em;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: .5em;
+}
 .fs {
     &-08 {font-size: 0.8em;}
     &-09 {font-size: 0.9em;}
@@ -139,6 +162,66 @@ button {
     &-7 {font-weight: 700;}
     &-8 {font-weight: 800;}
     &-9 {font-weight: 900;}
+}
+
+nav.pagination {
+    width: 100%;
+    margin-top: 2em;
+    ul {
+        width: 100%;
+        list-style: none;
+        padding: 0px;
+        @include flex-center();
+        li {
+            &:not(:first-child){margin-left: .5em;}
+            button {
+                font-size: 1.2em;
+                font-weight: 500;
+                width: 2em;
+                height: 2em;
+                @include flex-center();
+                border-radius: $radius;
+                background-color: transparent;
+                color: $color-1;
+                transition: $transition;
+                &:hover, &:focus {background-color: $color-5;}
+                &:active {
+                    background-color: $color-4;
+                    color: $achromat-5;
+                }
+                &.active {
+                    background-color: $color-3;
+                    color: $achromat-5;
+                }
+            }
+        }
+    }
+}
+
+.swiper {
+    position: unset;
+    &-button {
+        top: 50%;
+        margin: 0px;
+        width: 3em;
+        height: 3em;
+        background-color: $color-3;
+        color: $achromat-5;
+        border-radius: $radius;
+        &::after {
+            font-size: 1.5em;
+        }
+        &-prev {
+            @extend .swiper-button;
+            left: 0px;
+            transform: translateY(-50%) translateX(-50%);
+        }
+        &-next {
+            @extend .swiper-button;
+            right: 0px;
+            transform: translateY(-50%) translateX(50%);
+        }
+    }
 }
 
 
@@ -195,10 +278,10 @@ header {
                     &:not(:first-child){margin-left: 1em;}
                     a {
                         font-size: 1.2em;
-                        color: $color-2;
+                        color: $color-3;
                         transition: $transition;
                         &:hover, &:focus {
-                            color: $color-1;
+                            color: $color-4;
                         }
                     }
                 }
@@ -228,6 +311,7 @@ main {
                 height: 100%;
                 z-index: 1;
                 object-fit: cover;
+                filter: brightness(.75);
             }
             figcaption {
                 position: relative;
@@ -238,13 +322,155 @@ main {
                 color: $achromat-5;
                 height: 100%;
                 padding: 2em;
+                h2 {margin-bottom: .5em;}
+                ul {
+                    list-style: none;
+                    padding: 0px;
+                    display: flex;
+                    align-items: center;
+                    opacity: .75;
+                    font-size: .8em;
+                    li {
+                        &:not(:first-child){
+                            margin-left: .5em;
+                            &::before {
+                                content: '·';
+                                margin-right: .5em;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 
+
+.date-slider {
+    .swiper-slide {
+        width: fit-content;
+        .month {
+            width: 100%;
+            position: relative;
+            margin-bottom: .5em;
+            font-weight: 600;
+            span {
+                position: sticky;
+                left: 0px;
+                top: 0px;
+                transition: left 200ms linear 0s;
+            }
+        }
+        .days {
+            display: flex;
+            button {
+                @include flex-center();
+                flex-direction: column;
+                text-align: center;
+                padding: 1em;
+                border-radius: $radius*0.5;
+                background-color: transparent;
+                transition: $transition;
+                &.active {
+                    background-color: $color-4;
+                    color: $achromat-5;
+                }
+                &:not(:first-child){
+                    margin-left: .5em;
+                }
+                div {
+                    &:first-child {
+                        font-size: 1.5em;
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+
+.event {
+    img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        margin-bottom: 1em;
+        filter: brightness(.75);
+        border-radius: $radius;
+    }
+    address {
+        font-size: .9em;
+        margin-bottom: 1em;
+        color: $achromat-3;
+    }
+    .time {
+        font-size: .9em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: $achromat-2;
+    }
+}
+
+
+.text {
+    width: 100%;
+    overflow-x: scroll;
+    display: flex;
+    margin-top: 100px;
+    padding: 1em 0;
+    .line {
+        width: 1500px !important;
+        position: relative;
+        background-color: pink;
+        margin-right: 2em;
+        flex-shrink: 0;
+        .sticky {
+            position: sticky;
+            left: 0px;
+            top: 0px;
+            width: fit-content;
+            transition: left 200ms linear 0s;
+        }
+    }
+}
+
+
 footer {
-    background-color: $achromat-2;
-    color: #fff;
+    background-color: $achromat-1;
+    color: $achromat-5;
     height: var(--f-height);
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        .sign {
+            @include flex-center();
+            img {
+                max-height: 40px;
+                margin-left: 0.5em;
+            }
+        }
+        nav {
+            ul {
+                list-style: none;
+                padding-left: 0px;
+                @include flex-center();
+                li {
+                    &:not(:first-child){margin-left: 1em;}
+                    a {
+                        font-size: 1.2em;
+                        color: $achromat-5;
+                        transition: $transition;
+                        &:hover, &:focus {
+                            color: $color-5;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
