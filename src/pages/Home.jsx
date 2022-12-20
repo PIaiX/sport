@@ -15,6 +15,21 @@ import EventCard from '../components/EventCard'
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
 
+import Select from 'react-select'
+const optionsList = [
+    {value: '1', label: 'Вариант 1'},
+    {value: '2', label: 'Вариант 2'},
+    {value: '3', label: 'Вариант 3'},
+    {value: '4', label: 'Вариант 4'},
+    {value: '5', label: 'Вариант 5'},
+    {value: '6', label: 'Вариант 6'},
+    {value: '7', label: 'Вариант 7'},
+    {value: '8', label: 'Вариант 8'},
+    {value: '9', label: 'Вариант 9'},
+    {value: '10', label: 'Вариант 10'},
+    {value: '11', label: 'Вариант 11'},
+    {value: '12', label: 'Вариант 12'},
+]
 
 const Home = () => {
     return (
@@ -50,7 +65,7 @@ const Home = () => {
 
                 <section className='mb-5'>
                     <h2>Афиша событий в Казани</h2>
-                    <div className="position-relative">
+                    <div className="position-relative px-4">
                         <Swiper
                             className='date-slider'
                             modules={[Navigation, FreeMode]}
@@ -110,6 +125,29 @@ const Home = () => {
                         </Swiper>
                     </div>
 
+                    <div className='mt-4 d-flex'>
+                        <Select
+                            name="sort"
+                            placeholder="Тип мероприятия"
+                            classNamePrefix="simple-select"
+                            className="simple-select-container"
+                            options={optionsList}
+                            isMulti
+                            isClearable={true}
+                            isSearchable={true}
+                        />
+                        <Select
+                            name="sort"
+                            placeholder="Тип мероприятия"
+                            classNamePrefix="simple-select"
+                            className="simple-select-container ms-3"
+                            options={optionsList}
+                            isMulti
+                            defaultValue={[optionsList[0]]}
+                            isClearable={true}
+                            isSearchable={true}
+                        />
+                    </div>
 
                     {/* <div className="text">
                         <div className="line">

@@ -203,13 +203,20 @@ nav.pagination {
     &-button {
         top: 50%;
         margin: 0px;
-        width: 3em;
+        width: 2em;
         height: 3em;
-        background-color: $color-3;
-        color: $achromat-5;
-        border-radius: $radius;
+        background-color: transparent;
         &::after {
-            font-size: 1.5em;
+            font-size: 1.75em;
+            color: $color-3;
+            font-weight: 700;
+            transition: $transition;
+        }
+        &:hover, &:focus {
+            &::after {color: $color-4;}
+        }
+        &:active {
+            &::after {color: $color-2;}
         }
         &-prev {
             @extend .swiper-button;
@@ -354,6 +361,8 @@ main {
             position: relative;
             margin-bottom: .5em;
             font-weight: 600;
+            background-color: $color-5;
+            padding: 0.5em;
             span {
                 position: sticky;
                 left: 0px;
