@@ -35,7 +35,7 @@ const Home = () => {
     return (
         <main>
             <Container>
-                <section className='py-5 position-relative mb-5'>
+                <section className='py-2 py-sm-4 py-xl-5 position-relative mb-5'>
                     <Swiper
                         className='main-slider'
                         modules={[Autoplay, Navigation]}
@@ -49,7 +49,7 @@ const Home = () => {
                         }}
                     >
                         <SwiperSlide>
-                            <Banner type={0}/>
+                            <Banner/>
                         </SwiperSlide>
                         <SwiperSlide>
                             <Banner/>
@@ -65,7 +65,7 @@ const Home = () => {
 
                 <section className='mb-5'>
                     <h2>Афиша событий в Казани</h2>
-                    <div className="position-relative px-4">
+                    <div className="position-relative">
                         <Swiper
                             className='date-slider'
                             modules={[Navigation, FreeMode]}
@@ -158,7 +158,7 @@ const Home = () => {
                         </div>
                     </div> */}
 
-                    <Row md={4} className='mt-5 gx-4 gy-5'>
+                    <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
                         <Col>
                             <EventCard/>
                         </Col>
