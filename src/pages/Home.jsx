@@ -15,12 +15,27 @@ import EventCard from '../components/EventCard'
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
 
+import Select from 'react-select'
+const optionsList = [
+    {value: '1', label: 'Вариант 1'},
+    {value: '2', label: 'Вариант 2'},
+    {value: '3', label: 'Вариант 3'},
+    {value: '4', label: 'Вариант 4'},
+    {value: '5', label: 'Вариант 5'},
+    {value: '6', label: 'Вариант 6'},
+    {value: '7', label: 'Вариант 7'},
+    {value: '8', label: 'Вариант 8'},
+    {value: '9', label: 'Вариант 9'},
+    {value: '10', label: 'Вариант 10'},
+    {value: '11', label: 'Вариант 11'},
+    {value: '12', label: 'Вариант 12'},
+]
 
 const Home = () => {
     return (
         <main>
             <Container>
-                <section className='py-5 position-relative mb-5'>
+                <section className='py-2 py-sm-4 py-xl-5 position-relative mb-5'>
                     <Swiper
                         className='main-slider'
                         modules={[Autoplay, Navigation]}
@@ -34,7 +49,7 @@ const Home = () => {
                         }}
                     >
                         <SwiperSlide>
-                            <Banner type={0}/>
+                            <Banner/>
                         </SwiperSlide>
                         <SwiperSlide>
                             <Banner/>
@@ -113,6 +128,29 @@ const Home = () => {
                         
                     </div>
 
+                    <div className='mt-4 d-flex'>
+                        <Select
+                            name="sort"
+                            placeholder="Тип мероприятия"
+                            classNamePrefix="simple-select"
+                            className="simple-select-container"
+                            options={optionsList}
+                            isMulti
+                            isClearable={true}
+                            isSearchable={true}
+                        />
+                        <Select
+                            name="sort"
+                            placeholder="Тип мероприятия"
+                            classNamePrefix="simple-select"
+                            className="simple-select-container ms-3"
+                            options={optionsList}
+                            isMulti
+                            defaultValue={[optionsList[0]]}
+                            isClearable={true}
+                            isSearchable={true}
+                        />
+                    </div>
 
                     {/* <div className="text">
                         <div className="line">
@@ -123,7 +161,7 @@ const Home = () => {
                         </div>
                     </div> */}
 
-                    <Row md={4} className='mt-5 gx-4 gy-5'>
+                    <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
                         <Col>
                             <EventCard/>
                         </Col>

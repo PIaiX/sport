@@ -5,9 +5,9 @@
 :root {
     --h-height: 100px;
     --f-height: 100px;
-    // @media (max-width: 1199px){
-    //     --f-height: 270px;
-    // }
+    @media (max-width: 575px){
+        --h-height: 60px;
+    }
 }
 
 $main-font: "Mulish";
@@ -124,6 +124,9 @@ h2 {
     font-weight: 800;
     text-align: left;
     margin-bottom: 1em;
+    @media (max-width: 991px){
+        font-size: 2em;
+    }
 }
 h3 {
     font-size: 1.5em;
@@ -166,6 +169,10 @@ h4 {
     &-9 {font-weight: 900;}
 }
 
+.color-main {
+    color: $color-3;
+}
+
 nav.pagination {
     width: 100%;
     margin-top: 2em;
@@ -205,23 +212,30 @@ nav.pagination {
     &-button {
         top: 50%;
         margin: 0px;
-        width: 3em;
+        width: 2em;
         height: 3em;
-        background-color: $color-3;
-        color: $achromat-5;
-        border-radius: $radius;
+        background-color: transparent;
         &::after {
-            font-size: 1.5em;
+            font-size: 1.75em;
+            color: $color-3;
+            font-weight: 700;
+            transition: $transition;
+        }
+        &:hover, &:focus {
+            &::after {color: $color-4;}
+        }
+        &:active {
+            &::after {color: $color-2;}
         }
         &-prev {
             @extend .swiper-button;
             left: 0px;
-            transform: translateY(-50%) translateX(-50%);
+            transform: translateY(-50%) translateX(-100%);
         }
         &-next {
             @extend .swiper-button;
             right: 0px;
-            transform: translateY(-50%) translateX(50%);
+            transform: translateY(-50%) translateX(100%);
         }
     }
 }
@@ -257,6 +271,15 @@ header {
         height: 100%;
         .logo {
             width: 150px;
+            @media (max-width: 991px){
+                width: 130px;
+            }
+            @media (max-width: 767px){
+                width: 115px;
+            }
+            @media (max-width: 575px){
+                width: 90px;
+            }
         }
         form {
             @include flex-center();
@@ -299,12 +322,27 @@ main {
 .main-slider {
     .swiper-slide {
         width: 70%;
+        @media (max-width: 767px){
+            width: 100%;
+        }
         figure {
             position: relative;
             border-radius: $radius;
             overflow: hidden;
             border: 3px solid $color-5;
             height: 400px;
+            @media (max-width: 1399px){
+                height: 360px;
+            }
+            @media (max-width: 1199px){
+                height: 325px;
+            }
+            @media (max-width: 991px){
+                height: 275px;
+            }
+            @media (max-width: 575px){
+                height: 55vw;
+            }
             img {
                 position: absolute;
                 top: 0px;
@@ -349,6 +387,14 @@ main {
 
 
 .date-slider {
+    
+    .swiper-wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 150px;
+        contain: paint layout size style;
+        flex: 1 !important;
+    }
     .swiper-slide {
         width: fit-content;
         .month {
@@ -356,6 +402,8 @@ main {
             position: relative;
             margin-bottom: .5em;
             font-weight: 600;
+            background-color: $color-5;
+            padding: 0.5em;
             span {
                 position: sticky;
                 left: 0px;
@@ -401,6 +449,15 @@ main {
         margin-bottom: 1em;
         filter: brightness(.75);
         border-radius: $radius;
+        @media (max-width: 1399px){
+            height: 170px;
+        }
+        @media (max-width: 991px){
+            height: 140px;
+        }
+        @media (max-width: 575px){
+            height: 50vw;
+        }
     }
     address {
         font-size: .9em;
@@ -454,6 +511,12 @@ footer {
             img {
                 max-height: 40px;
                 margin-left: 0.5em;
+                @media (max-width: 991px){
+                    max-height: 35px;
+                }
+                @media (max-width: 767px){
+                    max-height: 30px;
+                }
             }
         }
         nav {
