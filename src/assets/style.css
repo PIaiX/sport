@@ -655,8 +655,8 @@ main {
   z-index: 1;
   -o-object-fit: cover;
      object-fit: cover;
-  -webkit-filter: brightness(0.6);
-          filter: brightness(0.6);
+  -webkit-filter: brightness(0.7);
+          filter: brightness(0.7);
 }
 
 .main-slider .swiper-slide figure figcaption {

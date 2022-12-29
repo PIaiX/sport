@@ -52,22 +52,19 @@ const Home = () => {
                         }}
                     >
                         <SwiperSlide>
-                            <Banner/>
+                            <Banner imgUrl={'imgs/img1.jpeg'}/>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <Banner/>
+                            <Banner imgUrl={'imgs/img2.jpeg'}/>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <Banner/>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Banner/>
+                            <Banner imgUrl={'imgs/img3.jpeg'}/>
                         </SwiperSlide>
                     </Swiper>
                 </section>
 
                 <section className='mb-5'>
-                    <h2>Афиша событий в Казани</h2>
+                    <h2>Календарь спортивных мероприятий</h2>
                     <div className="position-relative">
                         <Swiper
                             className='date-slider'
@@ -232,40 +229,40 @@ const Home = () => {
 
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
                         </Col>
                         <Col>
-                            <EventCard/>
+                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
                         </Col>
                     </Row>
                     <button type='button' className='btn-2 mt-5 mx-auto'>Показать ещё</button>

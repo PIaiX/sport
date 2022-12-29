@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Banner = () => {
+const Banner = (props) => {
     const types = [
         {
             id: 0,
@@ -17,11 +17,11 @@ const Banner = () => {
     ]
     return (
         <figure>
-            <img src="imgs/image.png" alt="slide" />
+            <img src={props.imgUrl} alt="slide" />
             <figcaption>
                 <ul className='top'>
                     <li>Подборка</li>
-                    <li>18+</li>
+                    <li>16+</li>
                 </ul>
                 <div>
                     <h2>Название подборки</h2>
