@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.98c24d56.css",
-    "main.js": "/static/js/main.e8515ffa.js",
-    "static/media/logo-colored.png": "/static/media/logo-colored.9b584a6887ce8660160c.png",
-    "static/media/plaix.svg": "/static/media/plaix.6d7f6929e3cb287fdbe5524ef8bcf7e7.svg",
-    "index.html": "/index.html",
-    "main.98c24d56.css.map": "/static/css/main.98c24d56.css.map",
-    "main.e8515ffa.js.map": "/static/js/main.e8515ffa.js.map"
+    "main.css": "/sport/static/css/main.98c24d56.css",
+    "main.js": "/sport/static/js/main.ff4305fa.js",
+    "static/media/logo-colored.png": "/sport/static/media/logo-colored.9b584a6887ce8660160c.png",
+    "static/media/plaix.svg": "/sport/static/media/plaix.6d7f6929e3cb287fdbe5524ef8bcf7e7.svg",
+    "index.html": "/sport/index.html",
+    "main.98c24d56.css.map": "/sport/static/css/main.98c24d56.css.map",
+    "main.ff4305fa.js.map": "/sport/static/js/main.ff4305fa.js.map"
   },
   "entrypoints": [
     "static/css/main.98c24d56.css",
-    "static/js/main.e8515ffa.js"
+    "static/js/main.ff4305fa.js"
   ]
 }
