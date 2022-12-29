@@ -116,7 +116,6 @@ button {
         width: fit-content;
         min-width: 150px;
         max-width: 100%;
-        height: 100%;
         @media (max-width: 575px) {
             min-width: unset;
         }
@@ -162,9 +161,6 @@ button {
             height: 100% !important;
         }
     }
-    // &__indicator-separator {
-    //     display: none;
-    // }
     &__input-container {
         margin: 0px !important;
         padding: 0px !important;
@@ -184,7 +180,6 @@ button {
             color: $achromat-5 !important;
         }
     }
-
     &__menu {
         margin-top: 0px !important;
         top: 100% !important;
@@ -196,6 +191,7 @@ button {
         box-shadow: none !important;
         outline: none !important;
         width: fit-content !important;
+        z-index: 10 !important;
     }
     &__option {
         transition: $transition;
@@ -341,6 +337,7 @@ nav.pagination {
             right: 0px;
             transform: translateY(-50%) translateX(100%);
         }
+        &-disabled {opacity: 0 !important;}
     }
 }
 
@@ -363,6 +360,9 @@ body {
     }
     @media (max-width: 991px){
         padding-bottom: var(--m-footer);
+    }
+    @media (max-width: 575px){
+        font-size: 12px;
     }
 }
 
@@ -493,8 +493,14 @@ main {
 .date-slider {
     overflow: visible;
     overflow-x: clip;
+    .swiper-wrapper{
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-inline: contain;
+        scroll-snap-type: x proximity !important;
+    }
     .swiper-slide {
         width: fit-content;
+        scroll-snap-stop: normal;
         .month {
             width: 100%;
             position: relative;
@@ -504,7 +510,7 @@ main {
             padding: 0.5em;
             span {
                 position: sticky;
-                left: 0px;
+                left: 0.5em;
                 top: 0px;
                 transition: left 200ms linear 0s;
             }
@@ -535,8 +541,9 @@ main {
             }
         }
     }
-    
 }
+
+
 .filters-carousel {
     overflow: visible;
     overflow-x: clip;
@@ -549,13 +556,12 @@ main {
     }
 }
 .filters {
+    margin-top: 2em;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: stretch;
-    overflow-x: auto;
-    overflow-y: visible;
     &>*{margin-right: 1em;}
 }
 .calendar {

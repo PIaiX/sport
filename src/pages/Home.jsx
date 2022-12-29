@@ -4,11 +4,11 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation, FreeMode } from 'swiper'
+import { Autoplay, Navigation, Keyboard} from 'swiper'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import 'swiper/css/navigation'
-import 'swiper/css/free-mode'
+import 'swiper/css/keyboard'
 import Banner from '../components/Banner'
 import DateBtn from '../components/utils/DateBtn'
 import EventCard from '../components/EventCard'
@@ -68,13 +68,15 @@ const Home = () => {
                     <div className="position-relative">
                         <Swiper
                             className='date-slider'
-                            modules={[Navigation, FreeMode]}
+                            modules={[Navigation, Keyboard]}
                             loop={false}
                             spaceBetween={10}
-                            freeMode={true}
                             slidesPerView={'auto'}
-                            slidesPerGroupAuto={true}
                             navigation
+                            cssMode={true}
+                            keyboard={true}
+                            simulateTouch={true}
+                            allowTouchMove={true}
                         >
                             <SwiperSlide>
                                 <div className="month">
@@ -120,80 +122,62 @@ const Home = () => {
                                     <DateBtn day={14} weekDay={6}/>
                                     <DateBtn day={15} weekDay={7}/>
                                     <DateBtn day={16} weekDay={1}/>
+                                    <DateBtn day={17} weekDay={2}/>
+                                    <DateBtn day={18} weekDay={3}/>
+                                    <DateBtn day={19} weekDay={4}/>
+                                    <DateBtn day={20} weekDay={5}/>
+                                    <DateBtn day={21} weekDay={6}/>
+                                    <DateBtn day={22} weekDay={7}/>
+                                    <DateBtn day={23} weekDay={1}/>
+                                    <DateBtn day={24} weekDay={2}/>
+                                    <DateBtn day={25} weekDay={3}/>
+                                    <DateBtn day={26} weekDay={4}/>
+                                    <DateBtn day={27} weekDay={5}/>
+                                    <DateBtn day={28} weekDay={6}/>
+                                    <DateBtn day={29} weekDay={7}/>
+                                    <DateBtn day={30} weekDay={1}/>
+                                    <DateBtn day={31} weekDay={2}/>
+                                </div>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <div className="month">
+                                    <span>Февраль</span>
+                                </div>
+                                <div className="days">
+                                    <DateBtn day={1} weekDay={3}/>
+                                    <DateBtn day={2} weekDay={4}/>
+                                    <DateBtn day={3} weekDay={5}/>
+                                    <DateBtn day={4} weekDay={6}/>
+                                    <DateBtn day={5} weekDay={7}/>
+                                    <DateBtn day={6} weekDay={1}/>
+                                    <DateBtn day={7} weekDay={2}/>
+                                    <DateBtn day={8} weekDay={3}/>
+                                    <DateBtn day={9} weekDay={4}/>
+                                    <DateBtn day={10} weekDay={5}/>
+                                    <DateBtn day={11} weekDay={6}/>
+                                    <DateBtn day={12} weekDay={7}/>
+                                    <DateBtn day={13} weekDay={1}/>
+                                    <DateBtn day={14} weekDay={2}/>
+                                    <DateBtn day={15} weekDay={3}/>
+                                    <DateBtn day={16} weekDay={4}/>
+                                    <DateBtn day={17} weekDay={5}/>
+                                    <DateBtn day={18} weekDay={6}/>
+                                    <DateBtn day={19} weekDay={7}/>
+                                    <DateBtn day={20} weekDay={1}/>
+                                    <DateBtn day={21} weekDay={2}/>
+                                    <DateBtn day={22} weekDay={3}/>
+                                    <DateBtn day={23} weekDay={4}/>
+                                    <DateBtn day={24} weekDay={5}/>
+                                    <DateBtn day={25} weekDay={6}/>
+                                    <DateBtn day={26} weekDay={7}/>
+                                    <DateBtn day={27} weekDay={1}/>
+                                    <DateBtn day={28} weekDay={2}/>
                                 </div>
                             </SwiperSlide>
                         </Swiper>
                     </div>
 
-                    <Swiper
-                        className='filters-carousel mt-4'
-                        modules={[FreeMode]}
-                        loop={false}
-                        spaceBetween={20}
-                        freeMode={true}
-                        slidesPerView={'auto'}
-                    >
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                defaultValue={[optionsList[0]]}
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Calendar/>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                defaultValue={[optionsList[0]]}
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Calendar/>
-                        </SwiperSlide>
-                    </Swiper>
-
-                    {/* <div className="filters">
-                        
-                       
+                    <div className="filters">
                         <Select
                             name="sort"
                             placeholder="Тип мероприятия"
@@ -215,16 +199,29 @@ const Home = () => {
                             isClearable={true}
                             isSearchable={true}
                         />
-                        
-                    </div> */}
+                        <Calendar/>
+                    </div>
 
-                    {/* <div className="text">
-                        <div className="line">
-                            <div className="sticky">12345</div>
-                        </div>
-                        <div className="line">
-                            <div className="sticky">67890</div>
-                        </div>
+                    {/* <div className="position-relative">
+                        <Swiper
+                            className='filters-carousel mt-4'
+                            modules={[Navigation]}
+                            loop={false}
+                            navigation={true}
+                            spaceBetween={20}
+                            slidesPerView={'auto'}
+                            simulateTouch={false}
+                        >
+                            <SwiperSlide>
+                                
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                
+                            </SwiperSlide>
+                        </Swiper>
                     </div> */}
 
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>

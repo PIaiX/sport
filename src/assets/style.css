@@ -117,7 +117,6 @@ button {
   width: fit-content;
   min-width: 150px;
   max-width: 100%;
-  height: 100%;
 }
 
 @media (max-width: 575px) {
@@ -217,6 +216,7 @@ button {
   width: -webkit-fit-content !important;
   width: -moz-fit-content !important;
   width: fit-content !important;
+  z-index: 10 !important;
 }
 
 .simple-select__option {
@@ -473,6 +473,10 @@ nav.pagination ul li button.active {
           transform: translateY(-50%) translateX(100%);
 }
 
+.swiper-button-disabled {
+  opacity: 0 !important;
+}
+
 body {
   margin: 0;
   font-family: "Mulish";
@@ -500,6 +504,12 @@ body {
 @media (max-width: 991px) {
   body {
     padding-bottom: var(--m-footer);
+  }
+}
+
+@media (max-width: 575px) {
+  body {
+    font-size: 12px;
   }
 }
 
@@ -708,10 +718,18 @@ main {
   overflow-x: clip;
 }
 
+.date-slider .swiper-wrapper {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-inline: contain;
+  -ms-scroll-snap-type: x proximity !important;
+      scroll-snap-type: x proximity !important;
+}
+
 .date-slider .swiper-slide {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  scroll-snap-stop: normal;
 }
 
 .date-slider .swiper-slide .month {
@@ -726,7 +744,7 @@ main {
 .date-slider .swiper-slide .month span {
   position: -webkit-sticky;
   position: sticky;
-  left: 0px;
+  left: 0.5em;
   top: 0px;
   -webkit-transition: left 200ms linear 0s;
   transition: left 200ms linear 0s;
@@ -793,6 +811,7 @@ main {
 }
 
 .filters {
+  margin-top: 2em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -800,16 +819,14 @@ main {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
   -webkit-box-align: stretch;
       -ms-flex-align: stretch;
           align-items: stretch;
-  overflow-x: auto;
-  overflow-y: visible;
 }
 
 .filters > * {
