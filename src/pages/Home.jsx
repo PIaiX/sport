@@ -16,6 +16,8 @@ import EventCard from '../components/EventCard'
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
 
 import Select from 'react-select'
+import Calendar from '../components/Calendar'
+
 const optionsList = [
     {value: '1', label: 'Вариант 1'},
     {value: '2', label: 'Вариант 2'},
@@ -30,6 +32,7 @@ const optionsList = [
     {value: '11', label: 'Вариант 11'},
     {value: '12', label: 'Вариант 12'},
 ]
+
 
 const Home = () => {
     return (
@@ -124,33 +127,69 @@ const Home = () => {
                             </SwiperSlide>
                         </Swiper>
                     </div>
-                    <div className="d-flex">
-                        
-                    </div>
 
-                    <div className='mt-4 d-flex'>
-                        <Select
-                            name="sort"
-                            placeholder="Тип мероприятия"
-                            classNamePrefix="simple-select"
-                            className="simple-select-container"
-                            options={optionsList}
-                            isMulti
-                            isClearable={true}
-                            isSearchable={true}
-                        />
-                        <Select
-                            name="sort"
-                            placeholder="Тип мероприятия"
-                            classNamePrefix="simple-select"
-                            className="simple-select-container ms-3"
-                            options={optionsList}
-                            isMulti
-                            defaultValue={[optionsList[0]]}
-                            isClearable={true}
-                            isSearchable={true}
-                        />
-                    </div>
+                    <Swiper
+                        className='filters-carousel mt-4'
+                        modules={[FreeMode]}
+                        loop={false}
+                        spaceBetween={20}
+                        freeMode={true}
+                        slidesPerView={'auto'}
+                    >
+                        <SwiperSlide>
+                            <Select
+                                name="sort"
+                                placeholder="Тип мероприятия"
+                                classNamePrefix="simple-select"
+                                className="simple-select-container"
+                                options={optionsList}
+                                isMulti
+                                isClearable={true}
+                                isSearchable={true}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Select
+                                name="sort"
+                                placeholder="Тип мероприятия"
+                                classNamePrefix="simple-select"
+                                className="simple-select-container"
+                                options={optionsList}
+                                isMulti
+                                defaultValue={[optionsList[0]]}
+                                isClearable={true}
+                                isSearchable={true}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Select
+                                name="sort"
+                                placeholder="Тип мероприятия"
+                                classNamePrefix="simple-select"
+                                className="simple-select-container"
+                                options={optionsList}
+                                isMulti
+                                isClearable={true}
+                                isSearchable={true}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Select
+                                name="sort"
+                                placeholder="Тип мероприятия"
+                                classNamePrefix="simple-select"
+                                className="simple-select-container"
+                                options={optionsList}
+                                isMulti
+                                defaultValue={[optionsList[0]]}
+                                isClearable={true}
+                                isSearchable={true}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Calendar/>
+                        </SwiperSlide>
+                    </Swiper>
 
                     {/* <div className="text">
                         <div className="line">

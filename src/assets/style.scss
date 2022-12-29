@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap');
-
 // "homepage": "https://ngf93.github.io/sport",
-
 :root {
     --h-height: 100px;
     --f-height: 100px;
@@ -9,7 +7,6 @@
         --h-height: 60px;
     }
 }
-
 $main-font: "Mulish";
 $color-1: #001229;
 $color-2: #002C66;
@@ -387,14 +384,12 @@ main {
 
 
 .date-slider {
-    
-    .swiper-wrapper {
-        overflow-x: auto;
-        overflow-y: hidden;
-        height: 150px;
-        contain: paint layout size style;
-        flex: 1 !important;
-    }
+    // .swiper-wrapper {
+    //     overflow-x: auto;
+    //     overflow-y: hidden;
+    //     height: 150px;
+    //     flex: 1 !important;
+    // }
     .swiper-slide {
         width: fit-content;
         .month {
@@ -438,6 +433,32 @@ main {
         }
     }
     
+}
+.filters-carousel {
+    .swiper-slide {
+        width: fit-content;
+    }
+}
+.calendar {
+    position: relative;
+    button {
+        position: relative;
+        z-index: 1;
+    }
+    &-box {
+        position: absolute;
+        z-index: 10;
+        top: calc(100% + .5em);
+        background-color: $color-5;
+        padding: 1em;
+        display: none;
+        opacity: 0;
+        transition: opacity $transition 200ms;
+        &.show {
+            display: block;
+            opacity: 1;
+        }
+    }
 }
 
 
