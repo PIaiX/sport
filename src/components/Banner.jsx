@@ -17,7 +17,7 @@ const Banner = () => {
     ]
     return (
         <figure>
-            <img src="imgs/img.webp" alt="slide" />
+            <img src="imgs/image.png" alt="slide" />
             <figcaption>
                 <ul className='top'>
                     <li>Подборка</li>
