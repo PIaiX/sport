@@ -128,68 +128,30 @@ const Home = () => {
                         </Swiper>
                     </div>
 
-                    <Swiper
-                        className='filters-carousel mt-4'
-                        modules={[FreeMode]}
-                        loop={false}
-                        spaceBetween={20}
-                        freeMode={true}
-                        slidesPerView={'auto'}
-                    >
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                defaultValue={[optionsList[0]]}
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Select
-                                name="sort"
-                                placeholder="Тип мероприятия"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container"
-                                options={optionsList}
-                                isMulti
-                                defaultValue={[optionsList[0]]}
-                                isClearable={true}
-                                isSearchable={true}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Calendar/>
-                        </SwiperSlide>
-                    </Swiper>
+                    <div className="filters">
+                        <Select
+                            name="sort"
+                            placeholder="Тип мероприятия"
+                            classNamePrefix="simple-select"
+                            className="simple-select-container"
+                            options={optionsList}
+                            isMulti
+                            isClearable={true}
+                            isSearchable={true}
+                        />
+                        <Select
+                            name="sort"
+                            placeholder="Тип мероприятия"
+                            classNamePrefix="simple-select"
+                            className="simple-select-container"
+                            options={optionsList}
+                            isMulti
+                            defaultValue={[optionsList[0]]}
+                            isClearable={true}
+                            isSearchable={true}
+                        />
+                        <Calendar/>
+                    </div>
 
                     {/* <div className="text">
                         <div className="line">

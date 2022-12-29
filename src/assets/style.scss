@@ -110,6 +110,106 @@ button {
     }
 }
 
+.simple-select {
+    &-container {
+        width: fit-content;
+        min-width: 150px;
+        max-width: 100%;
+        @media (max-width: 575px) {
+            min-width: unset;
+        }
+    }
+    &__control {
+        border-radius: 0px !important;
+        height: 100%;
+        border: 1px solid $color-4 !important;
+        background-color: $achromat-5 !important;
+        transition: $transition !important;
+        padding: 0 .5em;
+        &--is-focused {
+            border: 1px solid $color-3 !important;
+            box-shadow: none !important;
+        }
+    }
+    &__value-container {
+        padding: 0px !important;
+    }
+    &__single-value {
+        color: #000 !important;
+        cursor: pointer;
+    }
+    &__indicators {
+        margin-left: .5em;
+    }
+    &__indicator {
+        color: $achromat-3 !important;
+        transition: $transition !important;
+        cursor: pointer;
+        padding: 0px !important;
+        width: 2em;
+        height: 1.35em;
+        &:hover {
+            color: $color-4 !important;
+        }
+        svg {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+    // &__indicator-separator {
+    //     display: none;
+    // }
+    &__input-container {
+        margin: 0px !important;
+        padding: 0px !important;
+        cursor: text;
+    }
+    &__multi-value__label {
+        background-color: $color-5;
+        border-radius: 0px;
+        color: $color-1;
+    }
+    &__multi-value__remove {
+        background-color: $color-5;
+        border-radius: 0px;
+        color: $color-1;
+        &:hover {
+            background-color: $color-4 !important;
+            color: $achromat-5 !important;
+        }
+    }
+
+    &__menu {
+        margin-top: 0px !important;
+        top: 100% !important;
+        font-size: 0.9em;
+        min-width: 150px;
+        background-color: #fff !important;
+        border: 1px solid $achromat-3 !important;
+        border-radius: 0px 0px 10px 10px !important;
+        box-shadow: none !important;
+        outline: none !important;
+        width: fit-content !important;
+    }
+    &__option {
+        transition: $transition;
+        white-space: nowrap;
+        &:hover,
+        &:focus,
+        &:active,
+        &--is-focused {
+            background-color: $color-4 !important;
+            color: #fff;
+            cursor: pointer;
+        }
+        &--is-selected {
+            background-color: $color-3 !important;
+            color: #fff;
+        }
+    }
+}
+
+
 h1 {
     font-size: 2em;
     font-weight: 600;
@@ -434,10 +534,14 @@ main {
     }
     
 }
-.filters-carousel {
-    .swiper-slide {
-        width: fit-content;
-    }
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    &>*{margin-right: 1em;}
 }
 .calendar {
     position: relative;
