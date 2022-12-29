@@ -109,6 +109,9 @@ const Home = () => {
                             </SwiperSlide>
                         </Swiper>
                     </div>
+                    <div className="d-flex">
+                        
+                    </div>
 
 
                     {/* <div className="text">
