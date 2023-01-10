@@ -17,6 +17,7 @@ import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
 
 import Select from 'react-select'
 import Calendar from '../components/Calendar'
+import NewsPreview from '../components/NewsPreview'
 
 const optionsList = [
     {value: '1', label: 'Вариант 1'},
@@ -274,6 +275,35 @@ const Home = () => {
                             <li><button type='button'><RiArrowRightSLine className='fs-15'/></button></li>
                         </ul>
                     </nav>
+                </section>
+
+                <section className='mb-5'>
+                    <h2>Новости</h2>
+                    <div className="position-relative">
+                        <Swiper
+                            className=''
+                            modules={[Navigation]}
+                            spaceBetween={20}
+                            slidesPerView={4}
+                            navigation
+                        >
+                            <SwiperSlide>
+                                <NewsPreview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <NewsPreview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <NewsPreview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <NewsPreview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <NewsPreview />
+                            </SwiperSlide>
+                        </Swiper>
+                    </div>
                 </section>
             </Container>
         </main>

@@ -19,7 +19,7 @@ $achromat-2: #31353B;
 $achromat-3: #7A8290;
 $achromat-4: #D2D5DA;
 $achromat-5: #FFFFFF;
-$radius: 0em;
+$radius: 1em;
 $transition: .3s ease;
 
 /* mixins */
@@ -620,24 +620,28 @@ main {
 }
 
 
-.text {
-    width: 100%;
-    overflow-x: scroll;
-    display: flex;
-    margin-top: 100px;
-    padding: 1em 0;
-    .line {
-        width: 1500px !important;
-        position: relative;
-        background-color: pink;
-        margin-right: 2em;
-        flex-shrink: 0;
-        .sticky {
-            position: sticky;
-            left: 0px;
-            top: 0px;
-            width: fit-content;
-            transition: left 200ms linear 0s;
+article {
+    &.preview {
+        width: 100%;
+        img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 1em;
+            border-radius: $radius;
+        }
+        .text {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.2em;
+            height: 3.6em;
+        }
+        .more {
+            display: block;
+            color: $color-3;
+            margin-top: .5em;
         }
     }
 }
