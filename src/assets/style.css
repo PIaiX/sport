@@ -696,6 +696,25 @@ main {
   color: #31353B;
 }
 
+article {
+  display: inline-block;
+}
+article img {
+  float: left;
+  width: 45%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: 2em;
+  border-radius: 1em;
+  margin-right: 2em;
+}
+@media (max-width: 767px) {
+  article img {
+    float: unset;
+    width: 100%;
+  }
+}
 article.preview {
   width: 100%;
 }
@@ -706,6 +725,21 @@ article.preview img {
      object-fit: cover;
   margin-bottom: 1em;
   border-radius: 1em;
+}
+@media (max-width: 1399px) {
+  article.preview img {
+    height: 170px;
+  }
+}
+@media (max-width: 991px) {
+  article.preview img {
+    height: 140px;
+  }
+}
+@media (max-width: 575px) {
+  article.preview img {
+    height: 50vw;
+  }
 }
 article.preview .text {
   display: -webkit-box;

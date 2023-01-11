@@ -284,8 +284,22 @@ const Home = () => {
                             className=''
                             modules={[Navigation]}
                             spaceBetween={20}
-                            slidesPerView={4}
+                            slidesPerView={1}
                             navigation
+                            breakpoints={{
+                                576: {
+                                  slidesPerView: 2,
+                                  spaceBetween: 20
+                                },
+                                768: {
+                                  slidesPerView: 3,
+                                  spaceBetween: 20
+                                },
+                                1200: {
+                                  slidesPerView: 4,
+                                  spaceBetween: 20
+                                }
+                            }}
                         >
                             <SwiperSlide>
                                 <NewsPreview />
