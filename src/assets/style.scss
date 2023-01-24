@@ -21,12 +21,24 @@ $achromat-4: #D2D5DA;
 $achromat-5: #FFFFFF;
 $radius: 1em;
 $transition: .3s ease;
+$red: #e50000;
+$yellow: #ffd900;
+$green: #02c12b;
 
 /* mixins */
 @mixin flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@mixin flex($dir, $x, $y, $wrap) {
+    $wrap: nowrap !default;
+    display: flex;
+    flex-direction: $dir;
+    justify-content: $x;
+    align-items: $y;
+    flex-wrap: $wrap;
 }
 @mixin no-appearance {
     appearance: none;
@@ -47,13 +59,13 @@ a, a:hover, a:focus, a:active {
     cursor: pointer;
 }
 h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, address {
-    line-height: 120%;
+    line-height: 130%;
     margin-bottom: 0px;
 }
 
 /* Form elements */
 input, textarea {
-    background: $color-5;
+    background: $achromat-5;
     border: none;
     border-radius: $radius;
     padding: .75em 1.5em;
@@ -107,6 +119,15 @@ button {
         border: 1px solid currentColor;
         &:hover, &:focus, &:active {
             color: $color-3;
+        }
+    }
+    &-3 {
+        @extend .btn;
+        background: $color-5;
+        color: $color-2;
+        &:hover, &:focus, &:active {
+            color: #fff;
+            background-color: $color-4;
         }
     }
 }
@@ -210,7 +231,20 @@ button {
         }
     }
 }
-
+form.form-search {
+    @include flex-center();
+    align-items: stretch;
+    width: 500px;
+    input {
+        border-radius: $radius 0 0 $radius;
+    }
+    button {
+        width: 3em;
+        padding: 0px;
+        border-radius: 0 $radius $radius 0;
+        svg{font-size: 1.5em;}
+    }
+}
 
 h1 {
     font-size: 2em;
@@ -239,6 +273,19 @@ h4 {
     text-align: left;
     margin-bottom: .5em;
 }
+h5 {
+    font-size: 1.2em;
+    font-weight: 500;
+    text-align: left;
+    margin-bottom: .5em;
+}
+h6 {
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: .25em;
+}
+
 .fs {
     &-08 {font-size: 0.8em;}
     &-09 {font-size: 0.9em;}
@@ -272,6 +319,19 @@ h4 {
     color: $color-3;
 }
 .white {color: #fff;}
+.color-4 {color: $color-4;}
+.red {color: $red;}
+.yellow {color: $yellow;}
+.green {color: $green;}
+
+.link {
+    color: $color-3;
+    transition: $transition;
+    display: flex;
+    align-items: center;
+    &:hover, &:focus {color: $color-4;}
+    &:active {color: $color-2;} 
+}
 
 nav.pagination {
     width: 100%;
@@ -368,6 +428,7 @@ body {
 
 header {
     height: var(--h-height);
+    background-color: aliceblue;
     .container {
         display: flex;
         align-items: center;
@@ -383,19 +444,6 @@ header {
             }
             @media (max-width: 575px){
                 width: 90px;
-            }
-        }
-        form {
-            @include flex-center();
-            align-items: stretch;
-            input {
-                border-radius: $radius 0 0 $radius;
-            }
-            button {
-                width: 3em;
-                padding: 0px;
-                border-radius: 0 $radius $radius 0;
-                svg{font-size: 1.5em;}
             }
         }
         nav {
@@ -616,6 +664,147 @@ main {
         align-items: center;
         justify-content: space-between;
         color: $achromat-2;
+    }
+}
+.event-page {
+    .top {
+        background-color: $color-1;
+        color: #fff;
+        border-radius: $radius;
+        overflow: hidden;
+        @include safariFix();
+        margin-bottom: 2em;
+        img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+        }
+        .info {
+            list-style: none;
+            padding-left: 0px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: stretch;
+            li {
+                display: flex;
+                align-items: center;
+                svg {
+                    font-size: 4em;
+                    padding: 1rem;
+                    border-right: 1px solid $achromat-3;
+                    margin-right: 1rem;
+                }
+                div {
+                    font-size: .9em;
+                }
+            }
+        }
+        nav {
+            background-color: $color-3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .5em 1em;
+            ul {
+                list-style: none;
+                padding-left: 0px;
+                @include flex-center();
+                li {
+                    padding: 1em;
+                }
+            }
+        }
+    }
+    .map {
+        width: 100%;
+        height: 400px;
+    }
+    .list {
+        &-10 {
+            &>li:not(:last-child){margin-bottom: 1em;}
+        }
+        &-15 {
+            &>li:not(:last-child){margin-bottom: 1.5em;}
+        }
+        &-30 {
+            &>li:not(:last-child){margin-bottom: 3em;}
+        }
+    }
+    .text {
+        p, ul, ol {margin-bottom: 1em;}
+    }
+    .form-search {
+        border-radius: $radius;
+        box-shadow: 0px 0px $radius $color-5;
+    }
+    .participant {
+        background-color: aliceblue;
+        border-radius: $radius*.5;
+        width: 100%;
+        padding: .25em;
+        display: grid;
+        grid-template-columns: 350px 150px 1fr;
+        grid-template-rows: 1fr;
+        margin-bottom: .5em;
+        &.head {
+            font-size: .8em;
+            color: $achromat-3;
+            background-color: transparent;
+        }
+        .name {
+            grid-column: 1/2;
+            grid-row: span 1;
+            @include flex(row, flex-start, center, nowrap);
+            img {
+                width: 70px;
+                height: 70px;
+                background-color: #fff;
+                object-fit: cover;
+                border-radius: $radius*.5;
+                margin-right: 1em;
+            }
+            &>div {
+                flex: 1;
+            }
+        }
+        .birth {
+            grid-column: 2/3;
+            grid-row: span 1;
+            padding: 0 1em;
+            @include flex-center();
+        }
+        .params {
+            grid-column: 3/4;
+            grid-row: span 1;
+            padding: 0 0 0 3rem;
+            @include flex(row, flex-start, center, nowrap);
+            div {
+                flex-grow: 1;
+            }
+        }
+    }
+}
+.card {
+    // background-color: $color-5;
+    border: 1px solid $color-5;
+    border-radius: $radius;
+    overflow: hidden;
+    @include safariFix();
+    &-title {
+        background-color: $color-5;
+        // color: #fff;
+        padding: 1em;
+        display: flex;
+        align-items: center;
+        svg {
+            color: $color-3;
+            margin-right: .5em;
+        }
+    }
+    &-body {
+        padding: 1em 1.5em;
     }
 }
 

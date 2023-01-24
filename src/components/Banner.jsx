@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const Banner = (props) => {
     const types = [
@@ -24,7 +25,7 @@ const Banner = (props) => {
                     <li>16+</li>
                 </ul>
                 <div>
-                    <h2>Название подборки</h2>
+                    <h2><Link to='/'>Название подборки</Link></h2>
                     <ul className='info'>
                         <li>Количество событий</li>
                     </ul>

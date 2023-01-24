@@ -178,6 +178,8 @@ const Home = () => {
                         </Swiper>
                     </div>
 
+                    
+
                     <div className="filters">
                         <Select
                             name="sort"
