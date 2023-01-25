@@ -3,7 +3,14 @@
 :root {
     --h-height: 100px;
     --f-height: 100px;
-    @media (max-width: 575px){
+    @media (max-width: 1199px){
+        --h-height: 90px;
+    }
+    @media (max-width: 991px){
+        --h-height: 80px;
+        --f-height: 80px;
+    }
+    @media (max-width: 767px){
         --h-height: 60px;
         --f-height: 60px;
     }
@@ -235,6 +242,10 @@ form.form-search {
     @include flex-center();
     align-items: stretch;
     width: 500px;
+    max-width: 100%;
+    @media (max-width: 1199px){
+        width: 420px;
+    }
     input {
         border-radius: $radius 0 0 $radius;
     }
@@ -429,6 +440,13 @@ body {
 header {
     height: var(--h-height);
     background-color: aliceblue;
+    @media (max-width: 991px){
+        position: sticky;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        z-index: 100;
+    }
     .container {
         display: flex;
         align-items: center;
@@ -436,13 +454,13 @@ header {
         height: 100%;
         .logo {
             width: 150px;
+            @media (max-width: 1199px){
+                width: 120px;
+            }
             @media (max-width: 991px){
-                width: 130px;
+                width: 100px;
             }
             @media (max-width: 767px){
-                width: 115px;
-            }
-            @media (max-width: 575px){
                 width: 90px;
             }
         }
@@ -678,18 +696,33 @@ main {
             width: 100%;
             height: 450px;
             object-fit: cover;
+            @media (max-width: 1399px) {
+                height: 400px;
+            }
+            @media (max-width: 1199px) {
+                height: 350px;
+            }
+            @media (max-width: 991px) {
+                height: auto;
+            }
         }
         .info {
             list-style: none;
             padding-left: 0px;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            align-items: stretch;
+            @include flex(column, space-evenly, stretch, nowrap);
+            @media (max-width: 991px) {
+                @include flex(row, center, stretch, wrap);
+            }
             li {
                 display: flex;
                 align-items: center;
+                @media (max-width: 991px) {
+                    width: 50%;
+                }
+                @media (max-width: 575px) {
+                    width: 100%;
+                }
                 svg {
                     font-size: 4em;
                     padding: 1rem;
@@ -703,9 +736,7 @@ main {
         }
         nav {
             background-color: $color-3;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            @include flex(row, space-between, center, nowrap);
             padding: .5em 1em;
             ul {
                 list-style: none;
@@ -713,7 +744,23 @@ main {
                 @include flex-center();
                 li {
                     padding: 1em;
+                    @media (max-width: 767px){
+                        padding: 0.5em 0em;
+                        font-size: .9em;
+                    }
+                    @media (max-width: 575px){
+                        width: 25%;
+                    }
                 }
+            }
+            @media (max-width: 991px) {
+                @include flex(column-reverse, space-between, stretch, wrap);
+                ul {
+                    width: 100%;
+                    margin-top: .5em;
+                    justify-content: space-around;
+                }
+                button {width: 100%;}
             }
         }
     }
@@ -748,15 +795,34 @@ main {
         grid-template-columns: 350px 150px 1fr;
         grid-template-rows: 1fr;
         margin-bottom: .5em;
+        overflow: hidden;
+        @include safariFix();
+        @media (max-width: 1399px) {
+            grid-template-columns: 310px 100px 1fr;
+        }
+        @media (max-width: 1199px) {
+            grid-template-columns: 280px 100px 1fr;
+        }
+        @media (max-width: 991px) {
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(3, auto);
+            padding: 0px;
+        }
         &.head {
             font-size: .8em;
             color: $achromat-3;
             background-color: transparent;
+            @media (max-width: 991px) {
+                display: none;
+            }
         }
         .name {
-            grid-column: 1/2;
+            grid-column: span 1;
             grid-row: span 1;
             @include flex(row, flex-start, center, nowrap);
+            @media (max-width: 991px) {
+                padding: 1em;
+            }
             img {
                 width: 70px;
                 height: 70px;
@@ -765,23 +831,33 @@ main {
                 border-radius: $radius*.5;
                 margin-right: 1em;
             }
-            &>div {
-                flex: 1;
-            }
+            &>div {flex: 1;}
         }
         .birth {
-            grid-column: 2/3;
+            grid-column: span 1;
             grid-row: span 1;
             padding: 0 1em;
             @include flex-center();
+            @media (max-width: 991px) {
+                justify-content: flex-start;
+                text-align: left;
+                padding: 1em;
+            }
         }
         .params {
-            grid-column: 3/4;
+            grid-column: span 1;
             grid-row: span 1;
             padding: 0 0 0 3rem;
             @include flex(row, flex-start, center, nowrap);
-            div {
-                flex-grow: 1;
+            div {flex-grow: 1;}
+            @media (min-width: 992px) {
+                strong {display: none;}
+            }
+            @media (max-width: 991px) {
+                padding: 1em;
+                background-color: $color-5;
+                @include flex(column, flex-start, flex-start, wrap);
+                li:not(:first-child){margin-top: 1em;}
             }
         }
     }
@@ -794,10 +870,12 @@ main {
     @include safariFix();
     &-title {
         background-color: $color-5;
-        // color: #fff;
         padding: 1em;
         display: flex;
         align-items: center;
+        @media (max-width: 991px) {
+            padding: .6em 1em;
+        }
         svg {
             color: $color-3;
             margin-right: .5em;
@@ -805,6 +883,9 @@ main {
     }
     &-body {
         padding: 1em 1.5em;
+        @media (max-width: 991px) {
+            padding: .6em 1em;
+        }
     }
 }
 

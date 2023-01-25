@@ -15,16 +15,20 @@ const Participant = (props) => {
       </div>
       <div className="params">
         <div>
-          Параметр
+          <strong>Название параметра: </strong>
+          <span>Параметр</span>
         </div>
         <div>
-          Параметр
+          <strong>Название параметра: </strong>
+          <span>Параметр</span>
         </div>
         <div>
-          Параметр
+          <strong>Название параметра: </strong>
+          <span>Параметр</span>
         </div>
         <div>
-          Параметр
+          <strong>Название параметра: </strong>
+          <span>Параметр</span>
         </div>
       </div>
     </div>

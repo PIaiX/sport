@@ -19,20 +19,20 @@ const EventPage = () => {
     }
     const style = {
         width: '100%',
-        height: '400px'
+        height: '350px'
     }
 
     return (
         <main>
             <Container>
-                <section className='event-page py-5'>
+                <section className='event-page py-4 py-md-5'>
                     <h1>Название мероприятия</h1>
                     <div className="top">
                         <Row className='gx-0'>
-                            <Col md={9}>
+                            <Col xs={12} lg={9}>
                                 <img src="imgs/img1.jpeg" alt="Название мероприятия"/>
                             </Col>
-                            <Col md={3}>
+                            <Col xs={12} lg={3}>
                                 <ul className='info'>
                                     <li>
                                         <FiClock className='green'/>
@@ -63,7 +63,6 @@ const EventPage = () => {
                                         </div>
                                     </li>
                                 </ul>
-                                
                             </Col>
                         </Row>
                         <nav>
@@ -91,7 +90,7 @@ const EventPage = () => {
                     {
                         (tab === 1) &&
                         <div className='text'>
-                            <Row className='gx-5'>
+                            <Row className='gx-4 gx-xl-5'>
                                 <Col md={8}>
                                     <h2>Информация</h2>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -115,14 +114,14 @@ const EventPage = () => {
                                         <li>Duis aute irure dolor in reprehenderit</li>
                                     </ul>
                                 </Col>
-                                <Col md={4}>
+                                <Col md={4} className='mt-4 mt-md-0'>
                                     <ul className='list-unstyled list-15'>
                                         <li>
                                             <div className="card">
-                                                <h4 className='card-title'>
+                                                <h5 className='card-title'>
                                                     <FiMapPin/>
                                                     <span>Место проведения</span>
-                                                </h4>
+                                                </h5>
                                                 <div className='card-body'>
                                                     <address>Казань, просп. Ямашева, 115А</address>
                                                 </div>
@@ -135,10 +134,10 @@ const EventPage = () => {
                                         </li>
                                         <li>
                                             <div className="card">
-                                                <h4 className='card-title'>
+                                                <h5 className='card-title'>
                                                     <FiHelpCircle/>
                                                     <span>Контакты</span>
-                                                </h4>
+                                                </h5>
                                                 <div className='card-body'>
                                                     <ul className='list-unstyled list-10'>
                                                         <li>
@@ -241,6 +240,12 @@ const EventPage = () => {
                         (tab === 4) &&
                         <div className='text'>
                             <h2>Место проведения</h2>
+                            <address className='fs-15 mb-3'>Казань, просп. Ямашева, 115А</address>
+                            <YMaps>
+                                <Map style={style} defaultState={defaultState}>
+                                    <Placemark geometry={defaultState.center} />
+                                </Map>
+                            </YMaps>
                         </div>
                     }
                 </section>
