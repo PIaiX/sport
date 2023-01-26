@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import useIsMobile from '../../hooks/isMobile'
+import { FiChevronsDown } from "react-icons/fi"
 
 const Participant = (props) => {
+  const {isMobile} = useIsMobile('991px')
+  const [showParams, setShowParams] = useState(!isMobile)
+
   return (
-    <div className='participant'>
+    <div className={(props.approved)?'participant':'participant unapproved'}>
       <div className='name'>
         <img src="imgs/photo-replace.png" alt="replace" />
         <div>
@@ -11,26 +16,32 @@ const Participant = (props) => {
         </div>
       </div>
       <div className="birth">
-        {props.birth}
+        <span>{props.birth}</span>
+        {
+          (isMobile) &&
+          <button type='button' className='d-flex fs-15 color-main' onClick={() => setShowParams((showParams)?false:true)}>
+            <FiChevronsDown/>
+          </button>
+        }
       </div>
-      <div className="params">
-        <div>
+      <ul className={(showParams || !isMobile)?'params':'params closed'}>
+        <li>
           <strong>Название параметра: </strong>
           <span>Параметр</span>
-        </div>
-        <div>
+        </li>
+        <li>
           <strong>Название параметра: </strong>
           <span>Параметр</span>
-        </div>
-        <div>
+        </li>
+        <li>
           <strong>Название параметра: </strong>
           <span>Параметр</span>
-        </div>
-        <div>
+        </li>
+        <li>
           <strong>Название параметра: </strong>
           <span>Параметр</span>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
   )
 }

@@ -9,9 +9,11 @@ import { FiClock, FiCheckCircle, FiAlertCircle, FiPlayCircle, FiMapPin, FiHelpCi
 import { IoLogoVk, IoLogoYoutube, IoMail } from "react-icons/io5"
 import FormSearch from '../components/FormSearch'
 import Participant from '../components/utils/Participant'
+import TournamentBracket from '../components/TournamentBracket'
 
 const EventPage = () => {
     const [tab, setTab] = useState(1)
+    const [show, setShow] = useState(false)
 
     const defaultState = {
         center: [55.821283, 49.161006],
@@ -193,12 +195,53 @@ const EventPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
+                                    <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                        {
+                                            (show) &&
+                                            <li>
+                                                <Participant 
+                                                approved={false}
+                                                name={'Имя'} 
+                                                surname={'Фамилия'} 
+                                                town={'Город'} 
+                                                birth={'01.01.2001'}/>
+                                            </li>
+                                        }
+                                    </ul>
                                     <p>Подтвержденных регистраций: 4</p>
-                                    <button type='button' className="link">Показать неподтвержденные регистрации (1)</button>
+                                    <button type='button' className="link" onClick={()=>setShow((show)?false:true)}>{(show)?'Скрыть':'Показать'} неподтвержденные регистрации (1)</button>
                                 </li>
                                 <li>
                                     <h3>Категория 2</h3>
@@ -220,10 +263,40 @@ const EventPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
-                                    <Participant name={'Имя'} surname={'Фамилия'} town={'Город'} birth={'01.01.2001'}/>
+                                    <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                        <li>
+                                            <Participant 
+                                            approved={true}
+                                            name={'Имя'} 
+                                            surname={'Фамилия'} 
+                                            town={'Город'} 
+                                            birth={'01.01.2001'}/>
+                                        </li>
+                                    </ul>
                                     <p>Подтвержденных регистраций: 4</p>
                                     <button type='button' className="link">Показать неподтвержденные регистрации (1)</button>
                                 </li>
@@ -234,6 +307,7 @@ const EventPage = () => {
                         (tab === 3) &&
                         <div className='text'>
                             <h2>Турнирная таблица</h2>
+                            <TournamentBracket/>
                         </div>
                     }
                     {

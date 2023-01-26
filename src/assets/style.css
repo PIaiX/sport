@@ -924,10 +924,12 @@ main {
   display: grid;
   grid-template-columns: 350px 150px 1fr;
   grid-template-rows: 1fr;
-  margin-bottom: 0.5em;
   overflow: hidden;
   isolation: isolate;
   transform: translateZ(0);
+}
+.event-page .participant.unapproved {
+  background-color: #D2D5DA;
 }
 @media (max-width: 1399px) {
   .event-page .participant {
@@ -979,6 +981,12 @@ main {
   border-radius: 0.5em;
   margin-right: 1em;
 }
+@media (max-width: 767px) {
+  .event-page .participant .name img {
+    width: 50px;
+    height: 50px;
+  }
+}
 .event-page .participant .name > div {
   flex: 1;
 }
@@ -995,9 +1003,16 @@ main {
     justify-content: flex-start;
     text-align: left;
     padding: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
   }
 }
 .event-page .participant .params {
+  list-style: none;
+  margin-bottom: 0px;
   grid-column: span 1;
   grid-row: span 1;
   padding: 0 0 0 3rem;
@@ -1007,7 +1022,10 @@ main {
   align-items: center;
   flex-wrap: nowrap;
 }
-.event-page .participant .params div {
+.event-page .participant .params.closed {
+  display: none;
+}
+.event-page .participant .params li {
   flex-grow: 1;
 }
 @media (min-width: 992px) {
@@ -1026,8 +1044,57 @@ main {
     flex-wrap: wrap;
   }
   .event-page .participant .params li:not(:first-child) {
-    margin-top: 1em;
+    margin-top: 0.5em;
   }
+}
+
+.bracket {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(32, 1fr);
+  grid-auto-flow: column;
+  grid-gap: 1em 1em;
+}
+.bracket .item, .bracket .item-2, .bracket .item-1 {
+  border: 2px solid #D6E7FF;
+  border-radius: 1em;
+  overflow: hidden;
+  isolation: isolate;
+  transform: translateZ(0);
+  width: 250px;
+}
+.bracket .item-1 {
+  grid-row: span 2;
+  grid-column: 1/span 1;
+}
+.bracket .item-2 {
+  grid-row: 2/span 2;
+  grid-column: 2/span 1;
+  border: 2px solid #4797FF;
+}
+.bracket .item .person, .bracket .item-1 .person, .bracket .item-2 .person {
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.bracket .item .person:first-child, .bracket .item-1 .person:first-child, .bracket .item-2 .person:first-child {
+  border-bottom: 2px solid #D6E7FF;
+}
+.bracket .item .person img, .bracket .item-1 .person img, .bracket .item-2 .person img {
+  width: 50px;
+  height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.bracket .item .person .name, .bracket .item-1 .person .name, .bracket .item-2 .person .name {
+  font-weight: 600;
+}
+.bracket .item .person .text, .bracket .item-1 .person .text, .bracket .item-2 .person .text {
+  font-size: 0.8em;
+  color: #7A8290;
 }
 
 .card {

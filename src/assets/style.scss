@@ -794,9 +794,9 @@ main {
         display: grid;
         grid-template-columns: 350px 150px 1fr;
         grid-template-rows: 1fr;
-        margin-bottom: .5em;
         overflow: hidden;
         @include safariFix();
+        &.unapproved {background-color: $achromat-4;}
         @media (max-width: 1399px) {
             grid-template-columns: 310px 100px 1fr;
         }
@@ -830,6 +830,10 @@ main {
                 object-fit: cover;
                 border-radius: $radius*.5;
                 margin-right: 1em;
+                @media (max-width: 767px) {
+                    width: 50px;
+                    height: 50px;
+                }
             }
             &>div {flex: 1;}
         }
@@ -842,14 +846,18 @@ main {
                 justify-content: flex-start;
                 text-align: left;
                 padding: 1em;
+                @include flex(row, space-between, center, nowrap);
             }
         }
         .params {
+            list-style: none;
+            margin-bottom: 0px;
             grid-column: span 1;
             grid-row: span 1;
             padding: 0 0 0 3rem;
             @include flex(row, flex-start, center, nowrap);
-            div {flex-grow: 1;}
+            &.closed {display: none;}
+            li {flex-grow: 1;}
             @media (min-width: 992px) {
                 strong {display: none;}
             }
@@ -857,7 +865,49 @@ main {
                 padding: 1em;
                 background-color: $color-5;
                 @include flex(column, flex-start, flex-start, wrap);
-                li:not(:first-child){margin-top: 1em;}
+                li:not(:first-child){margin-top: .5em;}
+            }
+        }
+    }
+}
+.bracket {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(32, 1fr);
+    grid-auto-flow: column;
+    grid-gap: 1em 1em;
+    .item {
+        border: 2px solid $color-5;
+        border-radius: $radius;
+        overflow: hidden;
+        @include safariFix();
+        width: 250px;
+        &-1 {
+            @extend .item;
+            grid-row: span 2;
+            grid-column: 1 / span 1;
+        }
+        &-2 {
+            @extend .item;
+            grid-row: 2 / span 2;
+            grid-column: 2 / span 1;
+            border: 2px solid $color-4;
+        }
+        .person {
+            background-color: aliceblue;
+            @include flex(row, flex-start, center, nowrap);
+            &:first-child{border-bottom: 2px solid $color-5;}
+            img {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+            }
+            .name {
+                font-weight: 600;
+            }
+            .text {
+                font-size: .8em;
+                color: $achromat-3;
             }
         }
     }
