@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import BracketItem from './utils/BracketItem'
 
 const tour1 = [
@@ -493,10 +493,45 @@ const tour5 = [
   },
 ]
 
+
 const TournamentBracket = () => {
+  const [scrollX, setScrollX] = useState(0);
+
+  const scrollBracket = (event) => {
+    event.preventDefault()
+    const startX = event.pageX
+    
+    moveAt(event)
+    function moveAt(event) {
+      setScrollX(startX - event.pageX)
+    }
+    document.onmousemove = function(e) {
+      moveAt(e);
+    }
+  }
+  console.log('scrollX='+scrollX)
+
+  const stopScroll = () => {
+    document.onmousemove = null
+    bracket.onmouseup = null
+  }
+
+  const bracket = useRef(null)
+
+  useEffect(() => {
+    bracket.current.scrollLeft = scrollX
+  })
+
   return (
-    <div className="wrap">
-      <div className="bracket">
+    <div 
+      className="wrap" 
+      ref={bracket} 
+      onMouseUp={() => stopScroll()} 
+      onMouseDown={(event) => scrollBracket(event)}
+    >
+      <div 
+        className="bracket" 
+        id="id-1" >
         <div className="tour">
           {
             tour1.map((obj, i) => {

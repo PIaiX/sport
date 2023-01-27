@@ -881,7 +881,15 @@ main {
     grid-template-rows: 1fr;
     grid-auto-flow: row;
     grid-gap: 1em 3em;
+
+    &:hover, &:focus {
+        cursor: grab;
+    }
+    &:active {
+        cursor: grabbing;
+    }
     .tour {
+        pointer-events: none;
         grid-column: span 1;
         grid-row: span 1;
         display: grid;
