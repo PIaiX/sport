@@ -3,7 +3,7 @@ import Person from './Person'
 
 const BracketItem = (props) => {
   return (
-    <div className="item-1">
+    <div className={'item-'+props.tour+' index-'+props.order}>
       <Person person={props.person1}/>
       <Person person={props.person2}/>
     </div>

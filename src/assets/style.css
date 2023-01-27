@@ -1048,53 +1048,247 @@ main {
   }
 }
 
+.wrap {
+  width: 100%;
+  overflow: auto;
+}
+
 .bracket {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(32, 1fr);
-  grid-auto-flow: column;
-  grid-gap: 1em 1em;
+  grid-template-columns: repeat(5, 220px);
+  grid-template-rows: 1fr;
+  grid-auto-flow: row;
+  grid-gap: 1em 3em;
 }
-.bracket .item, .bracket .item-2, .bracket .item-1 {
-  border: 2px solid #D6E7FF;
-  border-radius: 1em;
-  overflow: hidden;
-  isolation: isolate;
-  transform: translateZ(0);
-  width: 250px;
+.bracket .tour {
+  grid-column: span 1;
+  grid-row: span 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px;
+  grid-auto-rows: 40px;
+  grid-gap: 20px 0;
 }
-.bracket .item-1 {
+.bracket .tour:last-child .item::before, .bracket .tour:last-child .item-5::before, .bracket .tour:last-child .item-4::before, .bracket .tour:last-child .item-3::before, .bracket .tour:last-child .item-2::before, .bracket .tour:last-child .item-1::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  right: 100%;
+  height: 2px;
+  width: 1.5em;
+  background-color: #D6E7FF;
+}
+.bracket .tour:last-child .item::after, .bracket .tour:last-child .item-5::after, .bracket .tour:last-child .item-4::after, .bracket .tour:last-child .item-3::after, .bracket .tour:last-child .item-2::after, .bracket .tour:last-child .item-1::after {
+  content: none !important;
+}
+.bracket .tour .item, .bracket .tour .item-5, .bracket .tour .item-4, .bracket .tour .item-3, .bracket .tour .item-2, .bracket .tour .item-1 {
+  grid-column: span 1;
+  position: relative;
+}
+.bracket .tour .item::before, .bracket .tour .item-5::before, .bracket .tour .item-4::before, .bracket .tour .item-3::before, .bracket .tour .item-2::before, .bracket .tour .item-1::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: -1.5em;
+  height: 2px;
+  width: calc(100% + 3em);
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-1 {
   grid-row: span 2;
-  grid-column: 1/span 1;
 }
-.bracket .item-2 {
-  grid-row: 2/span 2;
-  grid-column: 2/span 1;
-  border: 2px solid #4797FF;
+.bracket .tour .item-1:nth-child(odd)::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 61px;
+  width: 2px;
+  background-color: #D6E7FF;
 }
-.bracket .item .person, .bracket .item-1 .person, .bracket .item-2 .person {
+.bracket .tour .item-1:nth-child(even)::after {
+  content: "";
+  position: absolute;
+  bottom: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 61px;
+  width: 2px;
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-2.index-0 {
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+.bracket .tour .item-2.index-1 {
+  grid-row-start: 6;
+  grid-row-end: 8;
+}
+.bracket .tour .item-2.index-2 {
+  grid-row-start: 10;
+  grid-row-end: 12;
+}
+.bracket .tour .item-2.index-3 {
+  grid-row-start: 14;
+  grid-row-end: 16;
+}
+.bracket .tour .item-2.index-4 {
+  grid-row-start: 18;
+  grid-row-end: 20;
+}
+.bracket .tour .item-2.index-5 {
+  grid-row-start: 22;
+  grid-row-end: 24;
+}
+.bracket .tour .item-2.index-6 {
+  grid-row-start: 26;
+  grid-row-end: 28;
+}
+.bracket .tour .item-2.index-7 {
+  grid-row-start: 30;
+  grid-row-end: 32;
+}
+.bracket .tour .item-2:nth-child(odd)::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 122px;
+  width: 2px;
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-2:nth-child(even)::after {
+  content: "";
+  position: absolute;
+  bottom: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 122px;
+  width: 2px;
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-3.index-0 {
+  grid-row-start: 4;
+  grid-row-end: 6;
+}
+.bracket .tour .item-3.index-1 {
+  grid-row-start: 12;
+  grid-row-end: 14;
+}
+.bracket .tour .item-3.index-2 {
+  grid-row-start: 20;
+  grid-row-end: 22;
+}
+.bracket .tour .item-3.index-3 {
+  grid-row-start: 28;
+  grid-row-end: 30;
+}
+.bracket .tour .item-3:nth-child(odd)::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 244px;
+  width: 2px;
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-3:nth-child(even)::after {
+  content: "";
+  position: absolute;
+  bottom: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 244px;
+  width: 2px;
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-4.index-0 {
+  grid-row-start: 8;
+  grid-row-end: 10;
+}
+.bracket .tour .item-4.index-1 {
+  grid-row-start: 24;
+  grid-row-end: 26;
+}
+.bracket .tour .item-4:nth-child(odd)::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 488px;
+  width: 2px;
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-4:nth-child(even)::after {
+  content: "";
+  position: absolute;
+  bottom: calc(50% - 1px);
+  left: calc(100% + 1.5em);
+  height: 488px;
+  width: 2px;
+  background-color: #D6E7FF;
+}
+.bracket .tour .item-5.index-0 {
+  grid-row-start: 16;
+  grid-row-end: 18;
+}
+.bracket .tour .item .person, .bracket .tour .item-1 .person, .bracket .tour .item-2 .person, .bracket .tour .item-3 .person, .bracket .tour .item-4 .person, .bracket .tour .item-5 .person {
+  height: 50px;
+  width: 100%;
   background-color: aliceblue;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
+  border: 2px solid #D6E7FF;
+  position: relative;
 }
-.bracket .item .person:first-child, .bracket .item-1 .person:first-child, .bracket .item-2 .person:first-child {
-  border-bottom: 2px solid #D6E7FF;
+.bracket .tour .item .person:first-child, .bracket .tour .item-1 .person:first-child, .bracket .tour .item-2 .person:first-child, .bracket .tour .item-3 .person:first-child, .bracket .tour .item-4 .person:first-child, .bracket .tour .item-5 .person:first-child {
+  border-bottom-width: 1px;
+  border-radius: 1em 1em 0px 0px;
 }
-.bracket .item .person img, .bracket .item-1 .person img, .bracket .item-2 .person img {
+.bracket .tour .item .person:last-child, .bracket .tour .item-1 .person:last-child, .bracket .tour .item-2 .person:last-child, .bracket .tour .item-3 .person:last-child, .bracket .tour .item-4 .person:last-child, .bracket .tour .item-5 .person:last-child {
+  border-top-width: 1px;
+  border-radius: 0px 0px 1em 1em;
+}
+.bracket .tour .item .person img, .bracket .tour .item-1 .person img, .bracket .tour .item-2 .person img, .bracket .tour .item-3 .person img, .bracket .tour .item-4 .person img, .bracket .tour .item-5 .person img {
   width: 50px;
   height: 50px;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.bracket .item .person .name, .bracket .item-1 .person .name, .bracket .item-2 .person .name {
+.bracket .tour .item .person .name, .bracket .tour .item-1 .person .name, .bracket .tour .item-2 .person .name, .bracket .tour .item-3 .person .name, .bracket .tour .item-4 .person .name, .bracket .tour .item-5 .person .name {
   font-weight: 600;
 }
-.bracket .item .person .text, .bracket .item-1 .person .text, .bracket .item-2 .person .text {
+.bracket .tour .item .person .text, .bracket .tour .item-1 .person .text, .bracket .tour .item-2 .person .text, .bracket .tour .item-3 .person .text, .bracket .tour .item-4 .person .text, .bracket .tour .item-5 .person .text {
   font-size: 0.8em;
   color: #7A8290;
+}
+.bracket .tour .item .person .winner, .bracket .tour .item-1 .person .winner, .bracket .tour .item-2 .person .winner, .bracket .tour .item-3 .person .winner, .bracket .tour .item-4 .person .winner, .bracket .tour .item-5 .person .winner {
+  position: absolute;
+  top: 1em;
+  right: 0.25em;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: #02c12b;
+  z-index: 10;
+}
+.bracket .tour .item .person .place, .bracket .tour .item-1 .person .place, .bracket .tour .item-2 .person .place, .bracket .tour .item-3 .person .place, .bracket .tour .item-4 .person .place, .bracket .tour .item-5 .person .place {
+  position: absolute;
+  top: 1em;
+  right: -2em;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  background-color: #004AAD;
+  color: #fff;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
 }
 
 .card {
