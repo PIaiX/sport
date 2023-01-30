@@ -475,7 +475,7 @@ header {
                         font-size: 1.2em;
                         color: $color-3;
                         transition: $transition;
-                        &:hover, &:focus {
+                        &:hover, &:focus, &:active, &.active {
                             color: $color-4;
                         }
                     }
@@ -554,7 +554,6 @@ main {
         }
     }
 }
-
 
 .date-slider {
     overflow: visible;
@@ -1135,6 +1134,126 @@ main {
 }
 
 
+.about {
+    &-top {
+        background: url(imgs/yedinoborstva1.jpg) no-repeat;
+        background-position: 50% 0%;
+        background-size: cover;
+        height: 53vw;
+        padding-bottom: 10vw;
+        @include flex(column, center, center, nowrap);
+        @media (max-width: 991px) {
+            padding-bottom: 0px;
+        }
+        @media (max-width: 575px) {
+            height: auto;
+            padding: 2em 0;
+        }
+        .box {
+            background-color: rgba($color: $color-5, $alpha: .6);
+            padding: 3em;
+            border-radius: $radius;
+            @media (max-width: 767px) {
+                padding: 2em;
+            }
+        }
+        h1 {
+            font-size: 3em;
+            font-weight: 900;
+            color: $color-3;
+            @media (max-width: 767px) {
+                font-size: 2em;
+            }
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 150%;
+            font-weight: 500;
+            @media (max-width: 767px) {
+                font-size: 1em;
+            }
+        }
+    }
+    &-plus {
+        margin-top: -10vw;
+        // filter: drop-shadow(0px 0px .5em $color-5);
+        @media (max-width: 991px) {
+            margin-top: 3em;
+        }
+        h2 {
+            text-align: center;
+            color: $color-4;
+        }
+        .box {
+            padding: 2em;
+            border-radius: $radius;
+            color: #fff;
+            h4 {font-size: 2em;}
+            p {font-weight: 300;}
+            &-2 {
+                @extend .box;
+                background-color: $color-4;
+            }
+            &-3 {
+                @extend .box;
+                background-color: $color-3;
+            }
+            &-4 {
+                @extend .box;
+                background-color: $color-2;
+            }
+        }
+    }
+    &-partners {
+        &-grid {
+            --height: 180px;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: var(--height);
+            grid-auto-flow: dense;
+            grid-auto-rows: var(--height);
+            grid-gap: 1em;
+            padding: 1em;
+            border-radius: $radius;
+            @media (max-width: 1399px) {
+                --height: 160px;
+            }
+            @media (max-width: 1199px) {
+                --height: 140px;
+            }
+            @media (max-width: 991px) {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            @media (max-width: 767px) {
+                grid-gap: .5em;
+                padding: .5em;
+                --height: 110px;
+            }
+            @media (max-width: 575px) {
+                grid-template-columns: repeat(4, 1fr);
+                --height: 21vw;
+            }
+            img {
+                background-color: $color-5;
+                padding: 1em;
+                border-radius: $radius;
+                grid-column: span 1;
+                grid-row: span 1;
+                width: 100%;
+                height: 100%;
+                object-fit: scale-down;
+                object-position: center;
+                &.col-span-2 {
+                    grid-column: span 2;
+                }
+                &.col-span-3 {
+                    grid-column: span 3;
+                }
+            }
+        }
+    }
+}
+
 article {
     display: inline-block;
     img {
@@ -1184,6 +1303,34 @@ article {
     }
 }
 
+.not-found {
+    @include flex(row, center, stretch, nowrap);
+    @media (max-width: 767px) {
+        @include flex(column, center, center, nowrap);
+    }
+    h1 {
+        color: $color-5;
+        font-size: 8em;
+        font-weight: 300;
+        margin-bottom: 0px;
+    }
+    h2 {
+        color: $color-3;
+    } 
+    hr {
+        width: 4px;
+        background-color: $color-5;
+        opacity: 1;
+        border: none;
+        border-radius: 2px;
+        margin: 0 2em;
+        @media (max-width: 767px) {
+            width: 80%;
+            height: 4px;
+            margin: 2em auto;
+        }
+    }
+}
 
 footer {
     background-color: $achromat-1;
@@ -1221,6 +1368,42 @@ footer {
                         &:hover, &:focus {
                             color: $color-5;
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+    font-size: 2em;
+    color: $color-3;
+    transition: $transition;
+    @include flex-center();
+    padding: 0.5em;
+    &:hover, &:focus {
+        color: $color-4;
+    }
+}
+
+.offcanvas-lg[role="dialog"] {
+    .mobile-menu {
+        padding: 2em;
+        ul {
+            list-style: none;
+            padding-left: 0px;
+            li {
+                &:not(:first-child){margin-top: 1.5em;}
+                a {
+                    font-size: 1.5em;
+                    color: $color-2;
+                    font-weight: 700;
+                    &.active {
+                        color: $color-3;
                     }
                 }
             }

@@ -13,11 +13,10 @@ import Banner from '../components/Banner'
 import DateBtn from '../components/utils/DateBtn'
 import EventCard from '../components/EventCard'
 
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
-
 import Select from 'react-select'
 import Calendar from '../components/Calendar'
 import NewsPreview from '../components/NewsPreview'
+import NavPagination from '../components/NavPagination'
 
 const optionsList = [
     {value: '1', label: 'Вариант 1'},
@@ -178,8 +177,6 @@ const Home = () => {
                         </Swiper>
                     </div>
 
-                    
-
                     <div className="filters">
                         <Select
                             name="sort"
@@ -204,28 +201,6 @@ const Home = () => {
                         />
                         <Calendar/>
                     </div>
-
-                    {/* <div className="position-relative">
-                        <Swiper
-                            className='filters-carousel mt-4'
-                            modules={[Navigation]}
-                            loop={false}
-                            navigation={true}
-                            spaceBetween={20}
-                            slidesPerView={'auto'}
-                            simulateTouch={false}
-                        >
-                            <SwiperSlide>
-                                
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                
-                            </SwiperSlide>
-                        </Swiper>
-                    </div> */}
 
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
                         <Col>
@@ -267,16 +242,7 @@ const Home = () => {
                     </Row>
                     <button type='button' className='btn-2 mt-5 mx-auto'>Показать ещё</button>
 
-                    <nav className='pagination'>
-                        <ul>
-                            <li><button type='button'><RiArrowLeftSLine className='fs-15'/></button></li>
-                            <li><button type='button' className='active'>1</button></li>
-                            <li><button type='button'>2</button></li>
-                            <li><button type='button'>...</button></li>
-                            <li><button type='button'>10</button></li>
-                            <li><button type='button'><RiArrowRightSLine className='fs-15'/></button></li>
-                        </ul>
-                    </nav>
+                    <NavPagination />
                 </section>
 
                 <section className='mb-5'>

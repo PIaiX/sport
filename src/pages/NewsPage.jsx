@@ -4,8 +4,8 @@ import Container from 'react-bootstrap/Container'
 const NewsPage = () => {
     return (
         <main>
-            <Container className='py-4'>
-                <article className='mb-5'>
+            <Container>
+                <article className='py-5 mb-5'>
                     <img src="imgs/image.png" alt="Название новости" />
                     <h1>Название новости</h1>
                     <div className="text">
@@ -14,7 +14,7 @@ const NewsPage = () => {
                 </article>
             </Container>
         </main>
-    );
-};
+    )
+}
 
 export default NewsPage

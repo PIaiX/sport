@@ -2,20 +2,20 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const Banner = (props) => {
-    const types = [
-        {
-            id: 0,
-            name: 'Подборка'
-        },
-        {
-            id: 1,
-            name: 'Концерт'
-        },
-        {
-            id: 2,
-            name: 'Стендап'
-        }
-    ]
+    // const types = [
+    //     {
+    //         id: 0,
+    //         name: 'Подборка'
+    //     },
+    //     {
+    //         id: 1,
+    //         name: 'Концерт'
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Стендап'
+    //     }
+    // ]
     return (
         <figure>
             <img src={props.imgUrl} alt="slide" />

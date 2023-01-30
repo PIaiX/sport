@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import logo from '../assets/imgs/logo-colored.png'
-import { RiMenuLine } from "react-icons/ri"
+import { RiMenuLine, RiCloseLine } from "react-icons/ri"
 import FormSearch from './FormSearch'
 
 const Header = () => {
@@ -21,23 +21,23 @@ const Header = () => {
                 <FormSearch className={'d-none d-md-flex'} />
 
                 <Offcanvas show={show} onHide={handleClose} responsive="lg">
-                    <Offcanvas.Header closeButton>
-                        <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title>
-                    </Offcanvas.Header>
+                    <button type='button' className='close d-lg-none' onClick={handleClose}>
+                        <RiCloseLine/>
+                    </button>
                     <Offcanvas.Body>
-                        <nav>
+                        <nav className='mobile-menu' onClick={handleClose}>
                             <ul>
                                 <li>
-                                    <a href="/">Главная</a>
+                                    <NavLink to="/">Главная</NavLink>
                                 </li>
                                 <li>
-                                    <a href="/">О нас</a>
+                                    <NavLink to="/about">О нас</NavLink>
                                 </li>
                                 <li>
-                                    <a href="/">Блог</a>
+                                    <NavLink to="/all-news">Блог</NavLink>
                                 </li>
                                 <li>
-                                    <a href="/">Личный кабинет</a>
+                                    <NavLink to="/account">Личный кабинет</NavLink>
                                 </li>
                             </ul>
                         </nav>
