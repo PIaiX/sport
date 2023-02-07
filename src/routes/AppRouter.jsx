@@ -5,8 +5,10 @@ import About from '../pages/About'
 import AllNews from '../pages/AllNews'
 import EventPage from '../pages/EventPage'
 import Home from '../pages/Home'
+import Login from '../pages/Login'
 import NewsPage from '../pages/NewsPage'
 import NotFound from '../pages/NotFound'
+import Registration from '../pages/Registration'
 
 const router = createHashRouter(
     createRoutesFromElements(
@@ -16,6 +18,8 @@ const router = createHashRouter(
             <Route path="all-news" element={<AllNews/>} />
             <Route path="news" element={<NewsPage/>} />
             <Route path="about" element={<About/>} />
+            <Route path="login" element={<Login/>} />
+            <Route path="registration" element={<Registration/>} />
             <Route path="*" element={<NotFound/>} />
         </Route>
     )

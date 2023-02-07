@@ -5,7 +5,7 @@ const NewsPage = () => {
     return (
         <main>
             <Container>
-                <article className='py-5 mb-5'>
+                <article className='py-4 py-sm-5 mb-5'>
                     <img src="imgs/image.png" alt="Название новости" />
                     <h1>Название новости</h1>
                     <div className="text">

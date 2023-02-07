@@ -60,6 +60,79 @@ input::placeholder, textarea::placeholder {
   font-weight: 400;
 }
 
+input[type=radio] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  outline: none;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: none;
+  padding: 0px;
+  margin: 0px;
+  transition: 0.3s ease;
+  position: relative;
+}
+input[type=radio]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  background-color: #D2D5DA;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.3s ease;
+}
+input[type=radio]:checked::before {
+  background-color: #004AAD;
+}
+input[type=checkbox] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  outline: none;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  box-shadow: none;
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+}
+input[type=checkbox]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  height: 40%;
+  border-color: transparent;
+  border-width: 0px 0px 3px 3px;
+  border-style: solid;
+  transform: translate(-50%, -65%) rotate(-45deg);
+  transition: border-color 0.3s ease;
+}
+input[type=checkbox]:checked::before {
+  border-color: #004AAD;
+}
+
+label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+label span {
+  flex: 1;
+  margin-left: 0.6em;
+}
+
 button {
   background: none;
   border: none;
@@ -378,6 +451,14 @@ h6 {
 
 .green {
   color: #02c12b;
+}
+
+.bb-dot {
+  border-bottom: 1px dotted currentColor;
+}
+
+.flex-1 {
+  flex: 1;
 }
 
 .link {
@@ -1572,6 +1653,34 @@ article.preview .more {
     width: 80%;
     height: 4px;
     margin: 2em auto;
+  }
+}
+
+.form-login {
+  background-color: rgba(210, 213, 218, 0.5);
+  padding: 2em;
+  border-radius: 1em;
+  width: 50%;
+  margin: 0 auto;
+}
+@media (max-width: 1199px) {
+  .form-login {
+    width: 60%;
+  }
+}
+@media (max-width: 991px) {
+  .form-login {
+    width: 75%;
+  }
+}
+@media (max-width: 767px) {
+  .form-login {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .form-login {
+    padding: 1em;
   }
 }
 
