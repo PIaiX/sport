@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/sport/static/css/main.5e94ef1f.css",
-    "main.js": "/sport/static/js/main.f734eca3.js",
+    "main.css": "/sport/static/css/main.96cadcc0.css",
+    "main.js": "/sport/static/js/main.18373487.js",
     "static/media/yedinoborstva1.jpg": "/sport/static/media/yedinoborstva1.ea8a5837ab8429e12c17.jpg",
     "static/media/plaix.svg": "/sport/static/media/plaix.6ca224716b88a3b5dd5db95ae81cb448.svg",
     "index.html": "/sport/index.html",
-    "main.5e94ef1f.css.map": "/sport/static/css/main.5e94ef1f.css.map",
-    "main.f734eca3.js.map": "/sport/static/js/main.f734eca3.js.map"
+    "main.96cadcc0.css.map": "/sport/static/css/main.96cadcc0.css.map",
+    "main.18373487.js.map": "/sport/static/js/main.18373487.js.map"
   },
   "entrypoints": [
-    "static/css/main.5e94ef1f.css",
-    "static/js/main.f734eca3.js"
+    "static/css/main.96cadcc0.css",
+    "static/js/main.18373487.js"
   ]
 }
