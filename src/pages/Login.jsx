@@ -16,7 +16,7 @@ const Login = () => {
           <form action="" className='form-login'>
             <input className='mb-3' type="email" placeholder='email'/>
             <input className='mb-3' type="password" placeholder='пароль' />
-            <button type='button' className='btn-1 w-100'>Войти</button>
+            <Link to='/account' className='btn-1 w-100'>Войти</Link>
             <label className='mt-3'>
               <input type="checkbox" />
               <span className='color-main'>Запомнить меня</span>
@@ -24,7 +24,6 @@ const Login = () => {
           </form>
         </section>
       </Container>
-      
     </main>
   );
 };

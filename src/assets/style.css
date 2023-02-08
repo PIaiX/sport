@@ -195,12 +195,12 @@ button {
   }
 }
 .simple-select__control {
-  border-radius: 0px !important;
+  border-radius: 1em !important;
   height: 100%;
   border: 1px solid #4797FF !important;
   background-color: #FFFFFF !important;
   transition: 0.3s ease !important;
-  padding: 0 0.5em;
+  padding: 0.7em 1.5em;
 }
 .simple-select__control--is-focused {
   border: 1px solid #004AAD !important;
@@ -235,6 +235,11 @@ button {
   width: 100% !important;
   height: 100% !important;
 }
+.simple-select__indicator-separator {
+  background-color: #D2D5DA !important;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
 .simple-select__input-container {
   margin: 0px !important;
   padding: 0px !important;
@@ -261,13 +266,16 @@ button {
   min-width: 150px;
   background-color: #fff !important;
   border: 1px solid #7A8290 !important;
-  border-radius: 0px 0px 10px 10px !important;
+  border-radius: 1em !important;
   box-shadow: none !important;
   outline: none !important;
   width: -webkit-fit-content !important;
   width: -moz-fit-content !important;
   width: fit-content !important;
   z-index: 10 !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  transform: translateZ(0);
 }
 .simple-select__option {
   transition: 0.3s ease;
@@ -281,6 +289,14 @@ button {
 .simple-select__option--is-selected {
   background-color: #004AAD !important;
   color: #fff;
+}
+
+.borderless .simple-select__control {
+  border: none !important;
+  padding: 0.7em 1.5em;
+}
+.borderless .simple-select__control--is-focused {
+  border: none !important;
 }
 
 form.form-search {
@@ -805,6 +821,7 @@ main {
 .calendar button {
   position: relative;
   z-index: 1;
+  height: 100%;
 }
 .calendar-box {
   position: absolute;
@@ -1682,6 +1699,40 @@ article.preview .more {
   .form-login {
     padding: 1em;
   }
+}
+
+.account {
+  padding: 3em 0;
+}
+.account-menu ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.account-menu ul li {
+  margin-bottom: 0.5em;
+}
+.account-menu ul li a, .account-menu ul li button {
+  width: 100%;
+  display: block;
+  background-color: rgba(210, 213, 218, 0.25);
+  padding: 0.75em 1em;
+  font-size: 1.25em;
+  font-weight: 500;
+  text-align: left;
+  border-radius: 1em 0 0 1em;
+  transition: 0.3s ease;
+}
+.account-menu ul li a:hover, .account-menu ul li a:focus, .account-menu ul li button:hover, .account-menu ul li button:focus {
+  background-color: #D6E7FF;
+}
+.account-menu ul li a:active, .account-menu ul li a.active, .account-menu ul li button:active, .account-menu ul li button.active {
+  background-color: rgba(210, 213, 218, 0.5);
+}
+.account-box {
+  background-color: rgba(210, 213, 218, 0.5);
+  padding: 2em;
+  height: 100%;
+  border-radius: 0 1em 1em 1em;
 }
 
 footer {

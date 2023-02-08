@@ -219,12 +219,12 @@ button {
         }
     }
     &__control {
-        border-radius: 0px !important;
+        border-radius: $radius !important;
         height: 100%;
         border: 1px solid $color-4 !important;
         background-color: $achromat-5 !important;
         transition: $transition !important;
-        padding: 0 .5em;
+        padding: 0.7em 1.5em;
         &--is-focused {
             border: 1px solid $color-3 !important;
             box-shadow: none !important;
@@ -258,6 +258,11 @@ button {
             width: 100% !important;
             height: 100% !important;
         }
+        &-separator {
+            background-color: $achromat-4 !important;
+            margin-bottom: 0px !important;
+            margin-top: 0px !important;
+        }
     }
     &__input-container {
         margin: 0px !important;
@@ -285,11 +290,13 @@ button {
         min-width: 150px;
         background-color: #fff !important;
         border: 1px solid $achromat-3 !important;
-        border-radius: 0px 0px 10px 10px !important;
+        border-radius: $radius !important;
         box-shadow: none !important;
         outline: none !important;
         width: fit-content !important;
         z-index: 10 !important;
+        overflow: hidden !important;
+        @include safariFix();
     }
     &__option {
         transition: $transition;
@@ -305,6 +312,17 @@ button {
         &--is-selected {
             background-color: $color-3 !important;
             color: #fff;
+        }
+    }
+}
+.borderless {
+    .simple-select {
+        &__control {
+            border: none !important;
+            padding: 0.7em 1.5em;
+            &--is-focused {
+                border: none !important;
+            }
         }
     }
 }
@@ -704,6 +722,7 @@ main {
     button {
         position: relative;
         z-index: 1;
+        height: 100%;
     }
     &-box {
         position: absolute;
@@ -1402,7 +1421,6 @@ article {
     }
 }
 
-
 .form-login {
     background-color: rgba($color: $achromat-4, $alpha: .5);
     padding: 2em;
@@ -1420,6 +1438,42 @@ article {
     }
     @media (max-width: 767px) {
         padding: 1em;
+    }
+}
+
+.account {
+    padding: 3em 0;
+    &-menu {
+        ul {
+            list-style: none;
+            padding-left: 0px;
+            li {
+                margin-bottom: .5em;
+                a, button {
+                    width: 100%;
+                    display: block;
+                    background-color: rgba($color: $achromat-4, $alpha: .25);
+                    padding: .75em 1em;
+                    font-size: 1.25em;
+                    font-weight: 500;
+                    text-align: left;
+                    border-radius: $radius 0 0 $radius;
+                    transition: $transition;
+                    &:hover, &:focus {
+                        background-color: $color-5;
+                    }
+                    &:active, &.active {
+                        background-color: rgba($color: $achromat-4, $alpha: .5);
+                    }
+                }
+            }
+        }
+    }
+    &-box {
+        background-color: rgba($color: $achromat-4, $alpha: .5);
+        padding: 2em;
+        height: 100%; 
+        border-radius: 0 $radius $radius $radius;
     }
 }
 

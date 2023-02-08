@@ -9,6 +9,7 @@ import Login from '../pages/Login'
 import NewsPage from '../pages/NewsPage'
 import NotFound from '../pages/NotFound'
 import Registration from '../pages/Registration'
+import AccountRouter from './AccountRouter'
 
 const router = createHashRouter(
     createRoutesFromElements(
@@ -21,6 +22,7 @@ const router = createHashRouter(
             <Route path="login" element={<Login/>} />
             <Route path="registration" element={<Registration/>} />
             <Route path="*" element={<NotFound/>} />
+            <Route path="account/*" element={<AccountRouter/>}/>
         </Route>
     )
 )
