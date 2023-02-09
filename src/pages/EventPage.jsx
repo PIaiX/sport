@@ -180,20 +180,20 @@ const EventPage = () => {
                                     <div className='participant head'>
                                         <div className='name'>Участник</div>
                                         <div className="birth">Год рождения</div>
-                                        <div className="params">
-                                            <div>
+                                        <ul className="params">
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                            <div>
+                                            </li>
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                            <div>
+                                            </li>
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                            <div>
+                                            </li>
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                        </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
                                         <li>
@@ -248,20 +248,20 @@ const EventPage = () => {
                                     <div className='participant head'>
                                         <div className='name'>Участник</div>
                                         <div className="birth">Год рождения</div>
-                                        <div className="params">
-                                            <div>
+                                        <ul className="params">
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                            <div>
+                                            </li>
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                            <div>
+                                            </li>
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                            <div>
+                                            </li>
+                                            <li>
                                                 Название параметра
-                                            </div>
-                                        </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
                                         <li>

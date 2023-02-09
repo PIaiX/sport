@@ -6,6 +6,7 @@ import Profile from '../pages/account/Profile';
 import AccountMenu from '../pages/account/AccountMenu';
 import NotFound from '../pages/NotFound';
 import AccEvents from '../pages/account/AccEvents';
+import AddEvent from '../pages/account/AddEvent';
 
 const AccountRouter = () => {
   const {isMobile} = useIsMobile('991px');
@@ -19,7 +20,8 @@ const AccountRouter = () => {
             <Route index element={<Navigate to="profile" replace={true} />} />
         )}
         <Route path="profile" element={<Profile />} />
-        <Route path="events" element={<AccEvents/>} />
+        <Route path="events" element={<AccEvents/>}/>
+        <Route path="events/add" element={<AddEvent/>} />
         <Route path="*" element={<NotFound/>} />
       </Route>
     </Routes>

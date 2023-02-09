@@ -162,6 +162,15 @@ label {
     }
 }
 
+fieldset {
+    margin-bottom: 2em;
+    legend {
+        font-size: 1.5em;
+        font-weight: 600;
+        margin-bottom: .75em;
+    }
+}
+
 button {
     background: none;
     border: none;
@@ -205,6 +214,15 @@ button {
         &:hover, &:focus, &:active {
             color: #fff;
             background-color: $color-4;
+        }
+    }
+    &-4 {
+        @extend .btn;
+        color: #fff;
+        background: $color-4;
+        &:hover, &:focus, &:active {
+            color: #fff;
+            background: $color-2;
         }
     }
 }
@@ -417,6 +435,7 @@ h6 {
 .color-main {color: $color-3;}
 .white {color: #fff;}
 .color-4 {color: $color-4;}
+.achromat-4 {color: $achromat-4;}
 .red {color: $red;}
 .yellow {color: $yellow;}
 .green {color: $green;}
@@ -1475,7 +1494,63 @@ article {
         height: 100%; 
         border-radius: 0 $radius $radius $radius;
     }
+    .event-preview {
+        @include flex(row, flex-start, center, nowrap);
+        margin-bottom: .5em;
+        background-color: $achromat-5;
+        padding: .5em;
+        border-radius: $radius*.5;
+        &.top {
+            background-color: transparent;
+            font-size: .9em;
+            margin-bottom: 0;
+            &>*{line-height: 120%;}
+        }
+        .date {
+            width: 100px;
+        }
+        .img {
+            width: 100px;
+            text-align: center;
+            img {
+                width: 60px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: $radius*.5;
+            }
+        }
+        .title {
+            flex: 1;
+        }
+        .role {
+            width: 150px;
+            text-align: center;
+        }
+        .count {
+            width: 100px;
+            text-align: center;
+        }
+        .btns {
+            width: 100px;
+            @include flex(row, center, center, nowrap);
+            a, button {
+                font-size: 1.5em;
+                color: $color-4;
+                transition: $transition;
+                &.dis {
+                    pointer-events: none;
+                    opacity: .5;
+                    filter: grayscale(1);
+                }
+                &:not(:first-child){margin-left: .5em;}
+                &:hover {
+                    color: $color-3;
+                }
+            }
+        }
+    }
 }
+
 
 footer {
     background-color: $achromat-1;

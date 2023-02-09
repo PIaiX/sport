@@ -153,6 +153,7 @@ const Profile = () => {
         <fieldset>
           <legend></legend>
         </fieldset>
+        <button type='submit' className='btn-1 mt-4'>Сохранить</button>
       </form>
     </section>
   );
