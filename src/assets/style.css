@@ -148,7 +148,7 @@ button {
   color: inherit;
 }
 
-.btn, .btn-4, .btn-3, .btn-2, .btn-1 {
+.btn, .btn-5, .btn-4, .btn-3, .btn-2, .btn-1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -192,6 +192,14 @@ button {
 .btn-4:hover, .btn-4:focus, .btn-4:active {
   color: #fff;
   background: #002C66;
+}
+.btn-5 {
+  color: #fff;
+  background: #e50000;
+}
+.btn-5:hover, .btn-5:focus, .btn-5:active {
+  color: #fff;
+  background: #e20000;
 }
 
 .simple-select-container {
@@ -465,6 +473,10 @@ h6 {
 
 .color-4 {
   color: #4797FF;
+}
+
+.achromat-3 {
+  color: #7A8290;
 }
 
 .achromat-4 {

@@ -55,6 +55,8 @@ const AddEvent = () => {
         </fieldset>
         <fieldset>
           <legend>Участники</legend>
+
+          <h4>Турнирная таблица</h4>
         </fieldset>
       </form>
     </section>

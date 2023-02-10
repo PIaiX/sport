@@ -225,6 +225,15 @@ button {
             background: $color-2;
         }
     }
+    &-5 {
+        @extend .btn;
+        color: #fff;
+        background: $red;
+        &:hover, &:focus, &:active {
+            color: #fff;
+            background: darken($color: $red, $amount: .5);
+        }
+    }
 }
 
 .simple-select {
@@ -435,6 +444,7 @@ h6 {
 .color-main {color: $color-3;}
 .white {color: #fff;}
 .color-4 {color: $color-4;}
+.achromat-3 {color: $achromat-3;}
 .achromat-4 {color: $achromat-4;}
 .red {color: $red;}
 .yellow {color: $yellow;}

@@ -29,7 +29,7 @@ const Profile = () => {
       <h1>Личные данные</h1>
       <form action="">
         <fieldset>
-          <legend>Настройки</legend>
+          <legend>Основная информация</legend>
           <Row className='g-4'>
             <Col md={3}>
               Имя
@@ -49,23 +49,6 @@ const Profile = () => {
             <Col md={9}>
               <input type="text" placeholder='Отчество'/>
             </Col>
-            <Col md={3}>
-              Email
-            </Col>
-            <Col md={9}>
-              <input type="email" placeholder='Email'/>
-            </Col>
-            <Col md={3}>
-              Пароль
-            </Col>
-            <Col md={9}>
-              <input type="password" placeholder='Пароль'/>
-            </Col>
-          </Row>
-        </fieldset>
-        <fieldset>
-          <legend>Ваши параметры</legend>
-          <Row className='g-4'>
             <Col md={3}>
               Пол
             </Col>
@@ -112,6 +95,41 @@ const Profile = () => {
                 </Col>
               </Row>
             </Col>
+          </Row>
+        </fieldset>
+        <fieldset>
+          <legend>Настройки аккаунта</legend>
+          <Row className='g-4'>
+            <Col md={3}>
+              Email
+            </Col>
+            <Col md={9}>
+              <input type="email" placeholder='Email'/>
+            </Col>
+            <Col md={3}>
+              Пароль
+            </Col>
+            <Col md={9}>
+              <input type="password" placeholder='Пароль'/>
+            </Col>
+            <Col md={3}>
+              Скрыть профиль
+            </Col>
+            <Col md={9}>
+              <label>
+                <input type="checkbox"/>
+                <span>Да</span>
+              </label>
+              <p className='fs-08 achromat-3 mt-2'>Этот параметр скрывает вашу общедоступную страницу профиля, однако ваше имя по-прежнему будет отображаться в списке результатов мероприятий, в которых вы участвовали.</p>
+            </Col>
+            <Col md={3}>
+              <button type='button' className='btn-5'>Удалить аккаунт</button>
+            </Col>
+          </Row>
+        </fieldset>
+        <fieldset>
+          <legend>Ваши параметры</legend>
+          <Row className='g-4'>
             <Col md={3}>
               Рост, см.
             </Col>
@@ -127,6 +145,24 @@ const Profile = () => {
           </Row>
         </fieldset>
         <fieldset>
+          <legend>Уровни пояса/навыков</legend>
+          <button type='button' className='btn-4 mb-4'>пояса/навыков</button>
+          <Row className='g-3'>
+            <Col md={3}>
+              Дисциплина
+            </Col>
+            <Col md={9}>
+              Дисциплина
+            </Col>
+            <Col md={3}>
+              Пояс
+            </Col>
+            <Col md={9}>
+              Пояс
+            </Col>
+          </Row>
+        </fieldset>
+        <fieldset>
           <legend>Контакты</legend>
           <Row className='g-4'>
             <Col md={3}>
@@ -134,6 +170,12 @@ const Profile = () => {
             </Col>
             <Col md={9}>
               <input type="tel" placeholder='Телефон'/>
+            </Col>
+            <Col md={3}>
+              Адрес
+            </Col>
+            <Col md={9}>
+              <input type="text" placeholder='Адрес'/>
             </Col>
             <Col md={3}>
               Город
@@ -147,7 +189,12 @@ const Profile = () => {
             <Col md={9}>
               <input type="text" placeholder='Район'/>
             </Col>
-            
+            <Col md={3}>
+              Регион
+            </Col>
+            <Col md={9}>
+              <input type="text" placeholder='Регион'/>
+            </Col>
           </Row>
         </fieldset>
         <fieldset>
