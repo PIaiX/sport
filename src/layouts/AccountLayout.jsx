@@ -11,10 +11,10 @@ const AccountLayout = () => {
       <Container>
         <section className="">
           <Row className='gx-0'>
-            <Col xs={12} md={3}>
+            <Col xs={12} lg={3}>
               <AccountMenu />
             </Col>
-            <Col xs={12} md={9}>
+            <Col xs={12} lg={9}>
               <Outlet />
             </Col>
           </Row>

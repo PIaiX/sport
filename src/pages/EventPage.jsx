@@ -82,7 +82,6 @@ const EventPage = () => {
                                     <button type='button' onClick={() => setTab(4)}>Место проведения</button>
                                 </li>
                             </ul>
-
                             <button type='button' className='btn-3'>
                                 Принять участие
                             </button>

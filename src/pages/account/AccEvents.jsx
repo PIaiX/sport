@@ -6,8 +6,8 @@ import NavPagination from '../../components/NavPagination';
 const AccEvents = () => {
   return (
     <section className='account-box'>
-      <div className='d-flex align-items-center justify-content-between mb-5'>
-        <h1 className='mb-0'>Мероприятия</h1>
+      <div className='d-sm-flex align-items-center justify-content-between mb-4 mb-sm-5'>
+        <h1 className='mb-sm-0'>Мероприятия</h1>
         <Link to='add' className='btn-4'>Создать мероприятие</Link>
       </div>
       <h3>Текущие мероприятия</h3>
