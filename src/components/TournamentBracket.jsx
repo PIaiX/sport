@@ -509,7 +509,6 @@ const TournamentBracket = () => {
       moveAt(e);
     }
   }
-  console.log('scrollX='+scrollX)
 
   const stopScroll = () => {
     document.onmousemove = null

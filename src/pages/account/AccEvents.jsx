@@ -19,7 +19,7 @@ const AccEvents = () => {
         <div className='count'>Количество участников</div>
         <div className="btns"></div>
       </div>
-      <ul className='list-unstyled mb-5'>
+      <ul className='g-3 g-xl-2 row row-cols-1 row-cols-sm-2 row-cols-xl-1 list-unstyled mb-4 mb-sm-5'>
         <li>
           <AccEventPreview date={'15.02.2023'} img={'imgs/img1.jpeg'} title={'Название мероприятия 1'} role={1} count={20}/>
         </li>
@@ -52,7 +52,7 @@ const AccEvents = () => {
         <div className='count'>Количество участников</div>
         <div className="btns"></div>
       </div>
-      <ul className='list-unstyled mb-5'>
+      <ul className='g-3 g-xl-2 row row-cols-1 row-cols-sm-2 row-cols-xl-1 list-unstyled mb-4 mb-sm-5'>
         <li>
           <AccEventPreview date={'15.01.2023'} img={'imgs/img1.jpeg'} title={'Название мероприятия 1'} role={1} count={20}/>
         </li>

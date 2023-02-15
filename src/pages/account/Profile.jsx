@@ -33,7 +33,7 @@ const Profile = () => {
           <Col md={6}>
             <fieldset>
               <legend className='mb-0'>Основная информация</legend>
-              <Row className='gx-4 gy-3 align-items-center'>
+              <Row className='gx-4 gy-2 gy-sm-3 align-items-center'>
                 <Col md={3}>
                   Имя
                 </Col>
@@ -70,7 +70,7 @@ const Profile = () => {
           <Col md={6}>
             <fieldset>
               <legend className='mb-0'>Настройки аккаунта</legend>
-              <Row className='gx-4 gy-3 align-items-center'>
+              <Row className='gx-4 gy-2 gy-sm-3 align-items-center'>
                 <Col md={3}>
                   Email
                 </Col>
@@ -95,7 +95,7 @@ const Profile = () => {
           <Col xs={12} xl={6}>
             <fieldset>
               <legend className='mb-0'>Ваши параметры</legend>
-              <Row className='gx-4 gy-3 align-items-center'>
+              <Row className='gx-4 gy-2 gy-sm-3 align-items-center'>
                 <Col md={12}>
                   <p className='mb-1'>Дата рождения</p>
                   <Row xs={1} sm={3} className="gy-2 gy-sm-0 gx-1">
@@ -191,7 +191,7 @@ const Profile = () => {
           <Col xs={12} xl={6}>
             <fieldset>
               <legend className='mb-0'>Контакты</legend>
-              <Row className='gx-4 gy-3 align-items-center'>
+              <Row className='gx-4 gy-2 gy-sm-3 align-items-center'>
                 <Col md={3}>
                   Телефон
                 </Col>

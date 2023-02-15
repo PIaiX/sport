@@ -132,6 +132,11 @@ label span {
 fieldset {
   margin-bottom: 3em;
 }
+@media (max-width: 575px) {
+  fieldset {
+    margin-bottom: 2em;
+  }
+}
 fieldset legend {
   font-size: 1.5em;
   font-weight: 600;
@@ -160,6 +165,11 @@ button {
   font-size: 1em;
   font-weight: 500;
   border-radius: 1em;
+}
+.btn-none {
+  padding: 0px;
+  display: flex;
+  border: none !important;
 }
 .btn-1 {
   color: #fff;
@@ -1189,7 +1199,6 @@ main {
   cursor: grabbing;
 }
 .bracket .tour {
-  pointer-events: none;
   grid-column: span 1;
   grid-row: span 1;
   display: grid;
@@ -1359,39 +1368,39 @@ main {
   grid-row-end: 18;
 }
 .bracket .tour .item .person, .bracket .tour .item-1 .person, .bracket .tour .item-2 .person, .bracket .tour .item-3 .person, .bracket .tour .item-4 .person, .bracket .tour .item-5 .person {
+  position: relative;
+  background-color: aliceblue;
+  border: 2px solid #D6E7FF;
+  transition: 0.3s ease;
+}
+.bracket .tour .item .person:hover, .bracket .tour .item-1 .person:hover, .bracket .tour .item-2 .person:hover, .bracket .tour .item-3 .person:hover, .bracket .tour .item-4 .person:hover, .bracket .tour .item-5 .person:hover, .bracket .tour .item .person:focus, .bracket .tour .item-1 .person:focus, .bracket .tour .item-2 .person:focus, .bracket .tour .item-3 .person:focus, .bracket .tour .item-4 .person:focus, .bracket .tour .item-5 .person:focus, .bracket .tour .item .person:active, .bracket .tour .item-1 .person:active, .bracket .tour .item-2 .person:active, .bracket .tour .item-3 .person:active, .bracket .tour .item-4 .person:active, .bracket .tour .item-5 .person:active {
+  background-color: #D6E7FF;
+}
+.bracket .tour .item .person-btn, .bracket .tour .item-1 .person-btn, .bracket .tour .item-2 .person-btn, .bracket .tour .item-3 .person-btn, .bracket .tour .item-4 .person-btn, .bracket .tour .item-5 .person-btn {
   height: 50px;
   width: 100%;
-  background-color: aliceblue;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
-  border: 2px solid #D6E7FF;
-  position: relative;
+  cursor: pointer;
+  text-align: left;
 }
-.bracket .tour .item .person:first-child, .bracket .tour .item-1 .person:first-child, .bracket .tour .item-2 .person:first-child, .bracket .tour .item-3 .person:first-child, .bracket .tour .item-4 .person:first-child, .bracket .tour .item-5 .person:first-child {
-  border-bottom-width: 1px;
-  border-radius: 1em 1em 0px 0px;
-}
-.bracket .tour .item .person:last-child, .bracket .tour .item-1 .person:last-child, .bracket .tour .item-2 .person:last-child, .bracket .tour .item-3 .person:last-child, .bracket .tour .item-4 .person:last-child, .bracket .tour .item-5 .person:last-child {
-  border-top-width: 1px;
-  border-radius: 0px 0px 1em 1em;
-}
-.bracket .tour .item .person img, .bracket .tour .item-1 .person img, .bracket .tour .item-2 .person img, .bracket .tour .item-3 .person img, .bracket .tour .item-4 .person img, .bracket .tour .item-5 .person img {
+.bracket .tour .item .person-btn img, .bracket .tour .item-1 .person-btn img, .bracket .tour .item-2 .person-btn img, .bracket .tour .item-3 .person-btn img, .bracket .tour .item-4 .person-btn img, .bracket .tour .item-5 .person-btn img {
   width: 50px;
   height: 50px;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.bracket .tour .item .person .name, .bracket .tour .item-1 .person .name, .bracket .tour .item-2 .person .name, .bracket .tour .item-3 .person .name, .bracket .tour .item-4 .person .name, .bracket .tour .item-5 .person .name {
+.bracket .tour .item .person-btn .name, .bracket .tour .item-1 .person-btn .name, .bracket .tour .item-2 .person-btn .name, .bracket .tour .item-3 .person-btn .name, .bracket .tour .item-4 .person-btn .name, .bracket .tour .item-5 .person-btn .name {
   font-weight: 600;
 }
-.bracket .tour .item .person .text, .bracket .tour .item-1 .person .text, .bracket .tour .item-2 .person .text, .bracket .tour .item-3 .person .text, .bracket .tour .item-4 .person .text, .bracket .tour .item-5 .person .text {
+.bracket .tour .item .person-btn .text, .bracket .tour .item-1 .person-btn .text, .bracket .tour .item-2 .person-btn .text, .bracket .tour .item-3 .person-btn .text, .bracket .tour .item-4 .person-btn .text, .bracket .tour .item-5 .person-btn .text {
   font-size: 0.8em;
   color: #7A8290;
 }
-.bracket .tour .item .person .winner, .bracket .tour .item-1 .person .winner, .bracket .tour .item-2 .person .winner, .bracket .tour .item-3 .person .winner, .bracket .tour .item-4 .person .winner, .bracket .tour .item-5 .person .winner {
+.bracket .tour .item .person-btn .winner, .bracket .tour .item-1 .person-btn .winner, .bracket .tour .item-2 .person-btn .winner, .bracket .tour .item-3 .person-btn .winner, .bracket .tour .item-4 .person-btn .winner, .bracket .tour .item-5 .person-btn .winner {
   position: absolute;
   top: 1em;
   right: 0.25em;
@@ -1401,7 +1410,7 @@ main {
   background-color: #02c12b;
   z-index: 10;
 }
-.bracket .tour .item .person .place, .bracket .tour .item-1 .person .place, .bracket .tour .item-2 .person .place, .bracket .tour .item-3 .person .place, .bracket .tour .item-4 .person .place, .bracket .tour .item-5 .person .place {
+.bracket .tour .item .person-btn .place, .bracket .tour .item-1 .person-btn .place, .bracket .tour .item-2 .person-btn .place, .bracket .tour .item-3 .person-btn .place, .bracket .tour .item-4 .person-btn .place, .bracket .tour .item-5 .person-btn .place {
   position: absolute;
   top: 1em;
   right: -2em;
@@ -1415,6 +1424,40 @@ main {
   justify-content: center;
   align-items: center;
   font-size: 0.8em;
+}
+.bracket .tour .item .person-menu, .bracket .tour .item-1 .person-menu, .bracket .tour .item-2 .person-menu, .bracket .tour .item-3 .person-menu, .bracket .tour .item-4 .person-menu, .bracket .tour .item-5 .person-menu {
+  list-style: none;
+  padding: 1em;
+  color: #FFFFFF;
+  border-radius: 0 1em 1em 1em;
+  position: absolute;
+  left: 100%;
+  top: 20%;
+  width: 250px;
+  background-color: #4797FF;
+  z-index: 100;
+}
+@media (max-width: 767px) {
+  .bracket .tour .item .person-menu, .bracket .tour .item-1 .person-menu, .bracket .tour .item-2 .person-menu, .bracket .tour .item-3 .person-menu, .bracket .tour .item-4 .person-menu, .bracket .tour .item-5 .person-menu {
+    left: 0%;
+    top: 100%;
+    width: 100%;
+  }
+}
+.bracket .tour .item .person-menu li:not(:first-child), .bracket .tour .item-1 .person-menu li:not(:first-child), .bracket .tour .item-2 .person-menu li:not(:first-child), .bracket .tour .item-3 .person-menu li:not(:first-child), .bracket .tour .item-4 .person-menu li:not(:first-child), .bracket .tour .item-5 .person-menu li:not(:first-child) {
+  margin-top: 0.5em;
+}
+.bracket .tour .item .person-menu li button, .bracket .tour .item-1 .person-menu li button, .bracket .tour .item-2 .person-menu li button, .bracket .tour .item-3 .person-menu li button, .bracket .tour .item-4 .person-menu li button, .bracket .tour .item-5 .person-menu li button {
+  width: 100%;
+  padding: 0.75em 0.5em;
+}
+.bracket .tour .item .person:first-child, .bracket .tour .item-1 .person:first-child, .bracket .tour .item-2 .person:first-child, .bracket .tour .item-3 .person:first-child, .bracket .tour .item-4 .person:first-child, .bracket .tour .item-5 .person:first-child {
+  border-bottom-width: 1px;
+  border-radius: 1em 1em 0px 0px;
+}
+.bracket .tour .item .person:last-child, .bracket .tour .item-1 .person:last-child, .bracket .tour .item-2 .person:last-child, .bracket .tour .item-3 .person:last-child, .bracket .tour .item-4 .person:last-child, .bracket .tour .item-5 .person:last-child {
+  border-top-width: 1px;
+  border-radius: 0px 0px 1em 1em;
 }
 
 .card {
@@ -1789,16 +1832,36 @@ article.preview .more {
     border-radius: 1em;
   }
 }
+@media (max-width: 575px) {
+  .account-box {
+    padding: 1.5em;
+  }
+}
 .account .event-preview {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-bottom: 0.5em;
+  --h: 40px;
+  --w: 60px;
   background-color: #FFFFFF;
   padding: 0.5em;
   border-radius: 0.5em;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100px var(--w) auto 125px 100px 100px;
+  grid-template-rows: 1fr;
+  grid-auto-rows: auto;
+  gap: 1em 1em;
+}
+@media (max-width: 1199px) {
+  .account .event-preview {
+    grid-template-columns: var(--w) auto 30px;
+    grid-template-rows: var(--h) auto;
+    gap: 0.25em 0.5em;
+  }
+}
+@media (max-width: 767px) {
+  .account .event-preview {
+    --h: 30px;
+    --w: 45px;
+  }
 }
 .account .event-preview.top {
   background-color: transparent;
@@ -1806,53 +1869,126 @@ article.preview .more {
   margin-bottom: 0;
 }
 .account .event-preview.top > * {
-  line-height: 120%;
+  line-height: 120% !important;
+}
+@media (max-width: 1199px) {
+  .account .event-preview.top {
+    display: none;
+  }
 }
 .account .event-preview .date {
-  width: 100px;
+  grid-column: span 1;
+  grid-row: span 1;
+  line-height: var(--h);
+}
+@media (max-width: 1199px) {
+  .account .event-preview .date {
+    grid-column: 1/3;
+    grid-row: 2/3;
+    line-height: 130%;
+    font-size: 0.9em;
+  }
 }
 .account .event-preview .img {
-  width: 100px;
+  grid-column: span 1;
+  grid-row: span 1;
   text-align: center;
 }
+@media (max-width: 1199px) {
+  .account .event-preview .img {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+}
+.account .event-preview .img svg {
+  height: var(--h);
+}
 .account .event-preview .img img {
-  width: 60px;
-  height: 40px;
+  width: var(--w);
+  height: var(--h);
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 0.5em;
 }
 .account .event-preview .title {
-  flex: 1;
+  grid-column: span 1;
+  grid-row: span 1;
+  line-height: var(--h);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 1199px) {
+  .account .event-preview .title {
+    grid-column: 2/4;
+    grid-row: 1/2;
+  }
 }
 .account .event-preview .role {
-  width: 150px;
+  grid-column: span 1;
+  grid-row: span 1;
+  line-height: var(--h);
   text-align: center;
+}
+@media (max-width: 1199px) {
+  .account .event-preview .role {
+    grid-column: 1/3;
+    grid-row: 3/4;
+    line-height: 130%;
+    text-align: left;
+    font-size: 0.9em;
+  }
 }
 .account .event-preview .count {
-  width: 100px;
+  grid-column: span 1;
+  grid-row: span 1;
+  line-height: var(--h);
   text-align: center;
 }
+@media (max-width: 1199px) {
+  .account .event-preview .count {
+    grid-column: 1/3;
+    grid-row: 4/5;
+    line-height: 130%;
+    text-align: left;
+    font-size: 0.9em;
+  }
+}
 .account .event-preview .btns {
-  width: 100px;
+  grid-column: span 1;
+  grid-row: span 1;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
 }
+@media (max-width: 1199px) {
+  .account .event-preview .btns {
+    grid-column: 3/4;
+    grid-row: 2/5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+}
 .account .event-preview .btns a, .account .event-preview .btns button {
   font-size: 1.5em;
   color: #4797FF;
   transition: 0.3s ease;
+  display: flex;
 }
 .account .event-preview .btns a.dis, .account .event-preview .btns button.dis {
   pointer-events: none;
   opacity: 0.5;
   filter: grayscale(1);
 }
-.account .event-preview .btns a:not(:first-child), .account .event-preview .btns button:not(:first-child) {
-  margin-left: 0.5em;
+@media (min-width: 1200px) {
+  .account .event-preview .btns a:not(:first-child), .account .event-preview .btns button:not(:first-child) {
+    margin-left: 0.5em;
+  }
 }
 .account .event-preview .btns a:hover, .account .event-preview .btns button:hover {
   color: #004AAD;
@@ -1868,6 +2004,78 @@ article.preview .more {
   align-items: center;
   flex-wrap: nowrap;
   margin-bottom: 0.5em;
+}
+.account .participant-control {
+  background-color: #FFFFFF;
+  border-radius: 0.5em;
+  width: 100%;
+  padding: 0.25em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  position: relative;
+}
+.account .participant-control .name {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+.account .participant-control .name img {
+  width: 70px;
+  height: 70px;
+  background-color: #fff;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0.5em;
+  margin-right: 1em;
+}
+@media (max-width: 767px) {
+  .account .participant-control .name img {
+    width: 50px;
+    height: 50px;
+  }
+}
+.account .participant-control .name > div {
+  flex: 1;
+}
+.account .participant-control .btn-none {
+  font-size: 1.5em;
+  color: #004AAD;
+  transition: 0.3s ease;
+}
+.account .participant-control .btn-none:hover, .account .participant-control .btn-none:focus, .account .participant-control .btn-none:active {
+  color: #4797FF;
+}
+.account .participant-control .params {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 0px;
+  width: 100%;
+  background-color: #D6E7FF;
+  padding: 0.5em 1em;
+  list-style: none;
+  border-radius: 0 0 1em 1em;
+  box-shadow: 0px 2px 6px rgba(122, 130, 144, 0.25);
+}
+.account .participant-control .params li:not(:first-child) {
+  margin-top: 0.25em;
+}
+.account .participant-control .params.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 1em;
+}
+.account .participant-control .params.controls li:not(:first-child) {
+  margin-top: 0px;
 }
 
 footer {

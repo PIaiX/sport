@@ -1,8 +1,8 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Participant from '../../components/utils/Participant';
 import TournamentBracket from '../../components/TournamentBracket';
+import ParticipantControl from '../../components/utils/ParticipantControl';
 
 const AddEvent = () => {
   return (
@@ -11,7 +11,7 @@ const AddEvent = () => {
       <form action="">
         <fieldset>
           <legend>Основное</legend>
-          <Row className='gx-5'>
+          <Row className='gx-4 gx-xl-5'>
             <Col md={5}>
               <h5>Название</h5>
               <input type="text" className='mb-3' placeholder='Название'/>
@@ -22,9 +22,9 @@ const AddEvent = () => {
             </Col>
             <Col md={7}>
               <h5>Ранняя регистрация</h5>
-              <Row md={2} className='mb-3'>
+              <Row sm={2} className='gy-2 gy-sm-0 mb-3'>
                 <Col className='d-flex align-items-center'>
-                  <span className='fw-6 me-3'>с</span>
+                  <span className='fw-6 me-4 me-sm-3'>с</span>
                   <input type="datetime-local"/>
                 </Col>
                 <Col className='d-flex align-items-center'>
@@ -33,9 +33,9 @@ const AddEvent = () => {
                 </Col>
               </Row>
               <h5>Стандартная регистрация</h5>
-              <Row md={2} className='mb-3'>
+              <Row sm={2} className='gy-2 gy-sm-0 mb-3'>
                 <Col className='d-flex align-items-center'>
-                  <span className='fw-6 me-3'>с</span>
+                  <span className='fw-6 me-4 me-sm-3'>с</span>
                   <input type="datetime-local"/>
                 </Col>
                 <Col className='d-flex align-items-center'>
@@ -44,9 +44,9 @@ const AddEvent = () => {
                 </Col>
               </Row>
               <h5>Поздняя регистрация</h5>
-              <Row md={2} className='mb-3'>
+              <Row sm={2} className='gy-2 gy-sm-0 mb-3'>
                 <Col className='d-flex align-items-center'>
-                  <span className='fw-6 me-3'>с</span>
+                  <span className='fw-6 me-4 me-sm-3'>с</span>
                   <input type="datetime-local"/>
                 </Col>
                 <Col className='d-flex align-items-center'>
@@ -62,26 +62,26 @@ const AddEvent = () => {
           <textarea rows="10"></textarea>
         </fieldset>
         <fieldset>
-          <legend>Участники</legend>
-          <ul className='list-unstyled'>
-            <li className='mb-2'>
-              <Participant 
+          <legend className='mb-0'>Участники</legend>
+          <ul className='list-unstyled row row-cols-1 row-cols-md-2 g-2 g-sm-3 g-md-4'>
+            <li>
+              <ParticipantControl 
               approved={true}
               name={'Имя'} 
               surname={'Фамилия'} 
               town={'Город'} 
               birth={'01.01.2001'}/>
             </li>
-            <li className='mb-2'>
-              <Participant 
+            <li>
+              <ParticipantControl 
               approved={true}
               name={'Имя'} 
               surname={'Фамилия'} 
               town={'Город'} 
               birth={'01.01.2001'}/>
             </li>
-            <li className='mb-2'>
-              <Participant 
+            <li>
+              <ParticipantControl 
               approved={true}
               name={'Имя'} 
               surname={'Фамилия'} 
