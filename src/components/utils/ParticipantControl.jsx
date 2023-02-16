@@ -3,6 +3,7 @@ import { RiMore2Fill, RiArrowDownSLine } from "react-icons/ri";
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 
 const ParticipantControl = (props) => {
+  const [isApproved, setIsApproved] = useState(false);
   const ref = useRef();
   const [showParams, setShowParams] = useState(false);
   const [showControl, setShowControl] = useState(false);
@@ -13,7 +14,7 @@ const ParticipantControl = (props) => {
   useOnClickOutside(ref, () => handleClick());
 
   return (
-    <div className={(props.approved)?'participant-control':'participant-control unapproved'}>
+    <div className={(isApproved)?'participant-control approved':'participant-control'}>
       <div className='name'>
         <img src="imgs/photo-replace.png" alt="replace" />
         <div>
@@ -28,7 +29,7 @@ const ParticipantControl = (props) => {
         <ul className='params controls' ref={ref}>
           <li>
             <label>
-              <input type="checkbox" />
+              <input type="checkbox" value={isApproved} checked={isApproved} onChange={()=>setIsApproved(!isApproved)}/>
               <span>Одобрить</span>
             </label>
           </li>

@@ -2016,6 +2016,11 @@ article.preview .more {
   align-items: center;
   flex-wrap: nowrap;
   position: relative;
+  transition: 0.3s ease;
+  color: #7A8290;
+}
+.account .participant-control.approved {
+  color: #004AAD;
 }
 .account .participant-control .name {
   display: flex;

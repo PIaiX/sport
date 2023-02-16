@@ -1,8 +1,19 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Select from 'react-select';
 import TournamentBracket from '../../components/TournamentBracket';
 import ParticipantControl from '../../components/utils/ParticipantControl';
+
+const sportsList = [
+  {value: '1', label: '1'},
+  {value: '2', label: '2'},
+  {value: '3', label: '3'},
+];
+const sexList = [
+  {value: 'male', label: 'Мужской'},
+  {value: 'female', label: 'Женский'},
+];
 
 const AddEvent = () => {
   return (
@@ -13,6 +24,14 @@ const AddEvent = () => {
           <legend>Основное</legend>
           <Row className='gx-4 gx-xl-5'>
             <Col md={5}>
+              <h5>Дисциплина</h5>
+              <Select
+                name="sport"
+                placeholder="Дисциплина"
+                classNamePrefix="simple-select"
+                className="simple-select-container borderless w-100 mb-3"
+                options={sportsList}
+              />
               <h5>Название</h5>
               <input type="text" className='mb-3' placeholder='Название'/>
               <h5>Место проведения</h5>
@@ -58,9 +77,48 @@ const AddEvent = () => {
           </Row>
         </fieldset>
         <fieldset>
-          <legend>Информация</legend>
-          <textarea rows="10"></textarea>
+          <Row xs={1} md={2}>
+            <Col className='mb-3 mb-md-0'>
+              <legend>Информация</legend>
+              <textarea rows="14" placeholder='Описание мероприятия'></textarea>
+            </Col>
+            <Col>
+              <h5>Весовая категория</h5>
+              <Select
+                name="weight"
+                placeholder="Весовая категория"
+                classNamePrefix="simple-select"
+                className="simple-select-container borderless w-100 mb-3"
+                options={sportsList}
+              />
+              <h5>Пол</h5>
+              <Select
+                name="sex"
+                placeholder="Пол"
+                classNamePrefix="simple-select"
+                className="simple-select-container borderless w-100 mb-3"
+                options={sexList}
+              />
+              <h5>Возраст</h5>
+              <Select
+                name="weight"
+                placeholder="Возраст"
+                classNamePrefix="simple-select"
+                className="simple-select-container borderless w-100 mb-3"
+                options={sportsList}
+              />
+              <h5>Разряд</h5>
+              <Select
+                name="weight"
+                placeholder="Разряд"
+                classNamePrefix="simple-select"
+                className="simple-select-container borderless w-100 mb-3"
+                options={sportsList}
+              />
+            </Col>
+          </Row>
         </fieldset>
+
         <fieldset>
           <legend className='mb-0'>Участники</legend>
           <ul className='list-unstyled row row-cols-1 row-cols-md-2 g-2 g-sm-3 g-md-4'>

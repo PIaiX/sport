@@ -1706,6 +1706,9 @@ article {
         padding: .25em;
         @include flex(row, flex-start, center, nowrap);
         position: relative;
+        transition: $transition;
+        color: $achromat-3;
+        &.approved {color: $color-3;}
         .name {
             @include flex(row, flex-start, center, nowrap);
             flex: 1;
