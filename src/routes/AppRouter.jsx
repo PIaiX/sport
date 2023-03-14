@@ -1,5 +1,5 @@
 import React from 'react'
-import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom'
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import About from '../pages/About'
 import AllNews from '../pages/AllNews'
@@ -11,13 +11,13 @@ import NotFound from '../pages/NotFound'
 import Registration from '../pages/Registration'
 import AccountRouter from './AccountRouter'
 
-const router = createHashRouter(
+const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />}/>
-            <Route path="event" element={<EventPage/>} />
+            <Route path="event/:id" element={<EventPage/>} />
             <Route path="all-news" element={<AllNews/>} />
-            <Route path="news" element={<NewsPage/>} />
+            <Route path="news/:id" element={<NewsPage/>} />
             <Route path="about" element={<About/>} />
             <Route path="login" element={<Login/>} />
             <Route path="registration" element={<Registration/>} />

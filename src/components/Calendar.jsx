@@ -5,7 +5,7 @@ import 'react-day-picker/dist/style.css'
 const Calendar = () => {
     const [showCalendar, setShowCalendar] = useState(false)
     const initialDays = [];
-    const [days, setDays] = React.useState(initialDays);
+    const [days, setDays] = useState(initialDays);
 
     const footer =
         days && days.length > 0 ? (

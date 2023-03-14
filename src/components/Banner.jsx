@@ -1,33 +1,21 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-const Banner = (props) => {
-    // const types = [
-    //     {
-    //         id: 0,
-    //         name: 'Подборка'
-    //     },
-    //     {
-    //         id: 1,
-    //         name: 'Концерт'
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'Стендап'
-    //     }
-    // ]
+const Banner = ({imgUrl, title, categoryAge, actions, srcLink}) => {
     return (
         <figure>
-            <img src={props.imgUrl} alt="slide" />
+            <img src={imgUrl} alt={title} />
             <figcaption>
                 <ul className='top'>
                     <li>Подборка</li>
-                    <li>16+</li>
+                    <li>{categoryAge}</li>
                 </ul>
                 <div>
-                    <h2><Link to='/'>Название подборки</Link></h2>
+                    <h2><Link to={`${srcLink}`}>{title}</Link></h2>
                     <ul className='info'>
-                        <li>Количество событий</li>
+                        {actions?.map((element, index)=>
+                            <li key={index}>{element}</li>
+                        )}
                     </ul>
                 </div>
             </figcaption>

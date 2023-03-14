@@ -1,7 +1,12 @@
-import React, {useState} from 'react'
+import React, {useEffect, useReducer, useState} from 'react'
 
-const DateBtn = (props) => {
-    const [active, setActive] = useState(false)
+const DateBtn = ({day, weekDay, CalendarClick, month}) => {
+    const [active, setActive] = useReducer(value=>!value, false)
+    const [exist, setExist] = useReducer(()=>true)
+    useEffect(()=>{
+        exist && CalendarClick({month, weekDay, day})
+        setExist()
+    },[active])
     const weekDays = [
         {
             id: 1,
@@ -32,11 +37,10 @@ const DateBtn = (props) => {
             name: 'вс'
         },
     ]
-
     return (
-        <button type='button' className={(active)?'active':''} onClick={() => setActive((active)?false:true)}>
-            <div>{props.day}</div>
-            <div>{ weekDays.find(obj=> obj.id === props.weekDay).name }</div>
+        <button type='button' className={(active)?'active':''} onClick={() => setActive()}>
+            <div>{day}</div>
+            <div>{ weekDays.find(obj=> obj.id === weekDay).name }</div>
         </button>
     );
 };

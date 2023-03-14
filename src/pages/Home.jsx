@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useReducer, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -17,9 +17,13 @@ import Select from 'react-select'
 import Calendar from '../components/Calendar'
 import NewsPreview from '../components/NewsPreview'
 import NavPagination from '../components/NavPagination'
+import {GetNews} from '../services/news'
+import {GetAllEvents} from "../services/event";
+import {GetBanners} from "../services/banners";
+import {GetCategories, GetParams} from "../services/params";
+import {DoCalendar} from "../helpers/DoCalendar";
 
-const optionsList = [
-    {value: '1', label: 'Вариант 1'},
+const o = [{value: '1', label: 'Вариант 1'},
     {value: '2', label: 'Вариант 2'},
     {value: '3', label: 'Вариант 3'},
     {value: '4', label: 'Вариант 4'},
@@ -30,11 +34,131 @@ const optionsList = [
     {value: '9', label: 'Вариант 9'},
     {value: '10', label: 'Вариант 10'},
     {value: '11', label: 'Вариант 11'},
-    {value: '12', label: 'Вариант 12'},
-]
-
+    {value: '12', label: 'Вариант 12'},]
+const w = [{value: '1', label: 'Параметр 1'},
+    {value: '2', label: 'Параметр 2'},
+    {value: '3', label: 'Параметр 3'},
+    {value: '4', label: 'Параметр 4'},
+    {value: '5', label: 'Параметр 5'},
+    {value: '6', label: 'Параметр 6'},
+    {value: '7', label: 'Параметр 7'},
+    {value: '8', label: 'Параметр 8'},
+    {value: '9', label: 'Параметр 9'},
+    {value: '10', label: 'Параметр 10'},
+    {value: '11', label: 'Параметр 11'},
+    {value: '12', label: 'Параметр 12'},]
+const n=[{
+        id:1,
+        img:'imgs/image.png',
+        title:'imgs/image.png',
+        mainInf:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    {
+        id:1,
+        img:'imgs/image.png',
+        title:'imgs/image.png',
+        mainInf:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    {
+        id:1,
+        img:'imgs/image.png',
+        title:'imgs/image.png',
+        mainInf:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    {
+        id:1,
+        img:'imgs/image.png',
+        title:'imgs/image.png',
+        mainInf:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    {
+        id:1,
+        img:'imgs/image.png',
+        title:'imgs/image.png',
+        mainInf:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },]
+const e=[{id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'}]
+const b=[{
+    imgUrl:'../imgs/img1.jpeg',
+    title:'Крутое название',
+    categoryAge:'16+',
+    srcLink:'event/2',
+    actions:[
+        'Бокс',
+        'Каратэ',
+        'Шахматы без правил'
+    ]
+},
+    {
+        imgUrl:'../imgs/img2.jpeg',
+        title:'Крутое название',
+        categoryAge:'16+',
+        srcLink:'event/2',
+        actions:[
+            'Бокс',
+            'Каратэ',
+            'Шахматы без правил'
+        ]
+    },
+    {
+        imgUrl:'../imgs/img3.jpeg',
+        title:'Крутое название',
+        categoryAge:'16+',
+        srcLink:'event/2',
+        actions:[
+            'Бокс',
+            'Каратэ',
+            'Шахматы без правил'
+        ]
+    }]
 
 const Home = () => {
+    const [news, setNews] = useState(n)
+    const [filter, setFilter] = useReducer((state, newState)=>({...state, ...newState}), {})
+    const [events, setEvents] = useState(e)
+    const [banners, setBanners] =useState(b)
+    const [categories, setCategories] = useState(o)
+    const [waysOfCategories,setWaysOfCategories] = useState(w)
+    const year = DoCalendar()
+
+
+    useEffect(()=>{
+        GetNews().then(res=>res && setNews(res))
+        GetBanners().then(res=>res && setBanners(res))
+        GetCategories().then(res=>res && setCategories(res))
+    }, [])
+
+    useEffect(()=>{
+        filter?.typeEvent && GetParams(filter?.typeEvent).then(res=>res && setWaysOfCategories(res))
+    },[categories])
+
+    useEffect(()=>{
+        GetAllEvents(filter).then(res=>res && setEvents(res))
+        console.log(filter)
+    }, [filter])
+
+    const CalendarClick=(day)=>{
+        if(!filter.days)setFilter({days:[day]})
+        else{
+            const result=filter.days.filter(value=>JSON.stringify(day)!=JSON.stringify(value))
+            const exist=result.length==filter.days.length
+            if(exist)
+                setFilter({days:[...result,day]})
+            else
+                setFilter({days:result})
+        }
+    }
     return (
         <main>
             <Container>
@@ -51,15 +175,11 @@ const Home = () => {
                             delay: 10000,
                         }}
                     >
-                        <SwiperSlide>
-                            <Banner imgUrl={'imgs/img1.jpeg'}/>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Banner imgUrl={'imgs/img2.jpeg'}/>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Banner imgUrl={'imgs/img3.jpeg'}/>
-                        </SwiperSlide>
+                        {banners?.map((element, index)=>
+                            <SwiperSlide key={index}>
+                                <Banner {...element}></Banner>
+                            </SwiperSlide>
+                        )}
                     </Swiper>
                 </section>
 
@@ -78,102 +198,18 @@ const Home = () => {
                             simulateTouch={true}
                             allowTouchMove={true}
                         >
-                            <SwiperSlide>
-                                <div className="month">
-                                    <span>Декабрь</span>
-                                </div>
-                                <div className="days">
-                                    <DateBtn day={16} weekDay={5}/>
-                                    <DateBtn day={17} weekDay={6}/>
-                                    <DateBtn day={18} weekDay={7}/>
-                                    <DateBtn day={19} weekDay={1}/>
-                                    <DateBtn day={20} weekDay={2}/>
-                                    <DateBtn day={21} weekDay={3}/>
-                                    <DateBtn day={22} weekDay={4}/>
-                                    <DateBtn day={23} weekDay={5}/>
-                                    <DateBtn day={24} weekDay={6}/>
-                                    <DateBtn day={25} weekDay={7}/>
-                                    <DateBtn day={26} weekDay={1}/>
-                                    <DateBtn day={27} weekDay={2}/>
-                                    <DateBtn day={28} weekDay={3}/>
-                                    <DateBtn day={29} weekDay={4}/>
-                                    <DateBtn day={30} weekDay={5}/>
-                                    <DateBtn day={31} weekDay={6}/>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="month">
-                                    <span>Январь</span>
-                                </div>
-                                <div className="days">
-                                    <DateBtn day={1} weekDay={7}/>
-                                    <DateBtn day={2} weekDay={1}/>
-                                    <DateBtn day={3} weekDay={2}/>
-                                    <DateBtn day={4} weekDay={3}/>
-                                    <DateBtn day={5} weekDay={4}/>
-                                    <DateBtn day={6} weekDay={5}/>
-                                    <DateBtn day={7} weekDay={6}/>
-                                    <DateBtn day={8} weekDay={7}/>
-                                    <DateBtn day={9} weekDay={1}/>
-                                    <DateBtn day={10} weekDay={2}/>
-                                    <DateBtn day={11} weekDay={3}/>
-                                    <DateBtn day={12} weekDay={4}/>
-                                    <DateBtn day={13} weekDay={5}/>
-                                    <DateBtn day={14} weekDay={6}/>
-                                    <DateBtn day={15} weekDay={7}/>
-                                    <DateBtn day={16} weekDay={1}/>
-                                    <DateBtn day={17} weekDay={2}/>
-                                    <DateBtn day={18} weekDay={3}/>
-                                    <DateBtn day={19} weekDay={4}/>
-                                    <DateBtn day={20} weekDay={5}/>
-                                    <DateBtn day={21} weekDay={6}/>
-                                    <DateBtn day={22} weekDay={7}/>
-                                    <DateBtn day={23} weekDay={1}/>
-                                    <DateBtn day={24} weekDay={2}/>
-                                    <DateBtn day={25} weekDay={3}/>
-                                    <DateBtn day={26} weekDay={4}/>
-                                    <DateBtn day={27} weekDay={5}/>
-                                    <DateBtn day={28} weekDay={6}/>
-                                    <DateBtn day={29} weekDay={7}/>
-                                    <DateBtn day={30} weekDay={1}/>
-                                    <DateBtn day={31} weekDay={2}/>
-                                </div>
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <div className="month">
-                                    <span>Февраль</span>
-                                </div>
-                                <div className="days">
-                                    <DateBtn day={1} weekDay={3}/>
-                                    <DateBtn day={2} weekDay={4}/>
-                                    <DateBtn day={3} weekDay={5}/>
-                                    <DateBtn day={4} weekDay={6}/>
-                                    <DateBtn day={5} weekDay={7}/>
-                                    <DateBtn day={6} weekDay={1}/>
-                                    <DateBtn day={7} weekDay={2}/>
-                                    <DateBtn day={8} weekDay={3}/>
-                                    <DateBtn day={9} weekDay={4}/>
-                                    <DateBtn day={10} weekDay={5}/>
-                                    <DateBtn day={11} weekDay={6}/>
-                                    <DateBtn day={12} weekDay={7}/>
-                                    <DateBtn day={13} weekDay={1}/>
-                                    <DateBtn day={14} weekDay={2}/>
-                                    <DateBtn day={15} weekDay={3}/>
-                                    <DateBtn day={16} weekDay={4}/>
-                                    <DateBtn day={17} weekDay={5}/>
-                                    <DateBtn day={18} weekDay={6}/>
-                                    <DateBtn day={19} weekDay={7}/>
-                                    <DateBtn day={20} weekDay={1}/>
-                                    <DateBtn day={21} weekDay={2}/>
-                                    <DateBtn day={22} weekDay={3}/>
-                                    <DateBtn day={23} weekDay={4}/>
-                                    <DateBtn day={24} weekDay={5}/>
-                                    <DateBtn day={25} weekDay={6}/>
-                                    <DateBtn day={26} weekDay={7}/>
-                                    <DateBtn day={27} weekDay={1}/>
-                                    <DateBtn day={28} weekDay={2}/>
-                                </div>
-                            </SwiperSlide>
+                            {year?.map((iElement, index)=>
+                                <SwiperSlide key={index}>
+                                    <div className="month">
+                                        <span>{iElement.name}</span>
+                                    </div>
+                                    <div className="days">
+                                        {iElement.days.map((jElement,jndex)=>
+                                            <DateBtn key={jndex} month={iElement.index} {...jElement} CalendarClick={(value)=>CalendarClick(value)} />
+                                        )}
+                                    </div>
+                                </SwiperSlide>
+                            )}
                         </Swiper>
                     </div>
 
@@ -181,21 +217,23 @@ const Home = () => {
                         <Select
                             name="sort"
                             placeholder="Тип мероприятия"
+                            onChange = {(value)=>setFilter({typeEvent:value})}
                             classNamePrefix="simple-select"
                             className="simple-select-container"
-                            options={optionsList}
+                            options={categories}
                             isMulti
                             isClearable={true}
                             isSearchable={true}
                         />
                         <Select
                             name="sort"
-                            placeholder="Тип мероприятия"
+                            placeholder="Категория мероприятия"
                             classNamePrefix="simple-select"
                             className="simple-select-container"
-                            options={optionsList}
+                            onChange = {(value)=>setFilter({typeWay:value})}
+                            options={waysOfCategories}
                             isMulti
-                            defaultValue={[optionsList[0]]}
+                            // defaultValue={[waysOfCategories[0]]}
                             isClearable={true}
                             isSearchable={true}
                         />
@@ -203,42 +241,11 @@ const Home = () => {
                     </div>
 
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img1.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img2.jpeg'}/>
-                        </Col>
-                        <Col>
-                            <EventCard imgUrl={'imgs/img3.jpeg'}/>
-                        </Col>
+                        {events?.map((element, index)=>
+                            <Col key={index}>
+                                <EventCard {...element} />
+                            </Col>
+                        )}
                     </Row>
                     <button type='button' className='btn-2 mt-5 mx-auto'>Показать ещё</button>
 
@@ -269,21 +276,11 @@ const Home = () => {
                                 }
                             }}
                         >
-                            <SwiperSlide>
-                                <NewsPreview />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <NewsPreview />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <NewsPreview />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <NewsPreview />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <NewsPreview />
-                            </SwiperSlide>
+                            {news?.map((element, index)=>
+                                <SwiperSlide key={index}>
+                                    <NewsPreview {...element} />
+                                </SwiperSlide>
+                            )}
                         </Swiper>
                     </div>
                 </section>
