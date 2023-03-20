@@ -145,9 +145,7 @@ const Home = () => {
 
     useEffect(()=>{
         GetAllEvents(filter).then(res=>res && setEvents(res))
-        console.log(filter)
     }, [filter])
-
     const CalendarClick=(day)=>{
         if(!filter.days)setFilter({days:[day]})
         else{
@@ -205,7 +203,12 @@ const Home = () => {
                                     </div>
                                     <div className="days">
                                         {iElement.days.map((jElement,jndex)=>
-                                            <DateBtn key={jndex} month={iElement.index} {...jElement} CalendarClick={(value)=>CalendarClick(value)} />
+                                            <DateBtn
+                                                calendarDays={filter?.days?.filter(i=>JSON.stringify(new Date(new Date().getFullYear(), iElement?.index, jElement?.day, 0, 0, 0, 0))==JSON.stringify(i)).length>0}
+                                                key={jndex}
+                                                month={iElement?.index}
+                                                {...jElement}
+                                                CalendarClick={(value)=>CalendarClick(value)} />
                                         )}
                                     </div>
                                 </SwiperSlide>
@@ -237,7 +240,7 @@ const Home = () => {
                             isClearable={true}
                             isSearchable={true}
                         />
-                        <Calendar/>
+                        <Calendar calendarDays={filter?.days} CalendarClick={(value)=>setFilter({days:value})} />
                     </div>
 
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>

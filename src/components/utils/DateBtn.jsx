@@ -1,11 +1,11 @@
 import React, {useEffect, useReducer, useState} from 'react'
 
-const DateBtn = ({day, weekDay, CalendarClick, month}) => {
-    const [active, setActive] = useReducer(value=>!value, false)
-    const [exist, setExist] = useReducer(()=>true)
+const DateBtn = ({day, weekDay, CalendarClick, month, calendarDays}) => {
+    const [active, setActive] = useState(calendarDays)
+    const [exist, setExist] = useState(false)
     useEffect(()=>{
-        exist && CalendarClick({month, weekDay, day})
-        setExist()
+        exist && CalendarClick(new Date(new Date().getFullYear(), month, day, 0, 0, 0, 0))
+        setExist(true)
     },[active])
     const weekDays = [
         {
@@ -38,11 +38,11 @@ const DateBtn = ({day, weekDay, CalendarClick, month}) => {
         },
     ]
     return (
-        <button type='button' className={(active)?'active':''} onClick={() => setActive()}>
+        <button type='button' className={(calendarDays)?'active':''} onClick={() => setActive(!active)}>
             <div>{day}</div>
             <div>{ weekDays.find(obj=> obj.id === weekDay).name }</div>
         </button>
     );
 };
 
-export default DateBtn
+export default React.memo(DateBtn)

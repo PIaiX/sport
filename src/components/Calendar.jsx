@@ -1,19 +1,25 @@
-import React, {useState} from 'react'
+import React, {useEffect, useReducer, useState} from 'react'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 
-const Calendar = () => {
+const Calendar = ({CalendarClick, calendarDays=[]}) => {
     const [showCalendar, setShowCalendar] = useState(false)
-    const initialDays = [];
-    const [days, setDays] = useState(initialDays);
+    const [days, setDays] = useState(calendarDays)
+    useEffect(()=>{
+        JSON.stringify(calendarDays)!==JSON.stringify(days) && setDays(calendarDays)
+    }, [calendarDays])
+
+    useEffect(()=>{
+        JSON.stringify(calendarDays)!==JSON.stringify(days) && CalendarClick(days)
+    }, [days])
 
     const footer =
         days && days.length > 0 ? (
-        <p>You selected {days.length} day(s).</p>
+        <p>Вы выбрали {days.length} {days.length===1?'день':'дней'}.</p>
         ) : (
-        <p>Please pick one or more days.</p>
+        <p>Выберите один или несколько дней.</p>
         );
-        
+
     return (
         <div className="calendar">
             <button type="button" className='btn-2' onClick={()=>setShowCalendar((showCalendar) ? false : true)}>
@@ -22,9 +28,10 @@ const Calendar = () => {
             <div className={(showCalendar) ? "calendar-box show" : "calendar-box"}>
                 <DayPicker
                     mode="multiple"
-                    min={1}
+                    min={0}
                     selected={days}
                     onSelect={setDays}
+                    // onSelect={CalendarClick}
                     footer={footer}
                 />
             </div>
