@@ -5,13 +5,13 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 import logo from '../assets/imgs/logo-colored.png'
 import { RiMenuLine, RiCloseLine } from "react-icons/ri"
 import FormSearch from './FormSearch'
+import {useAppSelector} from "../store";
 
 const Header = () => {
     const [show, setShow] = useState(false)
-
+    const {auth} = useAppSelector(state => state.user)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-
     return (
         <>
         <header>
@@ -37,7 +37,7 @@ const Header = () => {
                                     <NavLink to="/all-news">Блог</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/login">Личный кабинет</NavLink>
+                                    <NavLink to={`${auth?'/account':'/login'}`}>Личный кабинет</NavLink>
                                 </li>
                             </ul>
                         </nav>

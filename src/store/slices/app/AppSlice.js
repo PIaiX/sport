@@ -1,8 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {login} from "../user/actions";
 
 const initialState={
-    notFound:false
+    notFound:false,
+    fingerprint:null
 }
 const AppSlice = createSlice({
     name:'app',
@@ -10,8 +10,12 @@ const AppSlice = createSlice({
     reducers:{
         setNotFound(state, action){
             state.notFound=action.payload
-        }
+        },
+        setFingerprint: (state, action) => {
+            state.fingerprint = action?.payload
+        },
     },
 })
 export const AppActions= AppSlice.actions;
 export const AppReducers= AppSlice.reducer;
+export const {setFingerprint} = AppSlice.actions;

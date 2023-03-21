@@ -10,6 +10,7 @@ import NewsPage from '../pages/NewsPage'
 import NotFound from '../pages/NotFound'
 import Registration from '../pages/Registration'
 import AccountRouter from './AccountRouter'
+import AuthCheck from "../pages/account/AuthCheck";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -19,10 +20,11 @@ const router = createBrowserRouter(
             <Route path="all-news" element={<AllNews/>} />
             <Route path="news/:id" element={<NewsPage/>} />
             <Route path="about" element={<About/>} />
-            <Route path="login" element={<Login/>} />
-            <Route path="registration" element={<Registration/>} />
+            <Route path="login" element={<AuthCheck><Login/></AuthCheck>} />
+            <Route path="registration" element={<AuthCheck><Registration/></AuthCheck>} />
             <Route path="*" element={<NotFound/>} />
-            <Route path="account/*" element={<AccountRouter/>}/>
+            <Route path="account/*" element={<AuthCheck><AccountRouter/></AuthCheck>}/>
+            <Route path="test/*" element={<AccountRouter/>}/>
         </Route>
     )
 )

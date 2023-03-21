@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const BASE_API_URL = process.env.REACT_APP_BASE_API_URL
+// const BASE_API_URL = process.env.REACT_APP_BASE_API_URL
+// const BASE_API_URL = 'http://localhost:5001/api'
+const BASE_API_URL = 'http://192.168.43.24:5001/api'
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 
@@ -16,8 +18,16 @@ const apiBody = {
 const $api = axios.create(apiBody)
 const $authApi = axios.create(apiBody)
 
+$api.interceptors.request.use((config) => {
+    config.headers['Fingerprint'] = localStorage.getItem('fingerprint')
+    config.withCredentials=true
+    return config
+})
+
 $authApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    config.headers['Fingerprint'] = localStorage.getItem('fingerprint')
+    config.withCredentials=true
     return config
 })
 

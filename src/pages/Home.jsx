@@ -34,7 +34,7 @@ const o = [{value: '1', label: 'Вариант 1'},
     {value: '9', label: 'Вариант 9'},
     {value: '10', label: 'Вариант 10'},
     {value: '11', label: 'Вариант 11'},
-    {value: '12', label: 'Вариант 12'},]
+    {value: '12', label: 'Вариант 12'}]
 const w = [{value: '1', label: 'Параметр 1'},
     {value: '2', label: 'Параметр 2'},
     {value: '3', label: 'Параметр 3'},
@@ -76,7 +76,7 @@ const n=[{
         img:'imgs/image.png',
         title:'imgs/image.png',
         mainInf:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },]
+    }]
 const e=[{id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
     {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
     {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
@@ -122,7 +122,6 @@ const b=[{
             'Шахматы без правил'
         ]
     }]
-
 const Home = () => {
     const [news, setNews] = useState(n)
     const [filter, setFilter] = useReducer((state, newState)=>({...state, ...newState}), {})
@@ -131,7 +130,6 @@ const Home = () => {
     const [categories, setCategories] = useState(o)
     const [waysOfCategories,setWaysOfCategories] = useState(w)
     const year = DoCalendar()
-
 
     useEffect(()=>{
         GetNews().then(res=>res && setNews(res))
@@ -146,17 +144,7 @@ const Home = () => {
     useEffect(()=>{
         GetAllEvents(filter).then(res=>res && setEvents(res))
     }, [filter])
-    const CalendarClick=(day)=>{
-        if(!filter.days)setFilter({days:[day]})
-        else{
-            const result=filter.days.filter(value=>JSON.stringify(day)!=JSON.stringify(value))
-            const exist=result.length==filter.days.length
-            if(exist)
-                setFilter({days:[...result,day]})
-            else
-                setFilter({days:result})
-        }
-    }
+
     return (
         <main>
             <Container>
@@ -204,11 +192,13 @@ const Home = () => {
                                     <div className="days">
                                         {iElement.days.map((jElement,jndex)=>
                                             <DateBtn
-                                                calendarDays={filter?.days?.filter(i=>JSON.stringify(new Date(new Date().getFullYear(), iElement?.index, jElement?.day, 0, 0, 0, 0))==JSON.stringify(i)).length>0}
                                                 key={jndex}
-                                                month={iElement?.index}
+                                                currentValue={
+                                                    new Date(new Date().getFullYear()+(index!==0 && iElement.index<=year[0].index ?1:0), iElement?.index, jElement?.day)
+                                                }
+                                                calendarDays={filter?.days}
                                                 {...jElement}
-                                                CalendarClick={(value)=>CalendarClick(value)} />
+                                                CalendarClick={(value)=>setFilter({days:value})}                                            />
                                         )}
                                     </div>
                                 </SwiperSlide>
