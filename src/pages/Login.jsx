@@ -13,7 +13,7 @@ const Login = () => {
     const {register, formState: {errors}, handleSubmit, getValues} = useForm()
 
     useEffect(()=>{
-        loginError && alert("w")
+        // loginError && alert("Неверные данные для входа")
     }, [loginError])
     const SubmitClick = (data) => {
         dispatch(login(data))

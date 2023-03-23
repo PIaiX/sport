@@ -8,6 +8,8 @@ import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../store";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
 import {SelectToEndForPhoneInput} from "../../helpers/SelectToEndForPhoneInput";
+import {useDispatch} from "react-redux";
+import {getMe} from "../../store/slices/user/actions";
 
 const sexList = [
     {value: 'true', label: 'Мужской'},
@@ -32,11 +34,18 @@ const yearsList = [
 const Profile = () => {
     const {handleSubmit, register, formState: {errors}, setValue, clearErrors, getValues} = useForm()
     const [sex, setSex] = useState()
-    const {user} = useAppSelector(state => state.user.user)
+    const {user} = useAppSelector(state => state.user)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
 
     const SubmitUserClick = (data) => {
     }
+
+    useEffect(()=>{
+        dispatch(getMe())
+    },[])
+
     useEffect(() => {
         setValue('firstName', user?.firstName)
         setValue('lastName', user?.lastName)
@@ -50,6 +59,7 @@ const Profile = () => {
         setValue('region', user?.region)
         setValue('weight', user?.weight)
         setValue('height', user?.height)
+        setValue('isPublicProfile', !user?.isPublicProfile)
     }, [user])
 
     return (
@@ -168,7 +178,10 @@ const Profile = () => {
                                 </Col>
                             </Row>
                             <label className='mt-3'>
-                                <input type="checkbox"/>
+                                <input type="checkbox"
+                                       {...register('isPublicProfile', {
+                                       })}
+                                />
                                 <span>Скрыть профиль</span>
                             </label>
                             <p className='fs-08 achromat-3 mt-2'>Этот параметр скрывает вашу общедоступную страницу

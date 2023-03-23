@@ -13,7 +13,7 @@ export const DoCalendar=()=>{
         "декабрь",]
     let days = [31,28,31,30,31,30,31,31,30,31,30,31]
 
-    const data = new Date(2023, 4, 19)
+    const data = new Date(2023, 1, 1)
     // const data = new Date()
     const yearNow=data.getFullYear()
     const month=data.getMonth()
@@ -32,6 +32,7 @@ export const DoCalendar=()=>{
         }
         Fday=1;
     }
+   year.push({...year[0], days:[]})
     // тут прописать добавление месяца
     for(let day=1;day<dayOfMonth;day++){
         year[year.length-1].days.push({day,weekDay:count%7+1})

@@ -1,6 +1,9 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 
+#root{
+    min-height: 100vh;
+}
 :root {
     --h-height: 100px;
     --f-height: 100px;
@@ -2549,6 +2552,11 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     color: red;
     padding: 0 5px;
 }
+.validate-error-textarea {
+    top:auto;
+    bottom: -8px;
+}
+
 
 .validate-wrapper > input, .validate-wrapper > textarea, .validate-wrapper > .validate-select {
     border: 2px solid white;

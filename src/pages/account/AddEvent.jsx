@@ -4,10 +4,10 @@ import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import TournamentBracket from '../../components/TournamentBracket';
 import ParticipantControl from '../../components/utils/ParticipantControl';
-import {useForm, Controller} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {GetCategories} from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
-import {getValue} from "@testing-library/user-event/dist/utils";
+
 const sportsList = [
     {value: '1', label: '1'},
     {value: '2', label: '2'},
@@ -47,13 +47,16 @@ const AddEvent = () => {
                                     {...register('discipline', {
                                         required: 'Выберите значение!',
                                     })}
-                                    onChange={(e)=>{setValue('discipline', e);clearErrors('discipline')}}
+                                    onChange={(e) => {
+                                        setValue('discipline', e);
+                                        clearErrors('discipline')
+                                    }}
                                 />
                             </ValidateWrapper>
                             <h5>Название</h5>
-                            <ValidateWrapper error={errors?.title}>
+                            <ValidateWrapper error={errors?.name}>
                                 <input type="text" className='mb-3' placeholder='Название'
-                                       {...register('title', {
+                                       {...register('name', {
                                            required: 'Поле обязательно к заполнению',
                                            pattern: {
                                                value: /^[A-Za-z-А-Яа-я]+$/i,
@@ -64,43 +67,85 @@ const AddEvent = () => {
                                        })}
                                 />
                             </ValidateWrapper>
+                            <h5>Начало мероприятия</h5>
+                            <ValidateWrapper error={errors?.startsAt}>
+                                <input type="datetime-local" className='mb-3' placeholder='Начало мероприятия'
+                                       {...register('startsAt', {
+                                           required: 'Поле обязательно к заполнению',
+                                       })}
+                                />
+                            </ValidateWrapper>
                             <h5>Место проведения</h5>
                             <input type="text" className='mb-3' placeholder='Место проведения'/>
-                            <h5>Начало мероприятия</h5>
-                            <input type="datetime-local" className='mb-3' placeholder='Начало мероприятия'/>
                         </Col>
                         <Col md={7}>
                             <h5>Ранняя регистрация</h5>
                             <Row sm={2} className='gy-2 gy-sm-0 mb-3'>
                                 <Col className='d-flex align-items-center'>
                                     <span className='fw-6 me-4 me-sm-3'>с</span>
-                                    <input type="datetime-local"/>
+                                    <ValidateWrapper error={errors?.earlyRegistrationFrom}>
+                                        <input type="datetime-local"
+                                               {...register('earlyRegistrationFrom', {
+                                                   required: 'Поле обязательно к заполнению',
+                                               })}
+                                        />
+                                    </ValidateWrapper>
                                 </Col>
                                 <Col className='d-flex align-items-center'>
                                     <span className='fw-6 me-3'>по</span>
-                                    <input type="datetime-local"/>
+                                    <ValidateWrapper error={errors?.earlyRegistrationTo}>
+                                        <input type="datetime-local"
+                                               {...register('earlyRegistrationTo', {
+                                                   required: 'Поле обязательно к заполнению',
+                                               })}
+                                        />
+                                    </ValidateWrapper>
                                 </Col>
                             </Row>
                             <h5>Стандартная регистрация</h5>
                             <Row sm={2} className='gy-2 gy-sm-0 mb-3'>
                                 <Col className='d-flex align-items-center'>
                                     <span className='fw-6 me-4 me-sm-3'>с</span>
-                                    <input type="datetime-local"/>
+                                    <ValidateWrapper error={errors?.standartRegistrationFrom}>
+                                        <input type="datetime-local"
+                                               {...register('standartRegistrationFrom', {
+                                                   required: 'Поле обязательно к заполнению',
+                                               })}
+                                        />
+                                    </ValidateWrapper>
                                 </Col>
                                 <Col className='d-flex align-items-center'>
                                     <span className='fw-6 me-3'>по</span>
-                                    <input type="datetime-local"/>
+                                    <ValidateWrapper error={errors?.standartRegistrationTo}>
+                                        <input type="datetime-local"
+                                               {...register('standartRegistrationTo', {
+                                                   required: 'Поле обязательно к заполнению',
+                                               })}
+                                        />
+                                    </ValidateWrapper>
                                 </Col>
                             </Row>
                             <h5>Поздняя регистрация</h5>
                             <Row sm={2} className='gy-2 gy-sm-0 mb-3'>
                                 <Col className='d-flex align-items-center'>
                                     <span className='fw-6 me-4 me-sm-3'>с</span>
-                                    <input type="datetime-local"/>
+                                    <ValidateWrapper error={errors?.lateRegistrationFrom}>
+                                        <input type="datetime-local"
+                                               {...register('lateRegistrationFrom', {
+                                                   required: 'Поле обязательно к заполнению',
+                                               })}
+                                        />
+                                    </ValidateWrapper>
                                 </Col>
                                 <Col className='d-flex align-items-center'>
                                     <span className='fw-6 me-3'>по</span>
-                                    <input type="datetime-local"/>
+                                    <ValidateWrapper error={errors?.lateRegistrationTo}>
+                                    <input type="datetime-local"
+                                           {...register('lateRegistrationTo', {
+                                               required: 'Поле обязательно к заполнению',
+                                           })}
+                                    />
+                                    </ValidateWrapper>
                                 </Col>
                             </Row>
                         </Col>
@@ -110,41 +155,88 @@ const AddEvent = () => {
                     <Row xs={1} md={2}>
                         <Col className='mb-3 mb-md-0'>
                             <legend>Информация</legend>
-                            <textarea rows="14" placeholder='Описание мероприятия'></textarea>
+                            <ValidateWrapper error={errors?.description} textarea={true}>
+                                <textarea rows="14" placeholder='Описание мероприятия'
+                                          {...register('description', {
+                                              required: 'Выберите значение',
+                                              minLength: {value: 5, message: 'Минимальное значение 5 символов'},
+                                              maxLength: {value: 500, message: 'Максимальное значение 500 символов'}
+                                          })}
+                                >
+                                </textarea>
+                            </ValidateWrapper>
+
                         </Col>
                         <Col>
                             <h5>Весовая категория</h5>
-                            <Select
-                                name="weight"
-                                placeholder="Весовая категория"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container borderless w-100 mb-3"
-                                options={sportsList}
-                            />
+                            <ValidateWrapper error={errors.weightCategoryId}>
+                                <Select
+                                    name="weightCategoryId"
+                                    placeholder="Весовая категория"
+                                    classNamePrefix="simple-select"
+                                    isMulti
+                                    className="simple-select-container borderless w-100 mb-3 validate-select"
+                                    options={sportsList}
+                                    {...register('weightCategoryId', {
+                                        required: 'Выберите значение',
+                                    })}
+                                    onChange={(e) => {
+                                        setValue('weightCategoryId', e);
+                                        clearErrors('weightCategoryId')
+                                    }}
+                                />
+                            </ValidateWrapper>
                             <h5>Пол</h5>
-                            <Select
-                                name="sex"
-                                placeholder="Пол"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container borderless w-100 mb-3"
-                                options={sexList}
-                            />
+                            <ValidateWrapper error={errors.gender}>
+                                <Select
+                                    name="gender"
+                                    placeholder="Пол"
+                                    classNamePrefix="simple-select"
+                                    className="simple-select-container borderless w-100 mb-3 validate-select"
+                                    options={sexList}
+                                    {...register('gender', {
+                                        required: 'Выберите значение',
+                                    })}
+                                    onChange={(e) => {
+                                        setValue('gender', e);
+                                        clearErrors('gender')
+                                    }}
+                                />
+                            </ValidateWrapper>
                             <h5>Возраст</h5>
-                            <Select
-                                name="weight"
-                                placeholder="Возраст"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container borderless w-100 mb-3"
-                                options={sportsList}
-                            />
+                            <ValidateWrapper error={errors.ageCategoryId}>
+                                <Select
+                                    name="ageCategoryId"
+                                    placeholder="Возраст"
+                                    classNamePrefix="simple-select"
+                                    className="simple-select-container borderless w-100 mb-3 validate-select"
+                                    options={sportsList}
+                                    {...register('ageCategoryId', {
+                                        required: 'Выберите значение',
+                                    })}
+                                    onChange={(e) => {
+                                        setValue('ageCategoryId', e);
+                                        clearErrors('ageCategoryId')
+                                    }}
+                                />
+                            </ValidateWrapper>
                             <h5>Разряд</h5>
-                            <Select
-                                name="weight"
-                                placeholder="Разряд"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container borderless w-100 mb-3"
-                                options={sportsList}
-                            />
+                            <ValidateWrapper error={errors.weightCategoryId}>
+                                <Select
+                                    name="weight"
+                                    placeholder="Разряд"
+                                    classNamePrefix="simple-select"
+                                    className="simple-select-container borderless w-100 mb-3 validate-select"
+                                    options={sportsList}
+                                    {...register('weightCategoryId', {
+                                        required: 'Выберите значение',
+                                    })}
+                                    onChange={(e) => {
+                                        setValue('weightCategoryId', e);
+                                        clearErrors('weightCategoryId')
+                                    }}
+                                />
+                            </ValidateWrapper>
                         </Col>
                     </Row>
                 </fieldset>

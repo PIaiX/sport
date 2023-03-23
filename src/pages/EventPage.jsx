@@ -48,6 +48,12 @@ const EventPage = () => {
         GetOneEvent(id).then(res => res && setEvent(res))
     }, [])
 
+    const MapClick = (e)=>{
+        // console.log(e.get('coords'))
+        setEvent({...event, locationState:{center:e.get('coords')}})
+    }
+
+    console.log(event)
     return (
         <main>
             <Container>
@@ -164,10 +170,12 @@ const EventPage = () => {
                                                 <div className='card-body'>
                                                     <address>{event?.location}</address>
                                                 </div>
-                                                <YMaps>
-                                                    <Map style={{width: '100%', height: '350px'}}
+                                                <YMaps query={{lang:"ru_RU"}}>
+                                                    <Map style={{width: '100%', height: '350px'} }
+                                                         onClick={(e)=>MapClick(e)}
                                                          defaultState={{...event?.locationState, zoom: 13,}}>
-                                                        <Placemark geometry={event?.locationState?.center}/>
+                                                        <Placemark  geometry={event?.locationState?.center}
+                                                        />
                                                     </Map>
                                                 </YMaps>
                                             </div>

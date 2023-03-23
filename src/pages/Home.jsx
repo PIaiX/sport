@@ -144,7 +144,7 @@ const Home = () => {
     useEffect(()=>{
         GetAllEvents(filter).then(res=>res && setEvents(res))
     }, [filter])
-
+    console.log(year)
     return (
         <main>
             <Container>

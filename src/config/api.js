@@ -1,33 +1,29 @@
 import axios from 'axios'
 
-// const BASE_API_URL = process.env.REACT_APP_BASE_API_URL
-// const BASE_API_URL = 'http://localhost:5001/api'
-const BASE_API_URL = 'http://192.168.43.24:5001/api'
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 
 const apiBody = {
     baseURL: BASE_API_URL,
-    withCredentials: true,
     headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials':'include',
         'Content-Type': 'application/json',
+        'Fingerprint':localStorage.getItem('fingerprint')
     },
+    withCredentials:'include'
 }
 const $api = axios.create(apiBody)
 const $authApi = axios.create(apiBody)
 
 $api.interceptors.request.use((config) => {
-    config.headers['Fingerprint'] = localStorage.getItem('fingerprint')
-    config.withCredentials=true
     return config
 })
 
 $authApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    config.headers['Fingerprint'] = localStorage.getItem('fingerprint')
-    config.withCredentials=true
     return config
 })
 
@@ -52,11 +48,12 @@ $authApi.interceptors.response.use(
 
 const apiRoutes = {
     //auth
-    AUTH_REGISTRATION: '/auth/register',
-    AUTH_REGISTRATION_EMAIL_VERIFY: '/auth/register/emailVerify',
-    AUTH_LOGIN: '/auth/login',
-    AUTH_LOGOUT: '/auth/logout',
-    AUTH_REFRESH: '/auth/refreshToken',
+    AUTH_REGISTRATION: 'auth/register',
+    AUTH_REGISTRATION_EMAIL_VERIFY: 'auth/register/emailVerify',
+    AUTH_LOGIN: 'auth/login',
+    AUTH_LOGOUT: 'auth/logout',
+    AUTH_REFRESH: 'auth/refreshToken',
+    GET_USER_ME:'users/me',
 
     //reset password
     RESET_PASSWORD_EMAIL_VERIFY: 'auth/forgotPassword/emailVerify',
