@@ -48,6 +48,27 @@ const getMe =  createAsyncThunk('user/getMe', async (_, thunkAPI) => {
         return thunkAPI.rejectWithValue(error)
     }
 })
+const editMe =  createAsyncThunk('user/editMe', async (payload, thunkAPI) => {
+    try {
+        const response = await $authApi.patch(apiRoutes.EDIT_ME, payload)
+        if (response && response.status === 200) {
+            return  thunkAPI.fulfillWithValue(response?.data)
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
+
+const verification =  createAsyncThunk('verification', async (code, thunkAPI) => {
+    try {
+        const response = await $authApi.get(apiRoutes.VERIFICATION, {params:{code}})
+        if (response && response.status === 200) {
+            return  thunkAPI.fulfillWithValue(response?.data)
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
 
 
-export {login, logout, refreshAuth, getMe}
+export {login, logout, refreshAuth, getMe, editMe, verification}

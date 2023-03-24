@@ -10,7 +10,7 @@ const NewsPreview = ({id, img, title, mainInf}) => {
             <div className="text">
                 <p>{mainInf}</p>
             </div>
-            <Link to={`news/${id}`} className='more' state={{id, img, title, mainInf}}>Читать далее <RiArrowRightSLine/></Link>
+            <Link to={`news/${id}`} className='more' state={{id, img:'../'+img, title, mainInf}}>Читать далее <RiArrowRightSLine/></Link>
         </article>
     );
 };

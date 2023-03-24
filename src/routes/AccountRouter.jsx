@@ -7,13 +7,14 @@ import AccountMenu from '../pages/account/AccountMenu';
 import NotFound from '../pages/NotFound';
 import AccEvents from '../pages/account/AccEvents';
 import AddEvent from '../pages/account/AddEvent';
+import VerifyCheck from "../pages/account/VerifyCheck";
 
 const AccountRouter = () => {
   const {isMobile} = useIsMobile('991px');
 
   return (
     <Routes>
-      <Route path="/" element={<AccountLayout isMobile={isMobile} />}>
+      <Route path="/" element={<VerifyCheck><AccountLayout isMobile={isMobile} /></VerifyCheck>}>
         {isMobile ? (
             <Route index element={<AccountMenu />} />
         ) : (

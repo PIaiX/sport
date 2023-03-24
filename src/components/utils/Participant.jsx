@@ -9,7 +9,7 @@ const Participant = (props) => {
   return (
     <div className={(props.approved)?'participant':'participant unapproved'}>
       <div className='name'>
-        <img src="imgs/photo-replace.png" alt="replace" />
+        <img src="../imgs/userDontsFind.jpg" alt="replace" />
         <div>
           <h6>{props.surname + ' ' + props.name}</h6>
           <div>{props.town}</div>

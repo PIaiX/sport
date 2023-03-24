@@ -36,7 +36,8 @@ const e = {
 const EventPage = () => {
 
     const {state} = useLocation()
-    const [event, setEvent] = useState(state ? state : e)
+    // const [event, setEvent] = useState(state ? state : e)
+    const [event, setEvent] = useState(e)
     const {id} = useParams()
     const {setNotFound} = useAppAction()
 

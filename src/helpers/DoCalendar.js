@@ -13,8 +13,8 @@ export const DoCalendar=()=>{
         "декабрь",]
     let days = [31,28,31,30,31,30,31,31,30,31,30,31]
 
-    const data = new Date(2023, 1, 1)
-    // const data = new Date()
+    // const data = new Date(2023, 1, 1)
+    const data = new Date()
     const yearNow=data.getFullYear()
     const month=data.getMonth()
     const dayOfWeek=data.getDay()

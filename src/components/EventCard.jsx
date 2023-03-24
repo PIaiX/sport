@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-const EventCard = ({id, imgUrl, title, location, data, days}) => {
-    const state = {id, imgUrl, title, location, data, days}
+const EventCard = (state) => {
+    const {id, imgUrl, title, location, data, days} = state
     return (
         <figure className='event'>
             <Link to={`/event/${id}`} state={state}><img src={imgUrl} alt={title} /></Link>

@@ -9,11 +9,11 @@ import {useAppSelector} from "../../store";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
 import {SelectToEndForPhoneInput} from "../../helpers/SelectToEndForPhoneInput";
 import {useDispatch} from "react-redux";
-import {getMe} from "../../store/slices/user/actions";
+import {getMe, editMe} from "../../store/slices/user/actions";
 
 const sexList = [
-    {value: 'true', label: 'Мужской'},
-    {value: 'false', label: 'Женский'},
+    {value: true, label: 'Мужской'},
+    {value: false, label: 'Женский'},
 ];
 const daysList = [
     {value: '1', label: '1'},
@@ -39,18 +39,15 @@ const Profile = () => {
     const dispatch = useDispatch()
 
 
-    const SubmitUserClick = (data) => {
+    const SubmitUserClick = ({password, gender, ...data}) => {
+        dispatch(editMe({...data, gender:gender.value===true?true:false}))
     }
 
-    useEffect(()=>{
-        dispatch(getMe())
-    },[])
 
     useEffect(() => {
         setValue('firstName', user?.firstName)
         setValue('lastName', user?.lastName)
         setValue('patronymic', user?.patronymic)
-        setValue('gender', user?.gender)
         setValue('email', user?.email)
         setValue('phone', user?.phone)
         setValue('address', user?.address)
@@ -60,6 +57,7 @@ const Profile = () => {
         setValue('weight', user?.weight)
         setValue('height', user?.height)
         setValue('isPublicProfile', !user?.isPublicProfile)
+        setValue('gender', {value: 'false', label: 'Женский'})
     }, [user])
 
     return (
@@ -113,15 +111,17 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.patronymic}>
                                         <input className='mb-3' type="text" placeholder='Отчество'
-                                               {...register('patronymic', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   minLength: {value: 2, message: 'Минимум 2 символа'},
-                                                   pattern: {
-                                                       value: /^[A-Za-z-А-Яа-я]+$/i,
-                                                       message: "Для ввода допускаются только буквы"
-                                                   },
-                                                   maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               })}
+                                               {...register('patronymic',
+                                               //     {
+                                               //     required: 'Поле обязательно к заполнению',
+                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
+                                               //     pattern: {
+                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
+                                               //         message: "Для ввода допускаются только буквы"
+                                               //     },
+                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
+                                               // }
+                                               )}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -132,18 +132,21 @@ const Profile = () => {
                                     <ValidateWrapper error={errors?.gender}>
                                         <Select
                                             name="sex"
-                                            defaultValue={user?.gender == null ? null : user?.gender ? {
-                                                value: 'true',
-                                                label: 'Мужской'
-                                            } : {value: 'false', label: 'Женский'}}
+                                            // defaultValue={user?.gender == null ? null : user?.gender ? {
+                                            //     value: 'true',
+                                            //     label: 'Мужской'
+                                            // } : {value: 'false', label: 'Женский'}}
+                                            defaultInputValue={user?.gender?'Мужской':'Женский'}
                                             placeholder="Пол"
                                             classNamePrefix="simple-select"
                                             className="simple-select-container borderless w-100 validate-select"
                                             options={sexList}
                                             {...register('gender', {
                                                 required: 'Выберите значение!',
-                                            })}
+                                            }
+                                            )}
                                             onChange={(e) => {
+                                                console.log(e)
                                                 setValue('gender', e);
                                                 clearErrors('gender')
                                             }}
@@ -164,6 +167,7 @@ const Profile = () => {
                                 <Col md={9}>
                                     <input type="email" placeholder='Email'
                                            {...register('email', {
+                                               required: 'Выберите значение!',
                                            })}
                                     />
                                 </Col>
@@ -232,12 +236,14 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.height}>
                                         <input type="text" placeholder='Рост'
-                                               {...register('height', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   min:{value:118, message:'Минимальный рост 118см'},
-                                                   max:{value:250, message:'Максимальный рост 250см'},
-                                                   pattern: {value: /^[0-9]+$/i, message: 'Для ввода допускаются только цифры'},
-                                               })}
+                                               {...register('height',
+                                               //     {
+                                               //     required: 'Поле обязательно к заполнению',
+                                               //     min:{value:118, message:'Минимальный рост 118см'},
+                                               //     max:{value:250, message:'Максимальный рост 250см'},
+                                               //     pattern: {value: /^[0-9]+$/i, message: 'Для ввода допускаются только цифры'},
+                                               // }
+                                               )}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -247,12 +253,14 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.weight}>
                                         <input type="text" placeholder='Вес'
-                                               {...register('weight', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   min:{value:45, message:'Минимальный вес 45кг'},
-                                                   max:{value:100, message:'Максимальный вес 200кг'},
-                                                   pattern: {value: /^[0-9]+$/i, message: 'Для ввода допускаются только цифры'},
-                                               })}
+                                               {...register('weight',
+                                               //     {
+                                               //     required: 'Поле обязательно к заполнению',
+                                               //     min:{value:45, message:'Минимальный вес 45кг'},
+                                               //     max:{value:100, message:'Максимальный вес 200кг'},
+                                               //     pattern: {value: /^[0-9]+$/i, message: 'Для ввода допускаются только цифры'},
+                                               // }
+                                               )}
                                         />
                                     </ValidateWrapper>
 
@@ -336,11 +344,13 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.address}>
                                         <input type="text" placeholder='Адрес'
-                                               {...register('address', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   minLength: {value: 2, message: 'Минимум 2 символа'},
-                                                   maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               })}
+                                               {...register('address',
+                                               //     {
+                                               //     required: 'Поле обязательно к заполнению',
+                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
+                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
+                                               // }
+                                               )}
                                         />
                                     </ValidateWrapper>
 
@@ -351,15 +361,17 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.city}>
                                         <input type="text" placeholder='Город'
-                                               {...register('city', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   minLength: {value: 2, message: 'Минимум 2 символа'},
-                                                   pattern: {
-                                                       value: /^[A-Za-z-А-Яа-я]+$/i,
-                                                       message: "Для ввода допускаются только буквы"
-                                                   },
-                                                   maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               })}
+                                               {...register('city',
+                                               //     {
+                                               //     required: 'Поле обязательно к заполнению',
+                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
+                                               //     pattern: {
+                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
+                                               //         message: "Для ввода допускаются только буквы"
+                                               //     },
+                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
+                                               // }
+                                               )}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -369,15 +381,17 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.district}>
                                         <input type="text" placeholder='Район'
-                                               {...register('district', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   minLength: {value: 2, message: 'Минимум 2 символа'},
-                                                   pattern: {
-                                                       value: /^[A-Za-z-А-Яа-я]+$/i,
-                                                       message: "Для ввода допускаются только буквы"
-                                                   },
-                                                   maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               })}
+                                               {...register('district',
+                                               //     {
+                                               //     required: 'Поле обязательно к заполнению',
+                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
+                                               //     pattern: {
+                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
+                                               //         message: "Для ввода допускаются только буквы"
+                                               //     },
+                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
+                                               // }
+                                               )}
                                         />
                                     </ValidateWrapper>
 
@@ -388,15 +402,17 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.region}>
                                         <input type="tel" placeholder='Регион'
-                                               {...register('region', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   minLength: {value: 2, message: 'Минимум 2 символа'},
-                                                   pattern: {
-                                                       value: /^[A-Za-z-А-Яа-я]+$/i,
-                                                       message: "Для ввода допускаются только буквы"
-                                                   },
-                                                   maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               })}
+                                               {...register('region',
+                                               //     {
+                                               //     required: 'Поле обязательно к заполнению',
+                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
+                                               //     pattern: {
+                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
+                                               //         message: "Для ввода допускаются только буквы"
+                                               //     },
+                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
+                                               // }
+                                               )}
                                         />
                                     </ValidateWrapper>
                                 </Col>

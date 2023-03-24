@@ -7,15 +7,16 @@ import ParticipantControl from '../../components/utils/ParticipantControl';
 import {useForm} from "react-hook-form";
 import {GetCategories} from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
+import {CreateEvent} from "../../services/event";
 
 const sportsList = [
-    {value: '1', label: '1'},
-    {value: '2', label: '2'},
-    {value: '3', label: '3'},
+    {value: 1, label: '1'},
+    {value: 2, label: '2'},
+    {value: 3, label: '3'},
 ];
 const sexList = [
-    {value: 'male', label: 'Мужской'},
-    {value: 'female', label: 'Женский'},
+    {value: true, label: 'Мужской'},
+    {value: false, label: 'Женский'},
 ];
 
 const AddEvent = () => {
@@ -25,8 +26,23 @@ const AddEvent = () => {
         GetCategories().then(res => res && setCategories(res))
     }, [])
 
-    const SubmitClick = (data) => {
-        alert(JSON.stringify(data))
+    const SubmitClick = ({ageCategoryId,disciplineId, gender,weightCategoryId,...data}) => {
+        const t={
+            ageCategoryId:Number(ageCategoryId.value),
+            numberOfParticipants:10,
+            disciplineId:Number(disciplineId.value),
+            gender:gender.value,
+            latitude:'23',
+            longitude:'21323',
+            weightCategoryId:1,
+            rankFromId:1,
+            rankToId:3,
+            ...data
+        }
+        console.log(t)
+        CreateEvent(t)
+            .then(res=> console.log(res))
+            .catch(res=> console.log(res))
     }
     return (
         <section className='account-box'>
@@ -37,19 +53,19 @@ const AddEvent = () => {
                     <Row className='gx-4 gx-xl-5'>
                         <Col md={5}>
                             <h5>Дисциплина</h5>
-                            <ValidateWrapper error={errors?.discipline}>
+                            <ValidateWrapper error={errors?.disciplineId}>
                                 <Select
                                     name="sport"
                                     placeholder="Дисциплина"
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
                                     options={sportsList}
-                                    {...register('discipline', {
+                                    {...register('disciplineId', {
                                         required: 'Выберите значение!',
                                     })}
                                     onChange={(e) => {
-                                        setValue('discipline', e);
-                                        clearErrors('discipline')
+                                        setValue('disciplineId', e);
+                                        clearErrors('disciplineId')
                                     }}
                                 />
                             </ValidateWrapper>

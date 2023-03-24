@@ -39,7 +39,7 @@ $authApi.interceptors.response.use(
                 const response = await $api.get(apiRoutes.AUTH_REFRESH)
                 localStorage.setItem('token', response?.data?.body?.token)
             } catch (error) {
-                console.log('er')
+                console.log(error)
             }
         }
         return Promise.reject(error)
@@ -54,6 +54,8 @@ const apiRoutes = {
     AUTH_LOGOUT: 'auth/logout',
     AUTH_REFRESH: 'auth/refreshToken',
     GET_USER_ME:'users/me',
+    EDIT_ME:'users',
+    VERIFICATION:'verification',
 
     //reset password
     RESET_PASSWORD_EMAIL_VERIFY: 'auth/forgotPassword/emailVerify',
@@ -71,8 +73,9 @@ const apiRoutes = {
     GET_ONE_NEW:'new',
 
     //events
-    GET_ALL_EVENTS:'events',
+    GET_ALL_EVENTS:'events/ALL',
     GET_EVENT:'event',
+    CREATE_EVENT:'events',
 
     //categories
     GET_CATEGORIES: 'categories',

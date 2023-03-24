@@ -1,10 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getMe, login, logout, refreshAuth} from './actions'
+import {getMe, login, logout, refreshAuth, editMe, verification} from './actions'
 const initialState={
     user:null,
     checked:false,
     auth:false,
-    loginError:null
+    error:null
 }
 
 const userSlice= createSlice({
@@ -59,6 +59,18 @@ const userSlice= createSlice({
         },
         [getMe.fulfilled]:(state, action)=>{
             state.user=action.payload
+        },
+        [editMe.fulfilled]:(state, action)=>{
+            state.user=action.payload
+        },
+        [editMe.rejected]:(state, action)=>{
+        },
+        [verification.fulfilled]:(state)=>{
+            state.user.isVerified = true
+        },
+        [verification.rejected]:(state, action)=>{
+            const message = action?.payload?.response?.data?.message?.indexOf('code')!==-1
+            if (message) state.error = 'code'
         }
     }
 })
