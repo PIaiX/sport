@@ -7,6 +7,7 @@ import {useAppAction, useAppSelector} from "../store";
 import {useDispatch} from "react-redux";
 import {initFingerprint} from "../store/slices/app/Action";
 import {refreshAuth} from '../store/slices/user/actions'
+import ChangeLocation from "./ChangeLocation";
 
 const AppLayout = () => {
     const {fingerprint, notFound}=useAppSelector(state=>state.app)
@@ -32,10 +33,12 @@ const AppLayout = () => {
         <>
             <ScrollRestoration />
             <Header />
+            <ChangeLocation>
             {notFound?
                 <NotFound/>
                 :<Outlet />
             }
+            </ChangeLocation>
             <Footer />
         </>
     )
