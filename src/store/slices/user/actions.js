@@ -15,6 +15,20 @@ const login = createAsyncThunk(
     }
 })
 
+const registration = createAsyncThunk(
+    'user/registration',
+    async (payload = {}, thunkAPI) => {
+    try {
+        const response = await $api.post(apiRoutes.AUTH_REGISTRATION, payload)
+
+        if (response && response.status === 201) {
+            return response?.data
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
+
 const logout = createAsyncThunk(
     'user/logout',
     async (payload = {}, thunkAPI) => {
@@ -71,4 +85,4 @@ const verification =  createAsyncThunk('verification', async (code, thunkAPI) =>
 })
 
 
-export {login, logout, refreshAuth, getMe, editMe, verification}
+export {login, logout, refreshAuth, getMe, editMe, verification, registration}

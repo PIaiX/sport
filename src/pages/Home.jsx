@@ -20,7 +20,7 @@ import NavPagination from '../components/NavPagination'
 import {GetNews} from '../services/news'
 import {GetAllEvents} from "../services/event";
 import {GetBanners} from "../services/banners";
-import {GetCategories, GetParams} from "../services/params";
+import {GetDiscipline, GetWightCategory} from "../services/params";
 import {DoCalendar} from "../helpers/DoCalendar";
 
 const o = [{value: '1', label: 'Вариант 1'},
@@ -92,18 +92,18 @@ const n=[{
             'Из за решения IBA допустить российских и белорусских спортсменов под национальными флагами ряд стран бойкотировали турнир в Индии. \n' +
             'Кремлев возглавляет Международную ассоциацию бокса с декабря 2020 года.'
     }]
-const e=[{id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', title:'Название мероприятия', location:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'}]
+const e=[{id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
+    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'}]
 const b=[{
     imgUrl:'../imgs/img1.jpeg',
     title:'Крутое название',
@@ -139,7 +139,7 @@ const b=[{
     }]
 const Home = () => {
     const [news, setNews] = useState(n)
-    const [filter, setFilter] = useReducer((state, newState)=>({...state, ...newState}), {})
+    const [filter, setFilter] = useReducer((state, newState)=>({...state, ...newState}), {skip:'0', take:'10'})
     const [events, setEvents] = useState(e)
     const [banners, setBanners] =useState(b)
     const [categories, setCategories] = useState(o)
@@ -147,13 +147,13 @@ const Home = () => {
     const year = DoCalendar()
 
     useEffect(()=>{
-        GetNews().then(res=>res && setNews(res))
+        // GetNews().then(res=>res && setNews(res))
         GetBanners().then(res=>res && setBanners(res))
-        GetCategories().then(res=>res && setCategories(res))
+        GetDiscipline().then(res=>res && setCategories(res))
     }, [])
 
     useEffect(()=>{
-        filter?.typeEvent && GetParams(filter?.typeEvent).then(res=>res && setWaysOfCategories(res))
+        filter?.typeEvent && GetWightCategory(filter?.typeEvent).then(res=>res && setWaysOfCategories(res))
     },[categories])
 
     useEffect(()=>{

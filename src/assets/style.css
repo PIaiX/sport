@@ -2542,6 +2542,10 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     position: relative;
     width: 100%;
 }
+.validate-wrapper-map{
+    border:2px solid red;
+    border-radius:15px;
+}
 
 .validate-error {
     position: absolute;

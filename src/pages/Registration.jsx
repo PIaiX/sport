@@ -1,21 +1,19 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form";
 import ValidateWrapper from "../components/utils/ValidateWrapper";
-import {authRegistration} from "../services/auth";
 import {useAppAction} from "../store";
 import {SelectToEndForPhoneInput} from "../helpers/SelectToEndForPhoneInput";
+import {useDispatch} from "react-redux";
+import {registration} from "../store/slices/user/actions";
 
 const Registration = () => {
     const {register, formState: {errors}, handleSubmit, getValues, setValue} = useForm()
     const {setUser} = useAppAction()
+    const dispatch = useDispatch()
     const SubmitClick = ({repeatPassword, ...otherData}) => {
-        authRegistration(otherData)
-            .then(res=>res && setUser(res))
-            .catch(e=>()=>{
-                alert('пользователь существует')
-            })
+        dispatch(registration(otherData))
     }
     return (
         <main>

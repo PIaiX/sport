@@ -69,18 +69,18 @@ const apiRoutes = {
     GET_BANNER: 'banner',
 
     //news
-    GET_NEWS: 'news',
-    GET_ONE_NEW:'new',
+    GET_NEWS: 'news/paginate',
+    GET_ONE_NEW:'news',
 
     //events
-    GET_ALL_EVENTS:'events/ALL',
-    GET_EVENT:'event',
+    GET_ALL_EVENTS:'events/paginate',
+    GET_EVENT:'events/requests',
     CREATE_EVENT:'events',
 
     //categories
-    GET_CATEGORIES: 'categories',
-    GET_PARAMS: 'params',
-
+    GET_CATEGORIES: 'discipline',
+    GET_WEIGHT_CATEGORY: 'discipline/weightCategory/byDisciplineId',
+    GET_AGE_CATEGORY: 'discipline/ageCategory/byDisciplineId',
     //document
     GET_DOCUMENT:'documents',
 }

@@ -3,7 +3,7 @@ const fastify = require('fastify')({
 })
 
 fastify.register(require('@fastify/http-proxy'), {
-    upstream: 'https://api.ruchamp.ru/api',
+    upstream: 'http://192.168.0.141:5001',
 })
 
 fastify.listen({ port: 5001 })

@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getMe, login, logout, refreshAuth, editMe, verification} from './actions'
+import {getMe, login, logout, refreshAuth, editMe, verification, registration} from './actions'
 const initialState={
     user:null,
     checked:false,
@@ -23,6 +23,13 @@ const userSlice= createSlice({
         }
     },
     extraReducers:{
+        [registration.fulfilled]:(state, action)=>{
+            state.user=action.payload.user
+            state.checked=true
+            state.auth=true
+            state.user.loginError = null
+            localStorage.setItem('token', action?.payload?.accessToken)
+        },
         [login.fulfilled]:(state, action)=>{
             state.user=action.payload.user
             state.checked=true

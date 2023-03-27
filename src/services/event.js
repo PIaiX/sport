@@ -2,7 +2,9 @@ import {$api, apiRoutes, $authApi} from "../config/api";
 
 export const GetAllEvents = async (payload)=>{
     try{
-        const result = await $api.get(apiRoutes.GET_ALL_EVENTS, payload)
+        const result = await $api.get(apiRoutes.GET_ALL_EVENTS, {
+            params:{...payload}
+        })
         return result?.data?.body
     }catch(error){
         console.log(error)
@@ -11,7 +13,7 @@ export const GetAllEvents = async (payload)=>{
 
 export const GetOneEvent = async (payload)=>{
     try{
-        const result = await $api.get(apiRoutes.GET_EVENT, payload)
+        const result = await $api.get(`${apiRoutes.GET_EVENT}/${payload}`)
         return result?.data?.body
     }catch(error){
         console.log(error)

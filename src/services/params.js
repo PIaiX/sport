@@ -1,18 +1,26 @@
 import {$api, apiRoutes} from "../config/api";
 
-export const GetCategories = async ()=>{
+export const GetDiscipline = async ()=>{
     try{
         const result = await $api.get(apiRoutes.GET_CATEGORIES)
-        return result?.data?.body
+        return result?.data
     }catch(error){
         console.log(error)
     }
 }
 
-export const GetParams = async (payload)=>{
+export const GetWightCategory = async (payload)=>{
     try{
-        const result = await $api.get(apiRoutes.GET_PARAMS, payload)
-        return result?.data?.body
+        const result = await $api.get(`${apiRoutes.GET_WEIGHT_CATEGORY}/${payload}`)
+        return result?.data
+    }catch(error){
+        console.log(error)
+    }
+}
+export const GetAgeCategory = async (payload)=>{
+    try{
+        const result = await $api.get(`${apiRoutes.GET_AGE_CATEGORY}/${payload}`)
+        return result?.data
     }catch(error){
         console.log(error)
     }

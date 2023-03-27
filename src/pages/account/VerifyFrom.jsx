@@ -64,7 +64,7 @@ const VerifyFrom = () => {
                                                     </Col>
                                                     <Col md={9}>
                                                         <ValidateWrapper error={errors?.email}>
-                                                            <input disabled type="email" placeholder='Email'
+                                                            <input type="email" placeholder='Email'
                                                                    {...register('email', {
                                                                        required: 'Поле обязательно к заполнению',
                                                                    })}
