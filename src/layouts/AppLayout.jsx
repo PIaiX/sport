@@ -10,15 +10,15 @@ import {refreshAuth} from '../store/slices/user/actions'
 import ChangeLocation from "./ChangeLocation";
 
 const AppLayout = () => {
-    const {fingerprint, notFound}=useAppSelector(state=>state.app)
+    const {fingerprint, notFound} = useAppSelector(state => state.app)
     const {setNotFound, CheckedBad} = useAppAction()
     const {pathname} = useLocation()
     const dispatch = useDispatch()
-    useEffect(()=>{
+    useEffect(() => {
         setNotFound(false)
     }, [pathname])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (fingerprint) {
             localStorage.setItem('fingerprint', fingerprint)
             if (localStorage.getItem('token'))
@@ -31,15 +31,15 @@ const AppLayout = () => {
 
     return (
         <>
-            <ScrollRestoration />
-            <Header />
+            <ScrollRestoration/>
+            <Header/>
             <ChangeLocation>
-            {notFound?
-                <NotFound/>
-                :<Outlet />
-            }
+                {notFound ?
+                    <NotFound/>
+                    : <Outlet/>
+                }
             </ChangeLocation>
-            <Footer />
+            <Footer/>
         </>
     )
 }

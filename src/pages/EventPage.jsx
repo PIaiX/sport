@@ -19,55 +19,29 @@ import {TbBrandTelegram} from "react-icons/tb";
 import {AiOutlineWhatsApp} from "react-icons/ai";
 import {CiYoutube} from "react-icons/ci";
 import {FaTiktok} from "react-icons/fa";
-
-
-const e = {
-    "id": 1,
-    "userId": 1,
-    "name": "Master Chess Tournament",
-    "latitude": "49.175690",
-    "longitude": "55.826859",
-    "description": "Chess tournament for masters or higher, prize fond is abount 1$",
-    "venue": "Kazan, Podval, 45a",
-    "vkLink": "vk.com/ksd1ns",
-    "instaLink": "instagram.com/jhsdf2",
-    "telegramLink": "t.me/kjn2j",
-    "whatsAppLink": "whatsapp.com/kjn2j",
-    "tictokLink": "ticktok.com/kjn2j",
-    "youtubeLink": "youtube.com/kjn2j",
-    "emailLink": "event@mail.com",
-    "startsAt": "2023-03-22T08:50:01.930Z",
-    "earlyRegistrationFrom": "2023-03-22T08:50:01.930Z",
-    "earlyRegistrationTo": "2023-03-22T08:50:01.930Z",
-    "standartRegistrationFrom": "2023-03-22T08:50:01.930Z",
-    "standartRegistrationTo": "2023-03-22T08:50:01.930Z",
-    "lateRegistrationFrom": "2023-03-22T08:50:01.930Z",
-    "lateRegistrationTo": "2023-03-22T08:50:01.930Z",
-    "gender": true,
-    "rankFromId": 23,
-    "rankToId": 27,
-    "numberOfParticipants": 10,
-    "disciplineId": 4
-}
-
+import {GetStringFromDate} from "../helpers/GetStringFromDate";
 const EventPage = () => {
 
     const {state} = useLocation()
-    // const [event, setEvent] = useState(state ? state : e)
-    const [event, setEvent] = useState(e)
+    const [event, setEvent] = useState()
     const {id} = useParams()
     const {setNotFound} = useAppAction()
-
     const [tab, setTab] = useState(1)
     const [show, setShow] = useState(false)
 
     useEffect(() => {
-        // production - GetOneEvent(id).then(res=>res && setEvent(res) || setNotFound(true))
-        GetOneEvent(id).then(res => res && setEvent(res))
+        GetOneEvent(id).then(res=>{
+            if(res)
+                setEvent(res)
+            else
+                setNotFound(true)
+        })
     }, [])
+    if (!event)
+        return <main></main>
 
-    console.log(event)
-    return (
+    if(event)
+        return (
         <main>
             <Container>
                 <section className='event-page py-4 py-md-5'>
@@ -83,28 +57,30 @@ const EventPage = () => {
                                         <FiClock className='green'/>
                                         <div>
                                             <p>Ранняя регистрация</p>
-                                            <p>{event?.firstReg}</p>
+                                            <p>
+                                                {GetStringFromDate(event?.earlyRegistrationFrom, event?.earlyRegistrationTo)}
+                                            </p>
                                         </div>
                                     </li>
                                     <li>
                                         <FiCheckCircle className='yellow'/>
                                         <div>
                                             <p>Стандартная регистрация</p>
-                                            <p>{event?.secondReg}</p>
+                                            <p>{GetStringFromDate(event?.standartRegistrationFrom, event?.standartRegistrationTo)}</p>
                                         </div>
                                     </li>
                                     <li>
                                         <FiAlertCircle className='red'/>
                                         <div>
                                             <p>Поздняя регистрация</p>
-                                            <p>{event?.thirdReg}</p>
+                                            <p>{GetStringFromDate(event?.lateRegistrationFrom, event?.lateRegistrationTo)}</p>
                                         </div>
                                     </li>
                                     <li>
                                         <FiPlayCircle className='color-4'/>
                                         <div>
                                             <p>Начало мероприятия</p>
-                                            <p>{event?.beginTime}</p>
+                                            <p>{GetStringFromDate(event?.startsAt)}</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -137,40 +113,7 @@ const EventPage = () => {
                             <Row className='gx-4 gx-xl-5'>
                                 <Col md={8}>
                                     <h2>Информация</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim id est laborum.</p>
-
-                                    <h4>Duis aute irure</h4>
-                                    <ul>
-                                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                                        <li>quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat
-                                        </li>
-                                        <li>Excepteur sint occaecat cupidatat non proident</li>
-                                        <li>Duis aute irure dolor in reprehenderit</li>
-                                    </ul>
-
-                                    <h4>Excepteur sint occaecat</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim id est laborum.</p>
-
-                                    <h4>irure dolor</h4>
-                                    <ul>
-                                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                                        <li>quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat
-                                        </li>
-                                        <li>Excepteur sint occaecat cupidatat non proident</li>
-                                        <li>Duis aute irure dolor in reprehenderit</li>
-                                    </ul>
+                                    {event?.description}
                                 </Col>
                                 <Col md={4} className='mt-4 mt-md-0'>
                                     <ul className='list-unstyled list-15'>

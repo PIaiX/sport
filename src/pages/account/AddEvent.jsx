@@ -19,6 +19,7 @@ import {TbBrandTelegram} from "react-icons/tb";
 import {AiOutlineWhatsApp} from "react-icons/ai";
 import {CiYoutube} from "react-icons/ci";
 import {FaTiktok} from "react-icons/fa";
+import {getValue} from "@testing-library/user-event/dist/utils";
 const sportsList = [
     {value: 1, label: '1'},
     {value: 2, label: '2'},

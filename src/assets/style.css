@@ -380,13 +380,13 @@ form.form-search {
     justify-content: center;
     align-items: center;
     align-items: stretch;
-    width: 500px;
+    width: 400px;
     max-width: 100%;
 }
 
 @media (max-width: 1199px) {
     form.form-search {
-        width: 420px;
+        width: 320px;
     }
 }
 

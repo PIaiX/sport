@@ -1,19 +1,45 @@
-import React from 'react'
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
+import React, {useState} from 'react'
+import {RiArrowLeftSLine, RiArrowRightSLine} from "react-icons/ri"
+import {forEach} from "react-bootstrap/ElementChildren";
 
-const NavPagination = () => {
-  return (
-    <nav className='pagination'>
-      <ul>
-          <li><button type='button'><RiArrowLeftSLine className='fs-15'/></button></li>
-          <li><button type='button' className='active'>1</button></li>
-          <li><button type='button'>2</button></li>
-          <li><button type='button'>...</button></li>
-          <li><button type='button'>10</button></li>
-          <li><button type='button'><RiArrowRightSLine className='fs-15'/></button></li>
-      </ul>
-  </nav>
-  )
+const NavPagination = ({maxValue, onChange, skip, take}) => {
+    return (
+        <nav className='pagination'>
+            <ul>
+                <li>
+                    {
+                        skip!==0 &&
+                        <button onClick={()=>onChange({skip:skip-take})} type='button'><RiArrowLeftSLine className='fs-15'/></button>
+                    }
+                </li>
+                <tbody>
+                </tbody>
+                <li>
+                    <button type='button' className='active'>{skip/take+1}</button>
+                </li>
+                <li>
+                    {
+                        skip+take*2<maxValue &&
+                        <button type='button'>...</button>
+                    }
+                </li>
+                <li>
+                    {
+                        skip+take<maxValue &&
+                        <button onClick={()=>{
+                            onChange({skip:(maxValue-(maxValue%take))})
+                        }} type='button'>{Math.floor(maxValue/take)+1}</button>
+                    }
+                </li>
+                <li>
+                    {
+                        skip+take<maxValue &&
+                        <button onClick={()=>onChange({skip:skip+take})} type='button'><RiArrowRightSLine className='fs-15'/></button>
+                    }
+                </li>
+            </ul>
+        </nav>
+    )
 }
 
 export default NavPagination

@@ -37,6 +37,9 @@ const Header = () => {
                                     <NavLink to="/all-news">Блог</NavLink>
                                 </li>
                                 <li>
+                                    <NavLink to="/license">Страхование</NavLink>
+                                </li>
+                                <li>
                                     <NavLink to={`${auth?'/account':'/login'}`}>Личный кабинет</NavLink>
                                 </li>
                             </ul>

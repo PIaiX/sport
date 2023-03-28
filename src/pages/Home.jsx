@@ -1,10 +1,10 @@
-import React, {useEffect, useReducer, useState} from 'react'
+import React, {useEffect, useLayoutEffect, useReducer, useRef, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation, Keyboard} from 'swiper'
+import {Swiper, SwiperSlide} from 'swiper/react'
+import {Autoplay, Keyboard, Navigation} from 'swiper'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import 'swiper/css/navigation'
@@ -17,9 +17,7 @@ import Select from 'react-select'
 import Calendar from '../components/Calendar'
 import NewsPreview from '../components/NewsPreview'
 import NavPagination from '../components/NavPagination'
-import {GetNews} from '../services/news'
 import {GetAllEvents} from "../services/event";
-import {GetBanners} from "../services/banners";
 import {GetDiscipline, GetWightCategory} from "../services/params";
 import {DoCalendar} from "../helpers/DoCalendar";
 
@@ -92,21 +90,9 @@ const n=[{
             'Из за решения IBA допустить российских и белорусских спортсменов под национальными флагами ряд стран бойкотировали турнир в Индии. \n' +
             'Кремлев возглавляет Международную ассоциацию бокса с декабря 2020 года.'
     }]
-const e=[{id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'},
-    {id:1, imgUrl:'imgs/img1.jpeg', name:'Название мероприятия', venue:'Казань, просп. Ямашева, 115А', data:'31.12.2022', days:'15 дней'}]
 const b=[{
-    imgUrl:'../imgs/img1.jpeg',
-    title:'Крутое название',
+    imgUrl:'../imgs/819e1210-0270-4099-a80a-8a614e1c6394.jpg',
+    title:'Мма',
     categoryAge:'16+',
     srcLink:'event/2',
     actions:[
@@ -116,8 +102,8 @@ const b=[{
     ]
 },
     {
-        imgUrl:'../imgs/img2.jpeg',
-        title:'Крутое название',
+        imgUrl:'../imgs/d2bde8c5-44b7-4889-94f6-b7252313a670.jpg',
+        title:'Рукопашный бой',
         categoryAge:'16+',
         srcLink:'event/2',
         actions:[
@@ -127,8 +113,8 @@ const b=[{
         ]
     },
     {
-        imgUrl:'../imgs/img3.jpeg',
-        title:'Крутое название',
+        imgUrl:'../imgs/0ca1c938-e8ca-4536-bf92-d847f9a33257.jpg',
+        title:'Дзюдо',
         categoryAge:'16+',
         srcLink:'event/2',
         actions:[
@@ -136,29 +122,67 @@ const b=[{
             'Каратэ',
             'Шахматы без правил'
         ]
-    }]
+    },
+    {
+        imgUrl:'../imgs/fc3cff27-bbe0-4e33-a633-22716fcb72bc.jpg',
+        title:'Рукопашный бой',
+        categoryAge:'16+',
+        srcLink:'event/2',
+        actions:[
+            'Бокс',
+            'Каратэ',
+            'Шахматы без правил'
+        ]
+    },
+    {
+        imgUrl:'../imgs/f05eb709-c96e-4c27-b9e0-c325ded7f45c.jpg',
+        title:'Дзюдо',
+        categoryAge:'16+',
+        srcLink:'event/2',
+        actions:[
+            'Бокс',
+            'Каратэ',
+            'Шахматы без правил'
+        ]
+    }
+    ]
 const Home = () => {
     const [news, setNews] = useState(n)
-    const [filter, setFilter] = useReducer((state, newState)=>({...state, ...newState}), {skip:'0', take:'10'})
-    const [events, setEvents] = useState(e)
+    const [filter, setFilter] = useReducer((state, newState)=>({...state, ...newState}), {skip:0, take:12})
+    const [events, setEvents] = useState()
     const [banners, setBanners] =useState(b)
     const [categories, setCategories] = useState(o)
     const [waysOfCategories,setWaysOfCategories] = useState(w)
     const year = DoCalendar()
+    const myRef = useRef(null)
+    const [maxValue, setMaxValue] = useState()
+    const executeScroll = () => myRef.current.scrollIntoView()
 
     useEffect(()=>{
         // GetNews().then(res=>res && setNews(res))
-        GetBanners().then(res=>res && setBanners(res))
+        // GetBanners().then(res=>res && setBanners(res))
         GetDiscipline().then(res=>res && setCategories(res))
     }, [])
 
     useEffect(()=>{
         filter?.typeEvent && GetWightCategory(filter?.typeEvent).then(res=>res && setWaysOfCategories(res))
     },[categories])
-
     useEffect(()=>{
-        GetAllEvents(filter).then(res=>res && setEvents(res))
+        GetAllEvents(filter).then(res=>{
+            if(res){
+                if(!maxValue){
+                    setMaxValue(res?.meta?.total)
+                }
+                setEvents((prevState)=>{
+                    if (prevState!==undefined)
+                        executeScroll()
+                    console.log(prevState)
+                    return res?.body
+                })
+            }
+        })
     }, [filter])
+
     return (
         <main>
             <Container>
@@ -183,7 +207,7 @@ const Home = () => {
                     </Swiper>
                 </section>
 
-                <section className='mb-5'>
+                <section className='mb-5' ref={myRef}>
                     <h2>Календарь спортивных мероприятий</h2>
                     <div className="position-relative">
                         <Swiper
@@ -246,7 +270,6 @@ const Home = () => {
                         />
                         <Calendar calendarDays={filter?.days} CalendarClick={(value)=>setFilter({days:value})} />
                     </div>
-
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
                         {events?.map((element, index)=>
                             <Col key={index}>
@@ -254,9 +277,8 @@ const Home = () => {
                             </Col>
                         )}
                     </Row>
-                    <button type='button' className='btn-2 mt-5 mx-auto'>Показать ещё</button>
 
-                    <NavPagination />
+                    <NavPagination {...filter} maxValue={maxValue} onChange={(e)=>setFilter({...e}) } />
                 </section>
 
                 <section className='mb-5'>
