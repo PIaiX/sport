@@ -1102,7 +1102,8 @@ main {
 
 @media (max-width: 991px) {
     .event-page .top img {
-        height: auto;
+        height:auto;
+        aspect-ratio: 4/2;
     }
 }
 

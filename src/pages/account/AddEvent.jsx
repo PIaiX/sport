@@ -34,7 +34,6 @@ const AddEvent = () => {
     const [categories, setCategories] = useState()
     const [weightCategories, setWeightCategories] = useState()
     const [ageCategories, setAgeCategories] = useState()
-    const [paceName, setPlaceName] = useState()
     const [placeState, setPlaceState] = useState([])
     const {id} = useParams()
 
@@ -50,7 +49,7 @@ const AddEvent = () => {
         if (placeState) {
             getAddress(placeState).then(res => {
                 if (res) {
-                    setPlaceName(res?.suggestions[0]?.value)
+                    setValue('venue', res?.suggestions[0]?.value)
                 }
             })
             clearErrors('placeState')
@@ -91,10 +90,6 @@ const AddEvent = () => {
                              weightCategoryId,
                              ...data
                          }) => {
-        if (!placeState) {
-            setError('placeState', {message: 'Выберите адрес'})
-            return
-        }
         const t = {
             startsAt: startsAt.toISOString(),
             earlyRegistrationFrom: earlyRegistrationFrom.toISOString(),
@@ -258,14 +253,20 @@ const AddEvent = () => {
                 <fieldset>
                     <Row xs={1} md={2}>
                         <Col className={'mb-2'}>
-                            <MapWrapper error={placeState?.length == 0} textarea={true}>
+                            <MapWrapper error={errors.venue} textarea={true}>
                                 <div className="card">
                                     <h5 className='card-title' style={{width: "110%", marginLeft: '-10px'}}>
                                         <FiMapPin/>
                                         <span>Место проведения</span>
                                     </h5>
                                     <div className='card-body'>
-                                        <address>{paceName}</address>
+                                        <address>
+                                            <input disabled
+                                                {...register('venue', {
+                                                    required: 'Выберите значение',
+                                                })}
+                                            />
+                                        </address>
                                     </div>
                                     <YMaps query={{lang: "ru_RU"}}>
                                         <Map style={{width: '100%', height: '350px'}}

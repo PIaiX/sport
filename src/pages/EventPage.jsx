@@ -6,31 +6,48 @@ import Col from 'react-bootstrap/Col'
 import {Map, Placemark, YMaps} from '@pbe/react-yandex-maps'
 
 import {FiAlertCircle, FiCheckCircle, FiClock, FiHelpCircle, FiMapPin, FiPlayCircle} from "react-icons/fi"
-import {IoLogoVk, IoLogoYoutube, IoMail} from "react-icons/io5"
+import {IoMail} from "react-icons/io5"
 import FormSearch from '../components/FormSearch'
 import Participant from '../components/utils/Participant'
 import TournamentBracket from '../components/TournamentBracket'
 import {useLocation, useParams} from "react-router-dom";
 import {GetOneEvent} from "../services/event";
 import {useAppAction} from "../store";
+import {SlSocialVkontakte} from "react-icons/sl";
+import {BsInstagram} from "react-icons/bs";
+import {TbBrandTelegram} from "react-icons/tb";
+import {AiOutlineWhatsApp} from "react-icons/ai";
+import {CiYoutube} from "react-icons/ci";
+import {FaTiktok} from "react-icons/fa";
+
 
 const e = {
-    id: '',
-    imgUrl: '../imgs/img1.jpeg',
-    title: 'Название мероприятия',
-    location: 'Казань, просп. Ямашева, 115А',
-    firstReg: '25 Окт - 01 Дек 00:01',
-    secondReg: '25 Окт - 01 Дек 00:01',
-    thirdReg: '25 Окт - 01 Дек 00:01',
-    beginTime: '12 Дек 00:01',
-    locationState: {
-        center: [55.821283, 49.161006],
-    },
-    contacts: {
-        mail: 'mailto:mail@mail.ru',
-        vk: 'https://vk.com/link',
-        youtube: 'https://blog.youtube/',
-    }
+    "id": 1,
+    "userId": 1,
+    "name": "Master Chess Tournament",
+    "latitude": "49.175690",
+    "longitude": "55.826859",
+    "description": "Chess tournament for masters or higher, prize fond is abount 1$",
+    "venue": "Kazan, Podval, 45a",
+    "vkLink": "vk.com/ksd1ns",
+    "instaLink": "instagram.com/jhsdf2",
+    "telegramLink": "t.me/kjn2j",
+    "whatsAppLink": "whatsapp.com/kjn2j",
+    "tictokLink": "ticktok.com/kjn2j",
+    "youtubeLink": "youtube.com/kjn2j",
+    "emailLink": "event@mail.com",
+    "startsAt": "2023-03-22T08:50:01.930Z",
+    "earlyRegistrationFrom": "2023-03-22T08:50:01.930Z",
+    "earlyRegistrationTo": "2023-03-22T08:50:01.930Z",
+    "standartRegistrationFrom": "2023-03-22T08:50:01.930Z",
+    "standartRegistrationTo": "2023-03-22T08:50:01.930Z",
+    "lateRegistrationFrom": "2023-03-22T08:50:01.930Z",
+    "lateRegistrationTo": "2023-03-22T08:50:01.930Z",
+    "gender": true,
+    "rankFromId": 23,
+    "rankToId": 27,
+    "numberOfParticipants": 10,
+    "disciplineId": 4
 }
 
 const EventPage = () => {
@@ -49,21 +66,16 @@ const EventPage = () => {
         GetOneEvent(id).then(res => res && setEvent(res))
     }, [])
 
-    const MapClick = (e)=>{
-        // console.log(e.get('coords'))
-        setEvent({...event, locationState:{center:e.get('coords')}})
-    }
-
     console.log(event)
     return (
         <main>
             <Container>
                 <section className='event-page py-4 py-md-5'>
-                    <h1>{event?.title}</h1>
+                    <h1>{event?.name}</h1>
                     <div className="top">
                         <Row className='gx-0'>
                             <Col xs={12} lg={9}>
-                                <img src={event?.imgUrl} alt={event?.title}/>
+                                <img src={event?.imgUrl?event?.imgUrl:'../imgs/userDontsFind.jpg'} alt={event?.title}/>
                             </Col>
                             <Col xs={12} lg={3}>
                                 <ul className='info'>
@@ -169,13 +181,12 @@ const EventPage = () => {
                                                     <span>Место проведения</span>
                                                 </h5>
                                                 <div className='card-body'>
-                                                    <address>{event?.location}</address>
+                                                    <address>{event?.venue}</address>
                                                 </div>
                                                 <YMaps query={{lang:"ru_RU"}}>
                                                     <Map style={{width: '100%', height: '350px'} }
-                                                         onClick={(e)=>MapClick(e)}
-                                                         defaultState={{...event?.locationState, zoom: 13,}}>
-                                                        <Placemark  geometry={event?.locationState?.center}
+                                                         defaultState={{center:[event?.latitude, event?.longitude], zoom: 13,}}>
+                                                        <Placemark  geometry={[event?.latitude, event?.longitude]}
                                                         />
                                                     </Map>
                                                 </YMaps>
@@ -189,28 +200,59 @@ const EventPage = () => {
                                                 </h5>
                                                 <div className='card-body'>
                                                     <ul className='list-unstyled list-10'>
-                                                        {event?.contacts?.mail &&
+                                                        {event?.emailLink &&
                                                             <li>
-                                                                <a href={event?.contacts?.mail} className='link'>
+                                                                <a href={event?.emailLink} className='link'>
                                                                     <IoMail className='fs-12 me-2'/>
-                                                                    <span>{event?.contacts?.mail}</span>
+                                                                    <span>{event?.emailLink}</span>
                                                                 </a>
                                                             </li>
                                                         }
-                                                        {
-                                                            event?.contacts?.vk &&
+                                                        {event?.vkLink &&
                                                             <li>
-                                                                <a href={event?.contacts?.vk} className='link'>
-                                                                    <IoLogoVk className='fs-12 me-2'/>
-                                                                    <span>{event?.contacts?.vk}</span>
+                                                                <a href={event?.vkLink} className='link'>
+                                                                    <SlSocialVkontakte className='fs-12 me-2'/>
+                                                                    <span>{event?.vkLink}</span>
                                                                 </a>
                                                             </li>
                                                         }
-                                                        {event?.contacts?.youtube &&
+                                                        {event?.youtubeLink &&
                                                             <li>
-                                                                <a href={event?.contacts?.youtube} className='link'>
-                                                                    <IoLogoYoutube className='fs-12 me-2'/>
-                                                                    <span>{event?.contacts?.youtube}</span>
+                                                                <a href={event?.youtubeLink} className='link'>
+                                                                    <CiYoutube className='fs-12 me-2'/>
+                                                                    <span>{event?.youtubeLink}</span>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        {event?.instaLink &&
+                                                            <li>
+                                                                <a href={event?.instaLink} className='link'>
+                                                                    <BsInstagram className='fs-12 me-2'/>
+                                                                    <span>{event?.instaLink}</span>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        {event?.telegramLink &&
+                                                            <li>
+                                                                <a href={event?.telegramLink} className='link'>
+                                                                    <TbBrandTelegram className='fs-12 me-2'/>
+                                                                    <span>{event?.telegramLink}</span>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        {event?.whatsAppLink &&
+                                                            <li>
+                                                                <a href={event?.whatsAppLink} className='link'>
+                                                                    <AiOutlineWhatsApp className='fs-12 me-2'/>
+                                                                    <span>{event?.whatsAppLink}</span>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        {event?.tictokLink &&
+                                                            <li>
+                                                                <a href={event?.tictokLink} className='link'>
+                                                                    <FaTiktok className='fs-12 me-2'/>
+                                                                    <span>{event?.tictokLink}</span>
                                                                 </a>
                                                             </li>
                                                         }
@@ -372,11 +414,11 @@ const EventPage = () => {
                         (tab === 4) &&
                         <div className='text'>
                             <h2>Место проведения</h2>
-                            <address className='fs-15 mb-3'>{event?.location}</address>
+                            <address className='fs-15 mb-3'>{event?.venue}</address>
                             <YMaps>
                                 <Map style={{width: '100%', height: '350px'}}
-                                     defaultState={{...event?.locationState, zoom: 13,}}>
-                                    <Placemark geometry={event?.locationState?.center}/>
+                                     defaultState={{center:[event?.latitude, event?.longitude], zoom: 13,}}>
+                                    <Placemark  geometry={[event?.latitude, event?.longitude]} />
                                 </Map>
                             </YMaps>
                         </div>
