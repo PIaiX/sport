@@ -1,47 +1,49 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import TournamentBracket from '../../components/TournamentBracket';
 import ParticipantControl from '../../components/utils/ParticipantControl';
-import {useForm} from "react-hook-form";
-import {GetAgeCategory, GetDiscipline, GetWightCategory} from "../../services/params";
+import { useForm } from "react-hook-form";
+import { GetAgeCategory, GetDiscipline, GetWightCategory, GetRankCategory } from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
-import {CreateEvent} from "../../services/event";
-import {Map, Placemark, YMaps} from "@pbe/react-yandex-maps";
-import {FiMapPin} from "react-icons/fi";
-import {getAddress} from "../../services/YMap";
-import {useParams} from "react-router-dom";
+import { CreateEvent } from "../../services/event";
+import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
+import { FiMapPin } from "react-icons/fi";
+import { getAddress } from "../../services/YMap";
+import { useNavigate, useParams } from "react-router-dom";
 import MapWrapper from "../../components/utils/MapWrapper";
-import {SlSocialVkontakte} from "react-icons/sl";
-import {BsInstagram} from "react-icons/bs";
-import {TbBrandTelegram} from "react-icons/tb";
-import {AiOutlineWhatsApp} from "react-icons/ai";
-import {CiYoutube} from "react-icons/ci";
-import {FaTiktok} from "react-icons/fa";
-import {getValue} from "@testing-library/user-event/dist/utils";
+import { SlSocialVkontakte } from "react-icons/sl";
+import { BsInstagram } from "react-icons/bs";
+import { TbBrandTelegram } from "react-icons/tb";
+import { AiOutlineWhatsApp } from "react-icons/ai";
+import { CiYoutube } from "react-icons/ci";
+import { FaTiktok } from "react-icons/fa";
+import { getValue } from "@testing-library/user-event/dist/utils";
 const sportsList = [
-    {value: 1, label: '1'},
-    {value: 2, label: '2'},
-    {value: 3, label: '3'},
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 3, label: '3' },
 ];
 const sexList = [
-    {value: true, label: 'Мужской'},
-    {value: false, label: 'Женский'},
+    { value: true, label: 'Мужской' },
+    { value: false, label: 'Женский' },
 ];
 
 const AddEvent = () => {
-    const {register, handleSubmit, formState: {errors}, setValue, clearErrors, setError} = useForm()
+    const { register, handleSubmit, formState: { errors }, setValue, clearErrors, setError, getValues } = useForm()
     const [categories, setCategories] = useState()
     const [weightCategories, setWeightCategories] = useState()
     const [ageCategories, setAgeCategories] = useState()
+    const [rankCategories, setRankCategories] = useState()
     const [placeState, setPlaceState] = useState([])
-    const {id} = useParams()
+    const { id } = useParams()
+    const nav = useNavigate()
 
     useEffect(() => {
         GetDiscipline().then(res => {
             if (res) {
-                setCategories(res.map((element) => ({value: element.id, label: element.name})))
+                setCategories(res.map((element) => ({ value: element.id, label: element.name })))
             }
         })
     }, [])
@@ -58,14 +60,6 @@ const AddEvent = () => {
     }, [placeState])
 
     const changeWeight = (index) => {
-        GetWightCategory(index).then(res => {
-            if (res) {
-                setWeightCategories(res.map((element) => ({
-                    value: element.id,
-                    label: `От ${element.weightFrom} до ${element.weightTo}`
-                })))
-            }
-        })
         GetAgeCategory(index).then(res => {
             if (res) {
                 setAgeCategories(res.map((element) => ({
@@ -74,23 +68,41 @@ const AddEvent = () => {
                 })))
             }
         })
+        GetRankCategory(index).then(res => {
+            if (res) {
+                setRankCategories(res.map((element) => ({
+                    value: element.id,
+                    label: element.name
+                })))
+            }
+        })
+    }
 
+    const changeAge = (index) => {
+        GetWightCategory(index).then(res => {
+            if (res) {
+                setWeightCategories(res.map((element) => ({
+                    value: element.id,
+                    label: `От ${element.weightFrom} до ${element.weightTo}`
+                })))
+            }
+        })
     }
 
     const SubmitClick = ({
-                             startsAt,
-                             earlyRegistrationFrom,
-                             earlyRegistrationTo,
-                             standartRegistrationFrom,
-                             standartRegistrationTo,
-                             lateRegistrationFrom,
-                             lateRegistrationTo,
-                             ageCategoryId,
-                             disciplineId,
-                             gender,
-                             weightCategoryId,
-                             ...data
-                         }) => {
+        startsAt,
+        earlyRegistrationFrom,
+        earlyRegistrationTo,
+        standartRegistrationFrom,
+        standartRegistrationTo,
+        lateRegistrationFrom,
+        lateRegistrationTo,
+        disciplineId,
+        gender,
+        weightCategoryId,
+        rankId,
+        ...data
+    }) => {
         const t = {
             startsAt: startsAt.toISOString(),
             earlyRegistrationFrom: earlyRegistrationFrom.toISOString(),
@@ -100,23 +112,23 @@ const AddEvent = () => {
             lateRegistrationFrom: lateRegistrationFrom.toISOString(),
             lateRegistrationTo: lateRegistrationTo.toISOString(),
 
-            ageCategoryIds: [Number(ageCategoryId.value)],
             numberOfParticipants: 10,
             disciplineId: Number(disciplineId.value),
             gender: gender.value,
             latitude: placeState[0].toString(),
             longitude: placeState[1].toString(),
             weightCategoryIds: weightCategoryId.map(element => element.value),
-            rankFromId: 1,
-            rankToId: 3,
+            rankIds: rankId.map(element => element.value),
             ...data
         }
-        console.log(t)
         CreateEvent(t)
-            .then(res => console.log(res))
+            .then(() => nav('/account/events'))
             .catch(res => console.log(res))
 
     }
+
+    console.log(getValues('weightCategoryId'))
+    console.log(getValues('rankId'))
 
     const MapClick = (e) => {
         setPlaceState(e)
@@ -151,24 +163,24 @@ const AddEvent = () => {
                             <h5>Название</h5>
                             <ValidateWrapper error={errors?.name}>
                                 <input type="text" className='mb-3' placeholder='Название'
-                                       {...register('name', {
-                                           required: 'Поле обязательно к заполнению',
-                                           pattern: {
-                                               value: /^[A-Za-z-А-Яа-я]+$/i,
-                                               message: "Для ввода допускаются только буквы"
-                                           },
-                                           minLength: {value: 2, message: 'Минимальная длина 2 символа',},
-                                           maxLength: {value: 50, message: 'Максимальная длина 50 символов',},
-                                       })}
+                                    {...register('name', {
+                                        required: 'Поле обязательно к заполнению',
+                                        pattern: {
+                                            value: /^[A-Za-z-А-Яа-я]+$/i,
+                                            message: "Для ввода допускаются только буквы"
+                                        },
+                                        minLength: { value: 2, message: 'Минимальная длина 2 символа', },
+                                        maxLength: { value: 50, message: 'Максимальная длина 50 символов', },
+                                    })}
                                 />
                             </ValidateWrapper>
                             <h5>Начало мероприятия</h5>
                             <ValidateWrapper error={errors?.startsAt}>
                                 <input type="datetime-local" className='mb-3' placeholder='Начало мероприятия'
-                                       {...register('startsAt', {
-                                           required: 'Поле обязательно к заполнению',
-                                           valueAsDate: true
-                                       })}
+                                    {...register('startsAt', {
+                                        required: 'Поле обязательно к заполнению',
+                                        valueAsDate: true
+                                    })}
                                 />
                             </ValidateWrapper>
                         </Col>
@@ -179,10 +191,10 @@ const AddEvent = () => {
                                     <span className='fw-6 me-4 me-sm-3'>с</span>
                                     <ValidateWrapper error={errors?.earlyRegistrationFrom}>
                                         <input type="datetime-local"
-                                               {...register('earlyRegistrationFrom', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
-                                               })}
+                                            {...register('earlyRegistrationFrom', {
+                                                required: 'Поле обязательно к заполнению',
+                                                valueAsDate: true
+                                            })}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -190,10 +202,10 @@ const AddEvent = () => {
                                     <span className='fw-6 me-3'>по</span>
                                     <ValidateWrapper error={errors?.earlyRegistrationTo}>
                                         <input type="datetime-local"
-                                               {...register('earlyRegistrationTo', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
-                                               })}
+                                            {...register('earlyRegistrationTo', {
+                                                required: 'Поле обязательно к заполнению',
+                                                valueAsDate: true
+                                            })}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -204,10 +216,10 @@ const AddEvent = () => {
                                     <span className='fw-6 me-4 me-sm-3'>с</span>
                                     <ValidateWrapper error={errors?.standartRegistrationFrom}>
                                         <input type="datetime-local"
-                                               {...register('standartRegistrationFrom', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
-                                               })}
+                                            {...register('standartRegistrationFrom', {
+                                                required: 'Поле обязательно к заполнению',
+                                                valueAsDate: true
+                                            })}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -215,10 +227,10 @@ const AddEvent = () => {
                                     <span className='fw-6 me-3'>по</span>
                                     <ValidateWrapper error={errors?.standartRegistrationTo}>
                                         <input type="datetime-local"
-                                               {...register('standartRegistrationTo', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
-                                               })}
+                                            {...register('standartRegistrationTo', {
+                                                required: 'Поле обязательно к заполнению',
+                                                valueAsDate: true
+                                            })}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -229,10 +241,10 @@ const AddEvent = () => {
                                     <span className='fw-6 me-4 me-sm-3'>с</span>
                                     <ValidateWrapper error={errors?.lateRegistrationFrom}>
                                         <input type="datetime-local"
-                                               {...register('lateRegistrationFrom', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
-                                               })}
+                                            {...register('lateRegistrationFrom', {
+                                                required: 'Поле обязательно к заполнению',
+                                                valueAsDate: true
+                                            })}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -240,10 +252,10 @@ const AddEvent = () => {
                                     <span className='fw-6 me-3'>по</span>
                                     <ValidateWrapper error={errors?.lateRegistrationTo}>
                                         <input type="datetime-local"
-                                               {...register('lateRegistrationTo', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
-                                               })}
+                                            {...register('lateRegistrationTo', {
+                                                required: 'Поле обязательно к заполнению',
+                                                valueAsDate: true
+                                            })}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -256,8 +268,8 @@ const AddEvent = () => {
                         <Col className={'mb-2'}>
                             <MapWrapper error={errors.venue} textarea={true}>
                                 <div className="card">
-                                    <h5 className='card-title' style={{width: "110%", marginLeft: '-10px'}}>
-                                        <FiMapPin/>
+                                    <h5 className='card-title' style={{ width: "110%", marginLeft: '-10px' }}>
+                                        <FiMapPin />
                                         <span>Место проведения</span>
                                     </h5>
                                     <div className='card-body'>
@@ -269,10 +281,10 @@ const AddEvent = () => {
                                             />
                                         </address>
                                     </div>
-                                    <YMaps query={{lang: "ru_RU"}}>
-                                        <Map style={{width: '100%', height: '350px'}}
-                                             onClick={(e) => MapClick(e.get('coords'))}
-                                             defaultState={{center: [55.821283, 49.161006], zoom: 13,}}>
+                                    <YMaps query={{ lang: "ru_RU" }}>
+                                        <Map style={{ width: '100%', height: '350px' }}
+                                            onClick={(e) => MapClick(e.get('coords'))}
+                                            defaultState={{ center: [55.821283, 49.161006], zoom: 13, }}>
                                             <Placemark geometry={placeState}
                                             />
                                         </Map>
@@ -317,36 +329,33 @@ const AddEvent = () => {
                                 />
                             </ValidateWrapper>
                             <h5>Возраст</h5>
-                            <ValidateWrapper error={errors.ageCategoryId}>
+                            <ValidateWrapper >
                                 <Select
                                     name="ageCategoryId"
                                     placeholder="Возраст"
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
                                     options={ageCategories}
-                                    {...register('ageCategoryId', {
-                                        required: 'Выберите значение',
-                                    })}
                                     onChange={(e) => {
-                                        setValue('ageCategoryId', e);
-                                        clearErrors('ageCategoryId')
+                                        changeAge(e.value)
                                     }}
                                 />
                             </ValidateWrapper>
                             <h5>Разряд</h5>
-                            <ValidateWrapper error={errors.weightCategoryId}>
+                            <ValidateWrapper error={errors.rankId}>
                                 <Select
-                                    name="weight"
+                                    name="rank"
+                                    isMulti
                                     placeholder="Разряд"
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
-                                    options={sportsList}
-                                    {...register('weightCategoryId', {
+                                    options={rankCategories}
+                                    {...register('rankId', {
                                         required: 'Выберите значение',
                                     })}
                                     onChange={(e) => {
-                                        setValue('weightCategoryId', e);
-                                        clearErrors('weightCategoryId')
+                                        setValue('rankId', e);
+                                        clearErrors('rankId')
                                     }}
                                 />
                             </ValidateWrapper>
@@ -358,34 +367,34 @@ const AddEvent = () => {
                             <Col>
                                 <Row xs={2} className={'mb-3'}>
                                     <Col className={'col-2'}>
-                                        <SlSocialVkontakte size={'35'}/>
+                                        <SlSocialVkontakte size={'35'} />
                                     </Col>
                                     <Col className={'col-10'}>
                                         <input type="text"
-                                               placeholder={'Введите ссылку'}
-                                               {...register('vkLink', {})}
+                                            placeholder={'Введите ссылку'}
+                                            {...register('vkLink', {})}
                                         />
                                     </Col>
                                 </Row>
                                 <Row xs={2} className={'mb-3'}>
                                     <Col className={'col-2'}>
-                                        <BsInstagram size={'35'}/>
+                                        <BsInstagram size={'35'} />
                                     </Col>
                                     <Col className={'col-10'}>
                                         <input type="text"
-                                               placeholder={'Введите ссылку'}
-                                               {...register('instaLink', {})}
+                                            placeholder={'Введите ссылку'}
+                                            {...register('instaLink', {})}
                                         />
                                     </Col>
                                 </Row>
                                 <Row xs={2} className={'mb-3'}>
                                     <Col className={'col-2'}>
-                                        <CiYoutube size={'35'}/>
+                                        <CiYoutube size={'35'} />
                                     </Col>
                                     <Col className={'col-10'}>
                                         <input type="text"
-                                               placeholder={'Введите ссылку'}
-                                               {...register('youtubeLink', {})}
+                                            placeholder={'Введите ссылку'}
+                                            {...register('youtubeLink', {})}
                                         />
                                     </Col>
                                 </Row>
@@ -393,34 +402,34 @@ const AddEvent = () => {
                             <Col className='md-6'>
                                 <Row xs={2} className={'mb-3'}>
                                     <Col className={'col-2'}>
-                                        <TbBrandTelegram size={'35'}/>
+                                        <TbBrandTelegram size={'35'} />
                                     </Col>
                                     <Col className={'col-10'}>
                                         <input type="text"
-                                               placeholder={'Введите ссылку'}
-                                               {...register('telegramLink', {})}
+                                            placeholder={'Введите ссылку'}
+                                            {...register('telegramLink', {})}
                                         />
                                     </Col>
                                 </Row>
                                 <Row xs={2} className={'mb-3'}>
                                     <Col className={'col-2'}>
-                                        <AiOutlineWhatsApp size={'35'}/>
+                                        <AiOutlineWhatsApp size={'35'} />
                                     </Col>
                                     <Col className={'col-10'}>
                                         <input type="text"
-                                               placeholder={'Введите ссылку'}
-                                               {...register('whatsAppLink', {})}
+                                            placeholder={'Введите ссылку'}
+                                            {...register('whatsAppLink', {})}
                                         />
                                     </Col>
                                 </Row>
                                 <Row xs={2}>
                                     <Col className={'col-2'}>
-                                        <FaTiktok size={'35'}/>
+                                        <FaTiktok size={'35'} />
                                     </Col>
                                     <Col className={'col-10'}>
                                         <input type="text"
-                                               placeholder={'Введите ссылку'}
-                                               {...register('tictokLink', {})}
+                                            placeholder={'Введите ссылку'}
+                                            {...register('tictokLink', {})}
                                         />
                                     </Col>
                                 </Row>
@@ -433,11 +442,11 @@ const AddEvent = () => {
                             <legend>Информация</legend>
                             <ValidateWrapper error={errors?.description} textarea={true}>
                                 <textarea rows="14" placeholder='Описание мероприятия'
-                                          {...register('description', {
-                                              required: 'Выберите значение',
-                                              minLength: {value: 5, message: 'Минимальное значение 5 символов'},
-                                              maxLength: {value: 500, message: 'Максимальное значение 500 символов'}
-                                          })}
+                                    {...register('description', {
+                                        required: 'Выберите значение',
+                                        minLength: { value: 5, message: 'Минимальное значение 5 символов' },
+                                        maxLength: { value: 500, message: 'Максимальное значение 500 символов' }
+                                    })}
                                 >
                                 </textarea>
                             </ValidateWrapper>
@@ -457,7 +466,7 @@ const AddEvent = () => {
                                         name={'Имя'}
                                         surname={'Фамилия'}
                                         town={'Город'}
-                                        birth={'01.01.2001'}/>
+                                        birth={'01.01.2001'} />
                                 </li>
                                 <li>
                                     <ParticipantControl
@@ -465,7 +474,7 @@ const AddEvent = () => {
                                         name={'Имя'}
                                         surname={'Фамилия'}
                                         town={'Город'}
-                                        birth={'01.01.2001'}/>
+                                        birth={'01.01.2001'} />
                                 </li>
                                 <li>
                                     <ParticipantControl
@@ -473,7 +482,7 @@ const AddEvent = () => {
                                         name={'Имя'}
                                         surname={'Фамилия'}
                                         town={'Город'}
-                                        birth={'01.01.2001'}/>
+                                        birth={'01.01.2001'} />
                                 </li>
                             </ul>
                         </fieldset>
@@ -481,7 +490,7 @@ const AddEvent = () => {
                         <fieldset>
                             <legend>Турнирная таблица</legend>
 
-                            <TournamentBracket/>
+                            <TournamentBracket />
                         </fieldset>
                     </>
                 }

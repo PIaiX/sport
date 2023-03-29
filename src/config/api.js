@@ -9,11 +9,11 @@ const apiBody = {
     headers: {
         'Accept': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials':'include',
+        'Access-Control-Allow-Credentials': 'include',
         'Content-Type': 'application/json',
-        'Fingerprint':localStorage.getItem('fingerprint')
+        'Fingerprint': localStorage.getItem('fingerprint')
     },
-    withCredentials:'include'
+    withCredentials: 'include'
 }
 const $api = axios.create(apiBody)
 const $authApi = axios.create(apiBody)
@@ -53,9 +53,9 @@ const apiRoutes = {
     AUTH_LOGIN: 'auth/login',
     AUTH_LOGOUT: 'auth/logout',
     AUTH_REFRESH: 'auth/refreshToken',
-    GET_USER_ME:'users/me',
-    EDIT_ME:'users',
-    VERIFICATION:'verification',
+    GET_USER_ME: 'users/me',
+    EDIT_ME: 'users',
+    VERIFICATION: 'verification',
 
     //reset password
     RESET_PASSWORD_EMAIL_VERIFY: 'auth/forgotPassword/emailVerify',
@@ -70,21 +70,22 @@ const apiRoutes = {
 
     //news
     GET_NEWS: 'news/paginate',
-    GET_ONE_NEW:'news',
+    GET_ONE_NEW: 'news',
 
     //events
-    GET_ALL_EVENTS:'events/paginate',
-    GET_EVENT:'events',
-    CREATE_EVENT:'events',
+    GET_ALL_EVENTS: 'events/paginate',
+    GET_EVENT: 'events',
+    CREATE_EVENT: 'events',
 
     //categories
     GET_CATEGORIES: 'discipline',
-    GET_WEIGHT_CATEGORY: 'discipline/weightCategory/byDisciplineId',
+    GET_WEIGHT_CATEGORY: 'discipline/weightCategory/byAgeCategoryId',
     GET_AGE_CATEGORY: 'discipline/ageCategory/byDisciplineId',
+    GET_RANK_CATEGORY: 'discipline/rank/byDisciplineId',
     //document
-    GET_DOCUMENT:'documents',
+    GET_DOCUMENT: 'documents',
 }
 
-export {$api, $authApi}
+export { $api, $authApi }
 export { BASE_API_URL, BASE_URL }
-export { apiRoutes}
+export { apiRoutes }
