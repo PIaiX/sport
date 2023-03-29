@@ -20,6 +20,7 @@ import NavPagination from '../components/NavPagination'
 import {GetAllEvents} from "../services/event";
 import {GetDiscipline, GetWightCategory} from "../services/params";
 import {DoCalendar} from "../helpers/DoCalendar";
+import useAnchor from "../hooks/useAnchor";
 
 const o = [{value: '1', label: 'Вариант 1'},
     {value: '2', label: 'Вариант 2'},
@@ -154,9 +155,8 @@ const Home = () => {
     const [categories, setCategories] = useState(o)
     const [waysOfCategories,setWaysOfCategories] = useState(w)
     const year = DoCalendar()
-    const myRef = useRef(null)
     const [maxValue, setMaxValue] = useState()
-    const executeScroll = () => myRef.current.scrollIntoView()
+    const [myRef, executeScroll] = useAnchor()
 
     useEffect(()=>{
         // GetNews().then(res=>res && setNews(res))
