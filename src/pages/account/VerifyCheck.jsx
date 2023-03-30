@@ -14,7 +14,10 @@ const VerifyCheck = ({children}) => {
 
     if(user?.isVerified)
         return ({...children});
-    else return <VerifyFrom />
+    else if(user)
+        return <VerifyFrom />
+    else
+        return <main></main>
 };
 
 export default VerifyCheck;

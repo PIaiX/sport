@@ -67,6 +67,11 @@ const userSlice= createSlice({
         [getMe.fulfilled]:(state, action)=>{
             state.user=action.payload
         },
+        [getMe.rejected]:(state, action)=>{
+            localStorage.removeItem('token')
+            state.auth = false
+            state.checked=true
+        },
         [editMe.fulfilled]:(state, action)=>{
             state.user=action.payload
         },
