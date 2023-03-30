@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import {RiCloseLine} from "react-icons/ri";
-import {useForm} from 'react-hook-form'
+import {useForm, useController} from 'react-hook-form'
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../store";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
 import {SelectToEndForPhoneInput} from "../../helpers/SelectToEndForPhoneInput";
 import {useDispatch} from "react-redux";
 import {getMe, editMe} from "../../store/slices/user/actions";
+import useAnchor from "../../hooks/useAnchor";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -32,15 +33,15 @@ const yearsList = [
 ];
 
 const Profile = () => {
-    const {handleSubmit, register, formState: {errors}, setValue, clearErrors, getValues} = useForm()
-    const [sex, setSex] = useState()
+    const {handleSubmit, register, formState: {errors}, setValue, clearErrors, getValues, control} = useForm()
     const {user} = useAppSelector(state => state.user)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
-
+    const { field: { value: genderValue, onChange: genderOnChange, ...genderField } } = useController({ name: 'gender', control, rules:{required:'Выберите значение'} });
+    const [myRef, executeScroll] = useAnchor()
 
     const SubmitUserClick = ({password, gender, ...data}) => {
         dispatch(editMe({...data, gender:gender.value===true?true:false}))
+        executeScroll()
     }
 
 
@@ -57,11 +58,15 @@ const Profile = () => {
         setValue('weight', user?.weight)
         setValue('height', user?.height)
         setValue('isPublicProfile', !user?.isPublicProfile)
-        setValue('gender', {value: 'false', label: 'Женский'})
+        setValue('gender',
+            user?.gender!==null?
+                sexList[user?.gender==true?0:1]
+                : null
+        )
     }, [user])
 
     return (
-        <section className='account-box'>
+        <section className='account-box' ref={myRef}>
             <h1>Личные данные</h1>
             <form onSubmit={handleSubmit(SubmitUserClick)}>
                 <Row className='gx-4 gx-xxl-5'>
@@ -131,26 +136,14 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.gender}>
                                         <Select
-                                            name="sex"
-                                            // defaultValue={user?.gender == null ? null : user?.gender ? {
-                                            //     value: 'true',
-                                            //     label: 'Мужской'
-                                            // } : {value: 'false', label: 'Женский'}}
-                                            defaultInputValue={user?.gender?'Мужской':'Женский'}
+                                            name="gender"
                                             placeholder="Пол"
                                             classNamePrefix="simple-select"
+                                            value={genderValue}
+                                            onChange={option => genderOnChange(option)}
                                             className="simple-select-container borderless w-100 validate-select"
                                             options={sexList}
-                                            {...register('gender', {
-                                                required: 'Выберите значение!',
-                                            }
-                                            )}
-                                            onChange={(e) => {
-                                                console.log(e)
-                                                setValue('gender', e);
-                                                clearErrors('gender')
-                                            }}
-
+                                            {...genderField}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -236,7 +229,9 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.height}>
                                         <input type="text" placeholder='Рост'
-                                               {...register('height',
+                                               {...register('height',{
+                                                   valueAsNumber:true,
+                                                   }
                                                //     {
                                                //     required: 'Поле обязательно к заполнению',
                                                //     min:{value:118, message:'Минимальный рост 118см'},
@@ -253,7 +248,9 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.weight}>
                                         <input type="text" placeholder='Вес'
-                                               {...register('weight',
+                                               {...register('weight',{
+                                                   valueAsNumber: true
+                                                   }
                                                //     {
                                                //     required: 'Поле обязательно к заполнению',
                                                //     min:{value:45, message:'Минимальный вес 45кг'},
