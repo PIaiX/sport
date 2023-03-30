@@ -4,7 +4,7 @@ const EventCard = (state) => {
     const {id, imgUrl, name, venue, startsAt, days} = state
     return (
         <figure className='event'>
-            <Link to={`/event/${id}`} state={state}><img src={imgUrl?imgUrl:'./imgs/userDontsFind.jpg'} alt={name} /></Link>
+            <Link to={`/event/${id}`} state={state}><img src={imgUrl?imgUrl:'./imgs/userDontFind.jpg'} alt={name} /></Link>
             <figcaption>
                 <h4><Link to={`/event/${id}`} state={state}>{name}</Link></h4>
                 <address>{venue}</address>

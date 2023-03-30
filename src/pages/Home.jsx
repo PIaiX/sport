@@ -92,7 +92,7 @@ const n=[{
             'Кремлев возглавляет Международную ассоциацию бокса с декабря 2020 года.'
     }]
 const b=[{
-    imgUrl:'../imgs/819e1210-0270-4099-a80a-8a614e1c6394.jpg',
+    imgUrl:'../imgs/photo_5267083206321097225_x.jpg',
     title:'Мма',
     categoryAge:'16+',
     srcLink:'event/2',
@@ -103,7 +103,7 @@ const b=[{
     ]
 },
     {
-        imgUrl:'../imgs/d2bde8c5-44b7-4889-94f6-b7252313a670.jpg',
+        imgUrl:'../imgs/photo_5267083206321097221_y.jpg',
         title:'Рукопашный бой',
         categoryAge:'16+',
         srcLink:'event/2',
@@ -114,7 +114,7 @@ const b=[{
         ]
     },
     {
-        imgUrl:'../imgs/0ca1c938-e8ca-4536-bf92-d847f9a33257.jpg',
+        imgUrl:'../imgs/photo_5267083206321097223_x.jpg',
         title:'Дзюдо',
         categoryAge:'16+',
         srcLink:'event/2',
@@ -125,7 +125,7 @@ const b=[{
         ]
     },
     {
-        imgUrl:'../imgs/fc3cff27-bbe0-4e33-a633-22716fcb72bc.jpg',
+        imgUrl:'../imgs/photo_5267083206321097222_x.jpg',
         title:'Рукопашный бой',
         categoryAge:'16+',
         srcLink:'event/2',
@@ -136,7 +136,7 @@ const b=[{
         ]
     },
     {
-        imgUrl:'../imgs/f05eb709-c96e-4c27-b9e0-c325ded7f45c.jpg',
+        imgUrl:'../imgs/photo_5267083206321097224_x.jpg',
         title:'Дзюдо',
         categoryAge:'16+',
         srcLink:'event/2',
@@ -161,13 +161,18 @@ const Home = () => {
     useEffect(()=>{
         // GetNews().then(res=>res && setNews(res))
         // GetBanners().then(res=>res && setBanners(res))
-        GetDiscipline().then(res=>res && setCategories(res))
+        GetDiscipline().then(res => {
+            if (res) {
+                setCategories(res.map((element) => ({ value: element.id, label: element.name })))
+            }
+        })
     }, [])
 
     useEffect(()=>{
         filter?.typeEvent && GetWightCategory(filter?.typeEvent).then(res=>res && setWaysOfCategories(res))
     },[categories])
     useEffect(()=>{
+        console.log(filter)
         GetAllEvents(filter).then(res=>{
             if(res){
                 if(!maxValue){
@@ -176,7 +181,6 @@ const Home = () => {
                 setEvents((prevState)=>{
                     if (prevState!==undefined)
                         executeScroll()
-                    console.log(prevState)
                     return res?.body
                 })
             }
@@ -248,7 +252,9 @@ const Home = () => {
                         <Select
                             name="sort"
                             placeholder="Тип мероприятия"
-                            onChange = {(value)=>setFilter({typeEvent:value})}
+                            onChange = {(value)=>{
+                                setFilter({typeEvent:value.map((element) => element.value )})
+                            }}
                             classNamePrefix="simple-select"
                             className="simple-select-container"
                             options={categories}

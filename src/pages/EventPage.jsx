@@ -49,7 +49,7 @@ const EventPage = () => {
                     <div className="top">
                         <Row className='gx-0'>
                             <Col xs={12} lg={9}>
-                                <img src={event?.imgUrl?event?.imgUrl:'../imgs/userDontsFind.jpg'} alt={event?.title}/>
+                                <img src={event?.imgUrl?event?.imgUrl:'../imgs/userDontFind.jpg'} alt={event?.title}/>
                             </Col>
                             <Col xs={12} lg={3}>
                                 <ul className='info'>

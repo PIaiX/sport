@@ -1,16 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import {RiCloseLine} from "react-icons/ri";
-import {useForm, useController} from 'react-hook-form'
-import {useNavigate} from "react-router-dom";
+import {useController, useForm} from 'react-hook-form'
 import {useAppSelector} from "../../store";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
 import {SelectToEndForPhoneInput} from "../../helpers/SelectToEndForPhoneInput";
 import {useDispatch} from "react-redux";
-import {getMe, editMe} from "../../store/slices/user/actions";
+import {editMe} from "../../store/slices/user/actions";
 import useAnchor from "../../hooks/useAnchor";
+import {onImageHandler} from "../../helpers/onImageHandler";
+import {useImageViewer} from '../../hooks/imageViewer'
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -38,9 +39,18 @@ const Profile = () => {
     const dispatch = useDispatch()
     const { field: { value: genderValue, onChange: genderOnChange, ...genderField } } = useController({ name: 'gender', control, rules:{required:'Выберите значение'} });
     const [myRef, executeScroll] = useAnchor()
+    const [file, setFile] = useState()
+    const [avatar, setAvatar] = useState(null)
+    let photo = useImageViewer(avatar?.image)
 
     const SubmitUserClick = ({password, gender, ...data}) => {
-        dispatch(editMe({...data, gender:gender.value===true?true:false}))
+        let req = {...data, gender:gender.value===true?true:false}
+        const formData = new FormData()
+        for (const key in req) {
+            formData.append(key, req[key])
+        }
+        formData.append('image', file, '2we.jpg')
+        dispatch(editMe(formData))
         executeScroll()
     }
 
@@ -69,6 +79,20 @@ const Profile = () => {
         <section className='account-box' ref={myRef}>
             <h1>Личные данные</h1>
             <form onSubmit={handleSubmit(SubmitUserClick)}>
+                <Row className={'mb-3'}>
+                    <img className={'col-sm-8 col-md-6 col-xl-5 img-profile'}
+                         src={avatar?photo?.data_url:'../imgs/userDontFind.jpg'} />
+                    <div className={'d-flex gap-2 mt-2'}>
+                        <div className="file-upload">
+                            <button className="btn-4">Загрузить фото</button>
+                            <input type="file" onChange={(e) => {
+                                setFile(e.target.files[0])
+                                onImageHandler(e, setAvatar)
+                            }} />
+                        </div>
+                        <input type={'button'} className={'btn-5'} value={'Удалить фото'}/>
+                    </div>
+                </Row>
                 <Row className='gx-4 gx-xxl-5'>
                     <Col md={6}>
                         <fieldset>

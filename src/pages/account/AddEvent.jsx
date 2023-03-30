@@ -20,6 +20,8 @@ import { AiOutlineWhatsApp } from "react-icons/ai";
 import { CiYoutube } from "react-icons/ci";
 import { FaTiktok } from "react-icons/fa";
 import { getValue } from "@testing-library/user-event/dist/utils";
+import {onImageHandler} from "../../helpers/onImageHandler";
+import {useImageViewer} from "../../hooks/imageViewer";
 const sportsList = [
     { value: 1, label: '1' },
     { value: 2, label: '2' },
@@ -39,6 +41,9 @@ const AddEvent = () => {
     const [placeState, setPlaceState] = useState([])
     const { id } = useParams()
     const nav = useNavigate()
+    const [avatar, setAvatar] = useState(null)
+    let photo = useImageViewer(avatar?.image)
+
 
     useEffect(() => {
         GetDiscipline().then(res => {
@@ -127,9 +132,6 @@ const AddEvent = () => {
 
     }
 
-    console.log(getValues('weightCategoryId'))
-    console.log(getValues('rankId'))
-
     const MapClick = (e) => {
         setPlaceState(e)
     }
@@ -140,6 +142,20 @@ const AddEvent = () => {
             <form onSubmit={handleSubmit(SubmitClick)}>
                 <fieldset>
                     <legend>Основное</legend>
+                    <Row className={'mb-3'}>
+                        <img className={'col-sm-8 col-md-6 col-xl-5 img-profile'}
+                             src={avatar?photo?.data_url:'../../imgs/userDontFind.jpg'} />
+                        <div className={'d-flex gap-2 mt-2'}>
+                            <div className="file-upload">
+                                <button className="btn-4">Загрузить фото</button>
+                                <input type="file" onChange={(e) => {
+                                    onImageHandler(e, setAvatar)
+                                }} />
+                            </div>
+                            <input type={'button'} className={'btn-5'} value={'Удалить фото'}/>
+                        </div>
+                    </Row>
+
                     <Row className='gx-4 gx-xl-5'>
                         <Col md={5}>
                             <h5>Дисциплина</h5>
