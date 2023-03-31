@@ -163,9 +163,9 @@ const Profile = () => {
                                             name="gender"
                                             placeholder="Пол"
                                             classNamePrefix="simple-select"
+                                            className="simple-select-container borderless w-100 validate-select"
                                             value={genderValue}
                                             onChange={option => genderOnChange(option)}
-                                            className="simple-select-container borderless w-100 validate-select"
                                             options={sexList}
                                             {...genderField}
                                         />

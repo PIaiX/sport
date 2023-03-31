@@ -76,6 +76,8 @@ const apiRoutes = {
     GET_ALL_EVENTS: 'events/paginate',
     GET_EVENT: 'events',
     CREATE_EVENT: 'events',
+    GET_ACTIVE_EVENTS:'',
+    GET_ARCHIVED_EVENTS:'',
 
     //categories
     GET_CATEGORIES: 'discipline',

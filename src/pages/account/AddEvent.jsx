@@ -4,10 +4,10 @@ import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import TournamentBracket from '../../components/TournamentBracket';
 import ParticipantControl from '../../components/utils/ParticipantControl';
-import { useForm } from "react-hook-form";
+import {useController, useForm} from "react-hook-form";
 import { GetAgeCategory, GetDiscipline, GetWightCategory, GetRankCategory } from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
-import { CreateEvent } from "../../services/event";
+import {CreateEvent, GetOneEvent} from "../../services/event";
 import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
 import { FiMapPin } from "react-icons/fi";
 import { getAddress } from "../../services/YMap";
@@ -22,6 +22,7 @@ import { FaTiktok } from "react-icons/fa";
 import { getValue } from "@testing-library/user-event/dist/utils";
 import {onImageHandler} from "../../helpers/onImageHandler";
 import {useImageViewer} from "../../hooks/imageViewer";
+import {useAppAction} from "../../store";
 const sportsList = [
     { value: 1, label: '1' },
     { value: 2, label: '2' },
@@ -33,17 +34,22 @@ const sexList = [
 ];
 
 const AddEvent = () => {
-    const { register, handleSubmit, formState: { errors }, setValue, clearErrors, setError, getValues } = useForm()
+    const { register, handleSubmit, formState: { errors }, setValue, clearErrors, control} = useForm()
+    const { field: { value: disciplineIdValue, onChange: disciplineIdOnChange, ...disciplineIdField } } = useController({ name: 'disciplineId', control, rules:{required:'Выберите значение'} });
+    const { id } = useParams()
+    const {setNotFound} = useAppAction()
+    const navigate = useNavigate()
+
     const [categories, setCategories] = useState()
     const [weightCategories, setWeightCategories] = useState()
     const [ageCategories, setAgeCategories] = useState()
     const [rankCategories, setRankCategories] = useState()
     const [placeState, setPlaceState] = useState([])
-    const { id } = useParams()
-    const nav = useNavigate()
+    const [event, setEvent] = useState()
+    const [locationState, setLocationState] = useState([55.821283, 49.161006])
+
     const [avatar, setAvatar] = useState(null)
     let photo = useImageViewer(avatar?.image)
-
 
     useEffect(() => {
         GetDiscipline().then(res => {
@@ -52,6 +58,41 @@ const AddEvent = () => {
             }
         })
     }, [])
+
+    useEffect(()=>{
+        if(id){
+            GetOneEvent(id).then(res=>{
+                if(res)
+                    setEvent(res)
+                else
+                    setNotFound(true)
+            })
+        }
+    }, [id])
+
+    useEffect(()=>{
+        if(event){
+            setValue('name', event?.name)
+            setValue('venue', event?.venue)
+            setValue('startsAt', event?.startsAt.slice(0, -1))
+            setValue('earlyRegistrationFrom', event?.earlyRegistrationFrom.slice(0, -1))
+            setValue('earlyRegistrationTo', event?.earlyRegistrationTo.slice(0, -1))
+            setValue('standartRegistrationFrom', event?.standartRegistrationFrom.slice(0, -1))
+            setValue('standartRegistrationTo', event?.standartRegistrationTo.slice(0, -1))
+            setValue('lateRegistrationFrom', event?.lateRegistrationFrom.slice(0, -1))
+            setValue('lateRegistrationTo', event?.lateRegistrationTo.slice(0, -1))
+            setValue('vkLink', event?.vkLink)
+            setValue('instaLink', event?.instaLink)
+            setValue('telegramLink', event?.telegramLink)
+            setValue('whatsAppLink', event?.whatsAppLink)
+            setValue('tictokLink', event?.tictokLink)
+            setValue('youtubeLink', event?.youtubeLink)
+
+            console.log(categories)
+
+            setLocationState([event?.latitude, event?.longitude])
+        }
+    }, [event])
 
     useEffect(() => {
         if (placeState) {
@@ -127,7 +168,7 @@ const AddEvent = () => {
             ...data
         }
         CreateEvent(t)
-            .then(() => nav('/account/events'))
+            .then(() => navigate('/account/events'))
             .catch(res => console.log(res))
 
     }
@@ -166,14 +207,9 @@ const AddEvent = () => {
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
                                     options={categories}
-                                    {...register('disciplineId', {
-                                        required: 'Выберите значение!',
-                                    })}
-                                    onChange={(e) => {
-                                        changeWeight(e.value)
-                                        setValue('disciplineId', e);
-                                        clearErrors('disciplineId')
-                                    }}
+                                    value={disciplineIdValue}
+                                    onChange={option => disciplineIdOnChange(option)}
+                                    {...disciplineIdField}
                                 />
                             </ValidateWrapper>
                             <h5>Название</h5>
@@ -192,10 +228,13 @@ const AddEvent = () => {
                             </ValidateWrapper>
                             <h5>Начало мероприятия</h5>
                             <ValidateWrapper error={errors?.startsAt}>
-                                <input type="datetime-local" className='mb-3' placeholder='Начало мероприятия'
+                                <input type="datetime-local"
+                                       className='mb-3'
+                                       placeholder='Начало мероприятия'
                                     {...register('startsAt', {
                                         required: 'Поле обязательно к заполнению',
-                                        valueAsDate: true
+                                        valueAsDate: true,
+                                        onChange:(e)=>console.log(e.target.value)
                                     })}
                                 />
                             </ValidateWrapper>
@@ -300,8 +339,8 @@ const AddEvent = () => {
                                     <YMaps query={{ lang: "ru_RU" }}>
                                         <Map style={{ width: '100%', height: '350px' }}
                                             onClick={(e) => MapClick(e.get('coords'))}
-                                            defaultState={{ center: [55.821283, 49.161006], zoom: 13, }}>
-                                            <Placemark geometry={placeState}
+                                            defaultState={{ center: locationState, zoom: 13, }}>
+                                            <Placemark geometry={locationState}
                                             />
                                         </Map>
                                     </YMaps>

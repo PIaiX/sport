@@ -28,3 +28,21 @@ export const CreateEvent = async (payload) => {
         console.log(error)
     }
 }
+
+export const getActiveEvents = async (payload) => {
+    try {
+        const result = await $authApi.post(apiRoutes.GET_ACTIVE_EVENTS, payload)
+        return result?.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getArchivedEvents = async (payload) => {
+    try {
+        const result = await $authApi.post(apiRoutes.GET_ARCHIVED_EVENTS, payload)
+        return result?.data
+    } catch (error) {
+        console.log(error)
+    }
+}
