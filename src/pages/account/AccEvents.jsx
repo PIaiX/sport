@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import AccEventPreview from '../../components/AccEventPreview';
 import {getActiveEvents, getArchivedEvents} from "../../services/event";
+import {useAppSelector} from "../../store";
 
 const ae=[
     {
@@ -72,7 +73,10 @@ const are=[
 const AccEvents = () => {
     const [activeEvents, setActiveEvents] = useState(ae);
     const [archivedEvents, setArchivedEvents] = useState(are);
+    const myEvents = useAppSelector(state=>state.user.user?.myEvents)
+    const requests = useAppSelector(state=>state.user.user?.requests).map(element=>element?.event)
 
+    console.log(requests)
     useEffect(() => {
         getActiveEvents().then(res=>{
             if(res)setActiveEvents(res)
@@ -100,14 +104,19 @@ const AccEvents = () => {
                 <div className="btns"></div>
             </div>
             <ul className='g-3 g-xl-2 row row-cols-1 row-cols-sm-2 row-cols-xl-1 list-unstyled mb-4 mb-sm-5'>
-                {activeEvents?.map((element, index)=>
+                {myEvents?.map((element, index)=>
                     <li key={index}>
-                        <AccEventPreview {...element} />
+                        <AccEventPreview role={2} active={true} {...element} />
+                    </li>
+                )}
+                {requests?.map((element, index)=>
+                    <li key={index}>
+                        <AccEventPreview role={1} active={true} {...element} />
                     </li>
                 )}
             </ul>
 
-            <h3>Архивные мероприятия</h3>
+{/*            <h3>Архивные мероприятия</h3>
             <div className='event-preview top'>
                 <div className='date'>Дата</div>
                 <div className='title'>Название мероприятия</div>
@@ -121,7 +130,7 @@ const AccEvents = () => {
                         <AccEventPreview {...element} />
                     </li>
                 )}
-            </ul>
+            </ul>*/}
         </section>
     );
 };

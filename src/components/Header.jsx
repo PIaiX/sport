@@ -40,7 +40,7 @@ const Header = () => {
                                         <NavLink to="https://www.alfastrah.ru/individuals/life/protection-family/calc/?%20tag=smartmed&utm_source=smartmed_pro&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family">Страхование</NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to={`${auth ? '/account' : '/login'}`}>Личный кабинет</NavLink>
+                                        <NavLink to={`${auth ? '/account/profile' : '/login'}`}>Личный кабинет</NavLink>
                                     </li>
                                 </ul>
                             </nav>

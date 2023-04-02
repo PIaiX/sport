@@ -39,17 +39,17 @@ const Profile = () => {
     const dispatch = useDispatch()
     const { field: { value: genderValue, onChange: genderOnChange, ...genderField } } = useController({ name: 'gender', control, rules:{required:'Выберите значение'} });
     const [myRef, executeScroll] = useAnchor()
-    const [file, setFile] = useState()
+
     const [avatar, setAvatar] = useState(null)
     let photo = useImageViewer(avatar?.image)
-
+    // setImageToNull
     const SubmitUserClick = ({password, gender, ...data}) => {
-        let req = {...data, gender:gender.value===true?true:false}
+        let req = {...data, gender:gender?.value}
         const formData = new FormData()
         for (const key in req) {
             formData.append(key, req[key])
         }
-        formData.append('image', file, '2we.jpg')
+        formData.append('image', avatar?.image)
         dispatch(editMe(formData))
         executeScroll()
     }
@@ -85,10 +85,7 @@ const Profile = () => {
                     <div className={'d-flex gap-2 mt-2'}>
                         <div className="file-upload">
                             <button className="btn-4">Загрузить фото</button>
-                            <input type="file" onChange={(e) => {
-                                setFile(e.target.files[0])
-                                onImageHandler(e, setAvatar)
-                            }} />
+                            <input type="file" onChange={(e) => onImageHandler(e, setAvatar, 'image')} />
                         </div>
                         <input type={'button'} className={'btn-5'} value={'Удалить фото'}/>
                     </div>

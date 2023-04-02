@@ -29,6 +29,16 @@ export const CreateEvent = async (payload) => {
     }
 }
 
+export const EditEvent = async (payload, id) => {
+    console.log(id)
+    try {
+        const result = await $authApi.patch(`${apiRoutes.CREATE_EVENT}/${id}`, payload)
+        return result?.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getActiveEvents = async (payload) => {
     try {
         const result = await $authApi.post(apiRoutes.GET_ACTIVE_EVENTS, payload)

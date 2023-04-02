@@ -54,6 +54,7 @@ const apiRoutes = {
     AUTH_LOGOUT: 'auth/logout',
     AUTH_REFRESH: 'auth/refreshToken',
     GET_USER_ME: 'users/me',
+    GET_REQUESTS_ME: 'events/requests/my',
     EDIT_ME: 'users',
     VERIFICATION: 'verification',
 
@@ -78,6 +79,9 @@ const apiRoutes = {
     CREATE_EVENT: 'events',
     GET_ACTIVE_EVENTS:'',
     GET_ARCHIVED_EVENTS:'',
+    GET_MY_EVENTS:'events/current',
+    JOIN_EVENT:'events/requests/send',
+    EXIT_EVENT:'events/requests/send',
 
     //categories
     GET_CATEGORIES: 'discipline',

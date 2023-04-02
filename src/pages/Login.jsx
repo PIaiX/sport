@@ -4,19 +4,25 @@ import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form";
 import ValidateWrapper from "../components/utils/ValidateWrapper";
 import {useDispatch} from "react-redux";
-import {login} from "../store/slices/user/actions";
+import {useUserAction} from "../store/slices/user/actions";
 import {useAppSelector} from "../store";
 
 const Login = () => {
     const dispatch = useDispatch()
-    const {auth, loginError} = useAppSelector(state => state.user)
-    const {register, formState: {errors}, handleSubmit, getValues} = useForm()
+    const loginError = useAppSelector(state => state.user.loginError)
+    const {register, formState: {errors}, handleSubmit, setError} = useForm()
+    const {login} = useUserAction()
 
     useEffect(()=>{
-        // loginError && alert("Неверные данные для входа")
+        if(loginError){
+            console.log(loginError)
+            loginError.indexOf('password')!==-1 && setError('password', {message:'Неверный пароль'})
+            loginError.indexOf('email')!==-1 && setError('email', {message:'Неверный email'})
+            login(null)
+        }
     }, [loginError])
     const SubmitClick = (data) => {
-        dispatch(login(data))
+        login(data)
     }
     return (
         <main>
@@ -40,6 +46,7 @@ const Login = () => {
                         <ValidateWrapper error={errors?.password}>
                             <input className='mb-3' type="password" placeholder='пароль'
                                    {...register('password', {
+                                       minLength:{value:8, message:'Минимум 8 символов'},
                                        required: 'Поле обязательно к заполнению',
                                    })}
                             />

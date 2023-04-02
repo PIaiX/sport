@@ -14,12 +14,12 @@ export const GetStringFromDate = (dateFrom,  dateTo) => {
 
     const GetDay = (d) => {
         const date = new Date(d)
-        return date.getDay().toString()+ ' ' + months[date.getMonth()]
+        return date.getUTCDate()+ ' ' + months[date.getUTCMonth()]
     }
 
     const GetDayWithTime = (d) => {
         const day = GetDay(d)
-        return day + ' ' + new Date(d).getHours().toString() + ':'+new Date(d).getMinutes().toString()
+        return day + ' ' + new Date(d).getUTCHours() + ':'+new Date(d).getUTCMinutes()
 
     }
 
@@ -33,5 +33,4 @@ export const GetStringFromDate = (dateFrom,  dateTo) => {
         const d1 = GetDayWithTime(dateFrom)
         return d1
     }
-    return dateFrom.toString()
 };

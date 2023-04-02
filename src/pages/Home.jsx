@@ -256,7 +256,7 @@ const Home = () => {
                                 setFilter({typeEvent:value.map((element) => element.value )})
                             }}
                             classNamePrefix="simple-select"
-                            className="simple-select-container"
+                            className="simple-select-container pb-2"
                             options={categories}
                             isMulti
                             isClearable={true}
@@ -266,7 +266,7 @@ const Home = () => {
                             name="sort"
                             placeholder="Категория мероприятия"
                             classNamePrefix="simple-select"
-                            className="simple-select-container"
+                            className="simple-select-container pb-2"
                             onChange = {(value)=>setFilter({typeWay:value})}
                             options={waysOfCategories}
                             isMulti

@@ -1,11 +1,19 @@
 import React, {useEffect} from 'react';
 import {useAppSelector} from "../../store";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+
 const AuthCheck = ({children}) => {
-    const {auth, checked} = useAppSelector(state => state.user)
+
+    const auth = useAppSelector(state => state.user.auth)
+    const checked = useAppSelector(state => state.user.checked)
+    const {pathname} = useLocation()
     const  navigate = useNavigate()
+    console.log(pathname)
     useEffect(()=>{
-        navigate(`${auth?'/account/profile':'/login'}`)
+        if(pathname=='/login' && auth)
+            navigate(`/account/profile`, {replace:true})
+        else if(!auth)
+            navigate(`/login`, {replace:true})
     },[auth, checked])
     if(checked)return (
         {...children}

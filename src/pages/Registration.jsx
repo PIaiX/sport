@@ -1,19 +1,26 @@
-import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form";
 import ValidateWrapper from "../components/utils/ValidateWrapper";
-import {useAppAction} from "../store";
+import {useAppSelector} from "../store";
 import {SelectToEndForPhoneInput} from "../helpers/SelectToEndForPhoneInput";
-import {useDispatch} from "react-redux";
-import {registration} from "../store/slices/user/actions";
+import {useUserAction} from '../store/slices/user/actions'
 
 const Registration = () => {
-    const {register, formState: {errors}, handleSubmit, getValues, setValue} = useForm()
-    const {setUser} = useAppAction()
-    const dispatch = useDispatch()
+    const {register, formState: {errors}, handleSubmit, getValues, setValue, setError} = useForm()
+    const loginError = useAppSelector(state => state.user.loginError)
+    const {registration, login} = useUserAction()
+
+    useEffect(()=>{
+        if(loginError){
+            loginError.indexOf('email')!==-1 && setError('email', {message:'Такой email уже занят'})
+            login(null)
+        }
+    }, [loginError])
+
     const SubmitClick = ({repeatPassword, ...otherData}) => {
-        dispatch(registration(otherData))
+        registration(otherData)
     }
     return (
         <main>
@@ -72,6 +79,7 @@ const Registration = () => {
                         <ValidateWrapper error={errors?.password}>
                             <input className='mb-3' type="password" placeholder='пароль'
                                    {...register('password', {
+                                       minLength:{value:8, message:'Минимум 8 символов'},
                                        required: 'Поле обязательно к заполнению',
                                    })}
                             />

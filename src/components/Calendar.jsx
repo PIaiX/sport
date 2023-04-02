@@ -11,7 +11,7 @@ const Calendar = ({CalendarClick, calendarDays=[]}) => {
         <p>Выберите один или несколько дней.</p>
         );
     return (
-        <div className="calendar">
+        <div className="calendar pb-2">
             <button type="button" className='btn-2' onClick={()=>setShowCalendar((showCalendar) ? false : true)}>
                 Когда
             </button>

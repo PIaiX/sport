@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getMe, login, logout, refreshAuth, editMe, verification, registration} from './actions'
+import {getMe, login, logout, refreshAuth, editMe, verification, registration, JoinEvent, myRequests, getMyEvents} from './actions'
 const initialState={
     user:null,
     checked:false,
@@ -29,6 +29,11 @@ const userSlice= createSlice({
             state.auth=true
             state.user.loginError = null
             localStorage.setItem('token', action?.payload?.accessToken)
+        },
+        [registration.rejected]:(state, action)=>{
+            state.auth=false
+            state.user=null;
+            state.loginError = action.payload
         },
         [login.fulfilled]:(state, action)=>{
             state.user=action.payload.user
@@ -75,14 +80,21 @@ const userSlice= createSlice({
         [editMe.fulfilled]:(state, action)=>{
             state.user=action.payload
         },
-        [editMe.rejected]:(state, action)=>{
-        },
         [verification.fulfilled]:(state)=>{
             state.user.isVerified = true
         },
         [verification.rejected]:(state, action)=>{
             const message = action?.payload?.response?.data?.message?.indexOf('code')!==-1
             if (message) state.error = 'code'
+        },
+        [myRequests.fulfilled]:(state, action)=>{
+            state.user.requests = action.payload
+        },
+        [getMyEvents.fulfilled]:(state, action)=>{
+            state.user.myEvents = action.payload
+        },
+        [JoinEvent.fulfilled]:(state, action)=>{
+            state.user.requests = [...state.user.requests, {event:{...action.payload, id:action.payload.eventId}}]
         }
     }
 })

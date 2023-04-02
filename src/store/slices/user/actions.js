@@ -1,17 +1,19 @@
-import {createAsyncThunk} from '@reduxjs/toolkit'
+import {bindActionCreators, createAsyncThunk} from '@reduxjs/toolkit'
 import {$authApi, $api, apiRoutes} from "../../../config/api";
-
+import {useDispatch} from "react-redux";
 const login = createAsyncThunk(
     'user/login',
     async (payload = {}, thunkAPI) => {
     try {
+        if (!payload)
+            return thunkAPI.rejectWithValue(payload)
         const response = await $api.post(apiRoutes.AUTH_LOGIN, payload)
 
         if (response && response.status === 201) {
             return response?.data
         }
     } catch (error) {
-        return thunkAPI.rejectWithValue(error)
+        return thunkAPI.rejectWithValue(error?.response?.data.message)
     }
 })
 
@@ -22,10 +24,10 @@ const registration = createAsyncThunk(
         const response = await $api.post(apiRoutes.AUTH_REGISTRATION, payload)
 
         if (response && response.status === 201) {
-            return response?.data
+            return thunkAPI.fulfillWithValue(response?.data)
         }
     } catch (error) {
-        return thunkAPI.rejectWithValue(error)
+        return thunkAPI.rejectWithValue(error?.response?.data.message)
     }
 })
 
@@ -41,6 +43,20 @@ const logout = createAsyncThunk(
             return thunkAPI.rejectWithValue(error)
         }
     })
+
+const getMyEvents = createAsyncThunk(
+    'user/myEvents',
+    async (payload = {}, thunkAPI) => {
+        try {
+            const response = await $authApi.get(apiRoutes.GET_MY_EVENTS)
+            if (response && response.status === 200) {
+                return thunkAPI.fulfillWithValue(response?.data?.creator)
+            }
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    })
+
 const refreshAuth =  createAsyncThunk('user/refresh', async (_, thunkAPI) => {
     try {
         const response = await $api.patch(apiRoutes.AUTH_REFRESH)
@@ -52,9 +68,21 @@ const refreshAuth =  createAsyncThunk('user/refresh', async (_, thunkAPI) => {
         return thunkAPI.rejectWithValue(error)
     }
 })
+
 const getMe =  createAsyncThunk('user/getMe', async (_, thunkAPI) => {
     try {
         const response = await $authApi.get(apiRoutes.GET_USER_ME)
+        if (response && response.status === 200) {
+            return thunkAPI.fulfillWithValue(response?.data)
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
+
+const JoinEvent =  createAsyncThunk('user/joinEvent', async (payload, thunkAPI) => {
+    try {
+        const response = await $authApi.get(`${apiRoutes.JOIN_EVENT}/${payload}`)
         if (response && response.status === 200) {
             return  thunkAPI.fulfillWithValue(response?.data)
         }
@@ -62,6 +90,29 @@ const getMe =  createAsyncThunk('user/getMe', async (_, thunkAPI) => {
         return thunkAPI.rejectWithValue(error)
     }
 })
+
+const ExitEvent =  createAsyncThunk('user/joinEvent', async (payload, thunkAPI) => {
+    try {
+        const response = await $authApi.get(`${apiRoutes.JOIN_EVENT}/${payload}`)
+        if (response && response.status === 200) {
+            return  thunkAPI.fulfillWithValue(response?.data)
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
+
+const myRequests =  createAsyncThunk('user/myRequests', async (_, thunkAPI) => {
+    try {
+        const response = await $authApi.get(apiRoutes.GET_REQUESTS_ME)
+        if (response && response.status === 200) {
+            return thunkAPI.fulfillWithValue(response?.data)
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
+    }
+})
+
 const editMe =  createAsyncThunk('user/editMe', async (payload, thunkAPI) => {
     try {
         const response = await $authApi.patch(apiRoutes.EDIT_ME, payload)
@@ -84,5 +135,10 @@ const verification =  createAsyncThunk('verification', async (code, thunkAPI) =>
     }
 })
 
+const actions ={login, logout, refreshAuth, getMe, editMe, verification, registration, myRequests, getMyEvents, JoinEvent, ExitEvent}
+export const useUserAction=()=>{
+    const dispatch = useDispatch();
+    return bindActionCreators(actions, dispatch)
+}
+export {login, logout, refreshAuth, getMe, editMe, verification, registration, myRequests, getMyEvents, JoinEvent, ExitEvent}
 
-export {login, logout, refreshAuth, getMe, editMe, verification, registration}

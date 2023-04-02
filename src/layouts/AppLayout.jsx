@@ -6,7 +6,7 @@ import NotFound from "../pages/NotFound";
 import {useAppAction, useAppSelector} from "../store";
 import {useDispatch} from "react-redux";
 import {initFingerprint} from "../store/slices/app/Action";
-import {refreshAuth} from '../store/slices/user/actions'
+import {getMe, refreshAuth, myRequests, getMyEvents, useUserAction} from '../store/slices/user/actions'
 import ChangeLocation from "./ChangeLocation";
 
 const AppLayout = () => {
@@ -14,6 +14,7 @@ const AppLayout = () => {
     const {setNotFound, CheckedBad} = useAppAction()
     const {pathname} = useLocation()
     const dispatch = useDispatch()
+    const {myRequests, getMyEvents} = useUserAction()
     useEffect(() => {
         setNotFound(false)
     }, [pathname])
@@ -22,7 +23,14 @@ const AppLayout = () => {
         if (fingerprint) {
             localStorage.setItem('fingerprint', fingerprint)
             if (localStorage.getItem('token'))
-                dispatch(refreshAuth())
+                dispatch(refreshAuth()).then(res => {
+                    res && dispatch(getMe()).then(res => {
+                        if (res) {
+                            myRequests()
+                            getMyEvents()
+                        }
+                    })
+                })
             else
                 dispatch(CheckedBad())
         } else dispatch(initFingerprint())
