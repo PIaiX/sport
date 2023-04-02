@@ -74,7 +74,7 @@ const AccEvents = () => {
     const [activeEvents, setActiveEvents] = useState(ae);
     const [archivedEvents, setArchivedEvents] = useState(are);
     const myEvents = useAppSelector(state=>state.user.user?.myEvents)
-    const requests = useAppSelector(state=>state.user.user?.requests).map(element=>element?.event)
+    const requests = useAppSelector(state=>state.user.user?.requests)?.map(element=>element?.event)
 
     console.log(requests)
     useEffect(() => {
