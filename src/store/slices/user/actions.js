@@ -1,5 +1,5 @@
 import {bindActionCreators, createAsyncThunk} from '@reduxjs/toolkit'
-import {$authApi, $api, apiRoutes} from "../../../config/api";
+import {$authApi, $api, apiRoutes, $authFormDataApi} from "../../../config/api";
 import {useDispatch} from "react-redux";
 const login = createAsyncThunk(
     'user/login',
@@ -115,7 +115,7 @@ const myRequests =  createAsyncThunk('user/myRequests', async (_, thunkAPI) => {
 
 const editMe =  createAsyncThunk('user/editMe', async (payload, thunkAPI) => {
     try {
-        const response = await $authApi.patch(apiRoutes.EDIT_ME, payload)
+        const response = await $authFormDataApi.patch(apiRoutes.EDIT_ME, payload)
         if (response && response.status === 200) {
             return  thunkAPI.fulfillWithValue(response?.data)
         }

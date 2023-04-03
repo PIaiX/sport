@@ -5,12 +5,12 @@ import {useAppSelector} from "../store";
 import {GetStringFromDate} from "../helpers/GetStringFromDate";
 
 const AccEventPreview = (props) => {
-    const {date, name, role, id, userId, active, _count, startsAt} = props
+    const {name, role, id, userId, active, _count, startsAt} = props
     const participants = _count?.participants
     const idRegUser = useAppSelector(state => state.user.user.id)
     return (
         <div className='event-preview'>
-            <div className='date'><span className='d-xl-none'>Дата: </span>{GetStringFromDate(startsAt)}</div>
+            <div className='date'><span className='d-xl-none'>Дата: </span>{GetStringFromDate(startsAt)?.slice(0, 6)}</div>
             <div className='title'>{name}</div>
             <div className='role'>
                 <span className='d-xl-none'>Роль: </span>

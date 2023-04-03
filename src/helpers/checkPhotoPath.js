@@ -1,8 +1,8 @@
-const checkPhotoPath = (path = '') =>
+export const checkPhotoPath = (path = '', event=false) =>
     path?.length
         ? path.includes('http')
             ? path
-            : `https://api.business-mylife.ru/uploads/${path}`
-        : '../imgs/userDontFind.jpg'
-
-export {checkPhotoPath}
+            : `https://api.ruchamp.ru/static/uploads/${path}`
+        : event?
+            '../../imgs/userDontFind.jpg'
+            :'../imgs/userDontFind.jpg'

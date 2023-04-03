@@ -8,7 +8,6 @@ import NotFound from '../pages/NotFound';
 import AccEvents from '../pages/account/AccEvents';
 import AddEvent from '../pages/account/AddEvent';
 import VerifyCheck from "../pages/account/VerifyCheck";
-import {useAppSelector} from "../store";
 
 const AccountRouter = () => {
     const {isMobile} = useIsMobile('991px');

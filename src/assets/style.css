@@ -1,9 +1,10 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 
-#root{
+#root {
     min-height: 100vh;
 }
+
 :root {
     --h-height: 100px;
     --f-height: 100px;
@@ -998,29 +999,31 @@ main {
 
 @media (max-width: 767px) {
     .calendar-box {
-        right:-300px;
+        right: -300px;
     }
 }
+
 @media (max-width: 575px) {
     .calendar-box {
-        right:10px;
+        right: 10px;
     }
 }
+
 @media (max-width: 480px) {
     .calendar-box {
-        right:-270px;
+        right: -270px;
     }
 }
 
 @media (max-width: 396px) {
     .calendar-box {
-        right:-40px;
+        right: -40px;
     }
 }
 
 @media (max-width: 315px) {
     .calendar-box {
-        right:-245px;
+        right: -245px;
     }
 }
 
@@ -1102,7 +1105,7 @@ main {
 
 @media (max-width: 991px) {
     .event-page .top img {
-        height:auto;
+        height: auto;
         aspect-ratio: 4/2;
     }
 }
@@ -1782,7 +1785,11 @@ main {
     padding: 3em;
     border-radius: 1em;
 }
-
+.box{
+    font-family: Georgia, serif;
+    font-family: fangsong;
+    font-size: 1.2em;
+}
 @media (max-width: 767px) {
     .about-top .box, .about-top .about-plus .box-4, .about-plus .about-top .box-4, .about-top .about-plus .box-3, .about-plus .about-top .box-3, .about-top .about-plus .box-2, .about-plus .about-top .box-2 {
         padding: 2em;
@@ -2157,13 +2164,13 @@ article.preview .more {
 
 .account .event-preview {
     --h: 40px;
-    --w: 60px;
+    --w: 200px;
     background-color: #FFFFFF;
     padding: 0.5em;
     border-radius: 0.5em;
     width: 100%;
     display: grid;
-    grid-template-columns: 100px var(--w) auto 125px 100px 100px;
+    grid-template-columns: 70px var(--w) auto 125px 100px;
     grid-template-rows: 1fr;
     grid-auto-rows: auto;
     gap: 1em 1em;
@@ -2171,7 +2178,7 @@ article.preview .more {
 
 @media (max-width: 1199px) {
     .account .event-preview {
-        grid-template-columns: var(--w) auto 30px;
+        grid-template-columns: 30px auto  30px;
         grid-template-rows: var(--h) auto;
         gap: 0.25em 0.5em;
     }
@@ -2543,9 +2550,10 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     position: relative;
     width: 100%;
 }
-.validate-wrapper-map{
-    border:2px solid red;
-    border-radius:15px;
+
+.validate-wrapper-map {
+    border: 2px solid red;
+    border-radius: 15px;
 }
 
 .validate-error {
@@ -2557,8 +2565,9 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     color: red;
     padding: 0 5px;
 }
+
 .validate-error-textarea {
-    top:auto;
+    top: auto;
     bottom: -8px;
 }
 
@@ -2574,6 +2583,7 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
 .validate-select {
     border-radius: 16px;
 }
+
 .file-upload {
     position: relative;
     width: fit-content;
@@ -2594,7 +2604,12 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     z-index: 10;
     opacity: 0;
 }
-.img-profile{
+
+.img-profile {
     aspect-ratio: 1/1;
+    object-fit: cover;
+}
+.img-event {
+    aspect-ratio: 4/2;
     object-fit: cover;
 }

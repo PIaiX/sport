@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import AccEventPreview from '../../components/AccEventPreview';
-import {getActiveEvents, getArchivedEvents} from "../../services/event";
 import {useAppSelector} from "../../store";
+import {useUserAction} from "../../store/slices/user/actions";
 
 const ae=[
     {
@@ -71,21 +71,13 @@ const are=[
 ]
 
 const AccEvents = () => {
-    const [activeEvents, setActiveEvents] = useState(ae);
-    const [archivedEvents, setArchivedEvents] = useState(are);
     const myEvents = useAppSelector(state=>state.user.user?.myEvents)
     const requests = useAppSelector(state=>state.user.user?.requests)?.map(element=>element?.event)
+    const {getMyEvents, myRequests} = useUserAction()
 
-    console.log(requests)
     useEffect(() => {
-        getActiveEvents().then(res=>{
-            if(res)setActiveEvents(res)
-        })
-
-        getArchivedEvents().then(res=>{
-            if(res)setArchivedEvents(res)
-        })
-
+        getMyEvents()
+        myRequests()
     }, [])
 
 

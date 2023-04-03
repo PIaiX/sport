@@ -21,6 +21,7 @@ import {AiOutlineWhatsApp} from "react-icons/ai";
 import {CiYoutube} from "react-icons/ci";
 import {FaTiktok} from "react-icons/fa";
 import {GetStringFromDate} from "../helpers/GetStringFromDate";
+import {checkPhotoPath} from "../helpers/checkPhotoPath";
 
 const EventPage = () => {
 
@@ -83,8 +84,7 @@ const EventPage = () => {
                         <div className="top">
                             <Row className='gx-0'>
                                 <Col xs={12} lg={9}>
-                                    <img src={event?.imgUrl ? event?.imgUrl : '../imgs/userDontFind.jpg'}
-                                         alt={event?.title}/>
+                                    <img  src={checkPhotoPath(event?.image)} alt={event?.title}/>
                                 </Col>
                                 <Col xs={12} lg={3}>
                                     <ul className='info'>

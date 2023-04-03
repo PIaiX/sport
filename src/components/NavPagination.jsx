@@ -20,14 +20,14 @@ const NavPagination = ({maxValue, onChange, skip, take}) => {
                 <li>
                     {
                         skip+take*2<maxValue &&
-                        <button type='button'>...</button>
+                        <button onClick={()=>onChange({skip:skip+take})} type='button'>...</button>
                     }
                 </li>
                 <li>
                     {
                         skip+take<maxValue &&
                         <button onClick={()=>{
-                            onChange({skip:(maxValue-take*(Math.floor(maxValue/take)-(maxValue%take==0)?1:0))})
+                            onChange({skip:take*((Math.floor(maxValue/take))-(maxValue%take==0?1:0))})
                         }} type='button'>{Math.floor(maxValue/take)+(maxValue%take>0?1:0)}</button>
                     }
                 </li>

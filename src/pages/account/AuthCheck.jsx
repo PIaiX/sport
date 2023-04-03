@@ -8,7 +8,6 @@ const AuthCheck = ({children}) => {
     const checked = useAppSelector(state => state.user.checked)
     const {pathname} = useLocation()
     const  navigate = useNavigate()
-    console.log(pathname)
     useEffect(()=>{
         if(pathname=='/login' && auth)
             navigate(`/account/profile`, {replace:true})

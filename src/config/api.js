@@ -17,13 +17,19 @@ const apiBody = {
 }
 const $api = axios.create(apiBody)
 const $authApi = axios.create(apiBody)
-
+const $authFormDataApi = axios.create(apiBody)
 $api.interceptors.request.use((config) => {
     return config
 })
 
 $authApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    return config
+})
+
+$authFormDataApi.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    config.headers['Content-Type'] =  'multipart/form-data'
     return config
 })
 
@@ -92,6 +98,6 @@ const apiRoutes = {
     GET_DOCUMENT: 'documents',
 }
 
-export { $api, $authApi }
+export { $api, $authApi, $authFormDataApi}
 export { BASE_API_URL, BASE_URL }
 export { apiRoutes }

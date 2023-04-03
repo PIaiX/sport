@@ -5,9 +5,9 @@ import Select from 'react-select';
 import TournamentBracket from '../../components/TournamentBracket';
 import ParticipantControl from '../../components/utils/ParticipantControl';
 import {useController, useForm} from "react-hook-form";
-import {GetAgeCategory, GetDiscipline, GetWightCategory, GetRankCategory} from "../../services/params";
+import {GetAgeCategory, GetDiscipline, GetRankCategory, GetWightCategory} from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
-import {CreateEvent, GetOneEvent, EditEvent} from "../../services/event";
+import {CreateEvent, EditEvent, GetOneEvent} from "../../services/event";
 import {Map, Placemark, YMaps} from "@pbe/react-yandex-maps";
 import {FiMapPin} from "react-icons/fi";
 import {getAddress} from "../../services/YMap";
@@ -22,6 +22,7 @@ import {FaTiktok} from "react-icons/fa";
 import {onImageHandler} from "../../helpers/onImageHandler";
 import {useImageViewer} from "../../hooks/imageViewer";
 import {useAppAction} from "../../store";
+import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -29,14 +30,23 @@ const sexList = [
 ];
 
 const AddEvent = () => {
-    const {register, handleSubmit, formState: {errors}, setValue, clearErrors, control} = useForm()
+    const {register, handleSubmit, formState: {errors}, setValue, clearErrors, control, watch} = useForm()
     const {
-        field: {
-            value: disciplineIdValue,
-            onChange: disciplineIdOnChange,
-            ...disciplineIdField
-        }
+        field: {value: disciplineIdValue, onChange: disciplineIdOnChange, ...disciplineIdField}
     } = useController({name: 'disciplineId', control, rules: {required: 'Выберите значение'}});
+    const {
+        field: {value: weightCategoryIdValue, onChange: weightCategoryIdOnChange, ...weightCategoryIdField}
+    } = useController({name: 'weightCategoryId', control, rules: {required: 'Выберите значение'}});
+    const {
+        field: {value: genderValue, onChange: genderOnChange, ...genderField}
+    } = useController({name: 'gender', control, rules: {required: 'Выберите значение'}});
+    const {
+        field: {value: rankIdValue, onChange: rankIdOnChange, ...rankIdField}
+    } = useController({name: 'rankId', control, rules: {required: 'Выберите значение'}});
+    const {
+        field: {value: ageCategoriesIdsValue, onChange: ageCategoriesIdsOnChange, ...ageCategoriesIdsField}
+    } = useController({name: 'ageCategoryIds', control, rules: {required: 'Выберите значение'}});
+
     const {id} = useParams()
     const {setNotFound} = useAppAction()
     const navigate = useNavigate()
@@ -48,6 +58,7 @@ const AddEvent = () => {
     const [placeState, setPlaceState] = useState([55.821283, 49.161006])
     const [event, setEvent] = useState()
 
+    const [setImageToNull, setSetImageToNull] = useState(false)
     const [avatar, setAvatar] = useState(null)
     const photo = useImageViewer(avatar?.image)
 
@@ -115,7 +126,20 @@ const AddEvent = () => {
             setValue('youtubeLink', event?.youtubeLink)
             setValue('description', event?.description)
             setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
-            console.log(event)
+            setValue('gender', sexList[event?.gender?0:1])
+            setValue('weightCategoryId',
+                event?.weightCategoryOnEvent?.map((element) =>
+                    weightCategories?.find(jlement =>
+                        jlement.value == element.weightCategoryId)
+                )
+            )
+            setValue('rankId',
+                event?.rankOnEvent?.map((element) =>
+                    rankCategories?.find(jlement =>
+                        jlement.value == element.rankId)
+                )
+            )
+            setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
 
             setPlaceState([event?.latitude, event?.longitude])
         }
@@ -143,13 +167,14 @@ const AddEvent = () => {
                              standartRegistrationTo,
                              lateRegistrationFrom,
                              lateRegistrationTo,
+                             ageCategoryIds,
                              disciplineId,
                              gender,
                              weightCategoryId,
                              rankId,
                              ...data
                          }) => {
-        const t = {
+        const request = {
             startsAt: startsAt.toISOString(),
             earlyRegistrationFrom: earlyRegistrationFrom.toISOString(),
             earlyRegistrationTo: earlyRegistrationTo.toISOString(),
@@ -163,24 +188,35 @@ const AddEvent = () => {
             gender: gender.value,
             latitude: placeState[0].toString(),
             longitude: placeState[1].toString(),
-            weightCategoryIds: weightCategoryId.map(element => element.value),
-            rankIds: rankId.map(element => element.value),
             ...data
         }
+        const formData = new FormData()
+        for (const key in request) {
+            formData.append(key, request[key])
+        }
+        if(setImageToNull)
+            formData.append('setImageToNull', true)
+        formData.append('image', avatar?.image)
+        weightCategoryId.forEach(element => formData.append('weightCategoryIds[]', element.value))
+        rankId.forEach(element => formData.append('rankIds[]', element.value))
 
         if (id) {
-            EditEvent(t, id)
-                .then(() => navigate('/account/events'))
+            EditEvent(formData, id)
+                .then(res => res && navigate('/account/events'))
                 .catch(res => console.log(res))
         } else
-            CreateEvent(t)
-                .then(() => navigate('/account/events'))
+            CreateEvent(formData)
+                .then(res => res && navigate('/account/events'))
                 .catch(res => console.log(res))
 
     }
-    console.log(id)
     const MapClick = (e) => {
         setPlaceState(e)
+    }
+
+    const DelImage = () =>{
+        setAvatar(null)
+        setSetImageToNull(true)
     }
 
     return (
@@ -190,14 +226,17 @@ const AddEvent = () => {
                 <fieldset>
                     <legend>Основное</legend>
                     <Row className={'mb-3'}>
-                        <img className={'col-sm-8 col-md-6 col-xl-5 img-profile'}
-                             src={avatar ? photo?.data_url : '../../imgs/userDontFind.jpg'}/>
+                        <img className={'col-sm-8 col-md-6 col-xl-5 img-event'}
+                             src={avatar?photo?.data_url:checkPhotoPath( setImageToNull?'':event?.image, true) } />
                         <div className={'d-flex gap-2 mt-2'}>
                             <div className="file-upload">
                                 <button className="btn-4">Загрузить фото</button>
-                                <input type="file" onChange={(e) => onImageHandler(e, setAvatar, 'image')}/>
+                                <input type="file" onChange={(e) =>{
+                                    setSetImageToNull(false)
+                                    onImageHandler(e, setAvatar, 'image')
+                                }}/>
                             </div>
-                            <input type={'button'} className={'btn-5'} value={'Удалить фото'}/>
+                            <input type={'button'} onClick={DelImage} className={'btn-5'} value={'Удалить фото'}/>
                         </div>
                     </Row>
 
@@ -239,7 +278,7 @@ const AddEvent = () => {
                                 />
                             </ValidateWrapper>
                         </Col>
-                        <Col md={7}>
+                        <Col md={6}>
                             <h5>Ранняя регистрация</h5>
                             <Row sm={2} className='gy-2 gy-sm-0 mb-3'>
                                 <Col className='d-flex align-items-center'>
@@ -357,13 +396,9 @@ const AddEvent = () => {
                                     isMulti
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
                                     options={weightCategories}
-                                    {...register('weightCategoryId', {
-                                        required: 'Выберите значение',
-                                    })}
-                                    onChange={(e) => {
-                                        setValue('weightCategoryId', e);
-                                        clearErrors('weightCategoryId')
-                                    }}
+                                    value={weightCategoryIdValue}
+                                    onChange={option => weightCategoryIdOnChange(option)}
+                                    {...weightCategoryIdField}
                                 />
                             </ValidateWrapper>
                             <h5>Пол</h5>
@@ -374,26 +409,22 @@ const AddEvent = () => {
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
                                     options={sexList}
-                                    {...register('gender', {
-                                        required: 'Выберите значение',
-                                    })}
-                                    onChange={(e) => {
-                                        setValue('gender', e);
-                                        clearErrors('gender')
-                                    }}
+                                    value={genderValue}
+                                    onChange={option => genderOnChange(option)}
+                                    {...genderField}
                                 />
                             </ValidateWrapper>
                             <h5>Возраст</h5>
-                            <ValidateWrapper>
+                            <ValidateWrapper error={errors.ageCategoryIds}>
                                 <Select
-                                    name="ageCategoryId"
+                                    name="ageCategoryIds"
                                     placeholder="Возраст"
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
                                     options={ageCategories}
-                                    onChange={(e) => {
-                                        changeAge(e.value)
-                                    }}
+                                    value={ageCategoriesIdsValue}
+                                    onChange={option => ageCategoriesIdsOnChange(option)}
+                                    {...ageCategoriesIdsField}
                                 />
                             </ValidateWrapper>
                             <h5>Разряд</h5>
@@ -405,13 +436,9 @@ const AddEvent = () => {
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
                                     options={rankCategories}
-                                    {...register('rankId', {
-                                        required: 'Выберите значение',
-                                    })}
-                                    onChange={(e) => {
-                                        setValue('rankId', e);
-                                        clearErrors('rankId')
-                                    }}
+                                    value={rankIdValue}
+                                    onChange={option => rankIdOnChange(option)}
+                                    {...rankIdField}
                                 />
                             </ValidateWrapper>
                         </Col>

@@ -1,4 +1,4 @@
-import { $api, apiRoutes, $authApi } from "../config/api";
+import { $api, apiRoutes, $authApi, $authFormDataApi } from "../config/api";
 
 export const GetAllEvents = async (payload) => {
     try {
@@ -22,7 +22,7 @@ export const GetOneEvent = async (payload) => {
 
 export const CreateEvent = async (payload) => {
     try {
-        const result = await $authApi.post(apiRoutes.CREATE_EVENT, payload)
+        const result = await $authFormDataApi.post(apiRoutes.CREATE_EVENT, payload)
         return result?.data
     } catch (error) {
         console.log(error)
@@ -32,7 +32,7 @@ export const CreateEvent = async (payload) => {
 export const EditEvent = async (payload, id) => {
     console.log(id)
     try {
-        const result = await $authApi.patch(`${apiRoutes.CREATE_EVENT}/${id}`, payload)
+        const result = await $authFormDataApi.patch(`${apiRoutes.CREATE_EVENT}/${id}`, payload)
         return result?.data
     } catch (error) {
         console.log(error)

@@ -7,11 +7,11 @@ import {useController, useForm} from 'react-hook-form'
 import {useAppSelector} from "../../store";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
 import {SelectToEndForPhoneInput} from "../../helpers/SelectToEndForPhoneInput";
-import {useDispatch} from "react-redux";
-import {editMe} from "../../store/slices/user/actions";
+import {useUserAction} from "../../store/slices/user/actions";
 import useAnchor from "../../hooks/useAnchor";
 import {onImageHandler} from "../../helpers/onImageHandler";
 import {useImageViewer} from '../../hooks/imageViewer'
+import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -36,24 +36,27 @@ const yearsList = [
 const Profile = () => {
     const {handleSubmit, register, formState: {errors}, setValue, clearErrors, getValues, control} = useForm()
     const {user} = useAppSelector(state => state.user)
-    const dispatch = useDispatch()
+    const {editMe} = useUserAction()
     const { field: { value: genderValue, onChange: genderOnChange, ...genderField } } = useController({ name: 'gender', control, rules:{required:'Выберите значение'} });
     const [myRef, executeScroll] = useAnchor()
 
+    const [setImageToNull, setSetImageToNull] = useState(false)
     const [avatar, setAvatar] = useState(null)
     let photo = useImageViewer(avatar?.image)
-    // setImageToNull
+
     const SubmitUserClick = ({password, gender, ...data}) => {
-        let req = {...data, gender:gender?.value}
+        let request = {...data, gender:gender?.value}
         const formData = new FormData()
-        for (const key in req) {
-            formData.append(key, req[key])
+        for (const key in request) {
+            formData.append(key, request[key])
         }
         formData.append('image', avatar?.image)
-        dispatch(editMe(formData))
+        console.log(setImageToNull)
+        if(setImageToNull)
+            formData.append('setImageToNull', true)
+        editMe(formData)
         executeScroll()
     }
-
 
     useEffect(() => {
         setValue('firstName', user?.firstName)
@@ -75,19 +78,27 @@ const Profile = () => {
         )
     }, [user])
 
+    const DelImage = () =>{
+        setAvatar(null)
+        setSetImageToNull(true)
+    }
+
     return (
         <section className='account-box' ref={myRef}>
             <h1>Личные данные</h1>
             <form onSubmit={handleSubmit(SubmitUserClick)}>
                 <Row className={'mb-3'}>
                     <img className={'col-sm-8 col-md-6 col-xl-5 img-profile'}
-                         src={avatar?photo?.data_url:'../imgs/userDontFind.jpg'} />
+                         src={avatar?photo?.data_url:checkPhotoPath( setImageToNull?'':user?.image) } />
                     <div className={'d-flex gap-2 mt-2'}>
                         <div className="file-upload">
                             <button className="btn-4">Загрузить фото</button>
-                            <input type="file" onChange={(e) => onImageHandler(e, setAvatar, 'image')} />
+                            <input type="file" onChange={(e) => {
+                                setSetImageToNull(false)
+                                onImageHandler(e, setAvatar, 'image')
+                            }} />
                         </div>
-                        <input type={'button'} className={'btn-5'} value={'Удалить фото'}/>
+                        <input onClick={DelImage} type={'button'} className={'btn-5'} value={'Удалить фото'}/>
                     </div>
                 </Row>
                 <Row className='gx-4 gx-xxl-5'>
