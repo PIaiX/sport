@@ -19,8 +19,9 @@ export const GetStringFromDate = (dateFrom,  dateTo) => {
 
     const GetDayWithTime = (d) => {
         const day = GetDay(d)
-        return day + ' ' + new Date(d).getUTCHours() + ':'+new Date(d).getUTCMinutes()
-
+        const minutes = new Date(d).getUTCMinutes()
+        console.log(minutes)
+        return day + ' ' + new Date(d).getUTCHours() + ':'+(minutes<10?'0':'')+minutes
     }
 
 
