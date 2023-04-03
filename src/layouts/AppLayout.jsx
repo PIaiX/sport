@@ -8,15 +8,18 @@ import {useDispatch} from "react-redux";
 import {initFingerprint} from "../store/slices/app/Action";
 import {getMe, refreshAuth, myRequests, getMyEvents, useUserAction} from '../store/slices/user/actions'
 import ChangeLocation from "./ChangeLocation";
+import useAnchor from "../hooks/useAnchor";
 
 const AppLayout = () => {
     const {fingerprint, notFound} = useAppSelector(state => state.app)
     const {setNotFound, CheckedBad} = useAppAction()
     const {pathname} = useLocation()
-    const dispatch = useDispatch()
     const {myRequests, getMyEvents} = useUserAction()
+    const [myRef, executeScroll] = useAnchor()
+    const dispatch = useDispatch()
     useEffect(() => {
         setNotFound(false)
+        executeScroll()
     }, [pathname])
 
     useEffect(() => {
@@ -40,6 +43,7 @@ const AppLayout = () => {
     return (
         <>
             <ScrollRestoration/>
+            <div ref={myRef}></div>
             <Header/>
             <ChangeLocation>
                 {notFound ?

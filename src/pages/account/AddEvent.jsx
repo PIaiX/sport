@@ -221,7 +221,9 @@ const AddEvent = () => {
 
     return (
         <section className='account-box'>
-            <h1>Создание мероприятия</h1>
+            <h1>
+                {id?'Редактирование мероприятия':'Создание мероприятия'}
+            </h1>
             <form onSubmit={handleSubmit(SubmitClick)}>
                 <fieldset>
                     <legend>Основное</legend>

@@ -78,7 +78,9 @@ const userSlice= createSlice({
             state.checked=true
         },
         [editMe.fulfilled]:(state, action)=>{
-            state.user=action.payload
+            const myEvents = state.user?.myEvents
+            const requests = state.user?.requests
+            state.user={...action.payload, myEvents, requests}
         },
         [verification.fulfilled]:(state)=>{
             state.user.isVerified = true
