@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useReducer, useRef, useState} from 'react'
+import React, {useEffect, useReducer, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -18,7 +18,7 @@ import Calendar from '../components/Calendar'
 import NewsPreview from '../components/NewsPreview'
 import NavPagination from '../components/NavPagination'
 import {GetAllEvents} from "../services/event";
-import {GetDiscipline, GetWightCategory} from "../services/params";
+import {GetDiscipline} from "../services/params";
 import {DoCalendar} from "../helpers/DoCalendar";
 import useAnchor from "../hooks/useAnchor";
 
@@ -34,18 +34,6 @@ const o = [{value: '1', label: 'Вариант 1'},
     {value: '10', label: 'Вариант 10'},
     {value: '11', label: 'Вариант 11'},
     {value: '12', label: 'Вариант 12'}]
-const w = [{value: '1', label: 'Параметр 1'},
-    {value: '2', label: 'Параметр 2'},
-    {value: '3', label: 'Параметр 3'},
-    {value: '4', label: 'Параметр 4'},
-    {value: '5', label: 'Параметр 5'},
-    {value: '6', label: 'Параметр 6'},
-    {value: '7', label: 'Параметр 7'},
-    {value: '8', label: 'Параметр 8'},
-    {value: '9', label: 'Параметр 9'},
-    {value: '10', label: 'Параметр 10'},
-    {value: '11', label: 'Параметр 11'},
-    {value: '12', label: 'Параметр 12'},]
 const n=[{
         id:1,
         img:'imgs/n1.jpg',
@@ -153,7 +141,6 @@ const Home = () => {
     const [events, setEvents] = useState()
     const [banners, setBanners] =useState(b)
     const [categories, setCategories] = useState(o)
-    const [waysOfCategories,setWaysOfCategories] = useState(w)
     const year = DoCalendar()
     const [maxValue, setMaxValue] = useState()
     const [myRef, executeScroll] = useAnchor()
@@ -168,9 +155,6 @@ const Home = () => {
         })
     }, [])
 
-    useEffect(()=>{
-        filter?.typeEvent && GetWightCategory(filter?.typeEvent).then(res=>res && setWaysOfCategories(res))
-    },[categories])
     useEffect(()=>{
         console.log(filter)
         GetAllEvents(filter).then(res=>{
@@ -262,18 +246,6 @@ const Home = () => {
                             isClearable={true}
                             isSearchable={true}
                         />
-                        <Select
-                            name="sort"
-                            placeholder="Категория мероприятия"
-                            classNamePrefix="simple-select"
-                            className="simple-select-container pb-2"
-                            onChange = {(value)=>setFilter({typeWay:value})}
-                            options={waysOfCategories}
-                            isMulti
-                            // defaultValue={[waysOfCategories[0]]}
-                            isClearable={true}
-                            isSearchable={true}
-                        />
                         <Calendar calendarDays={filter?.days} CalendarClick={(value)=>setFilter({days:value})} />
                     </div>
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
@@ -283,7 +255,6 @@ const Home = () => {
                             </Col>
                         )}
                     </Row>
-
                     <NavPagination {...filter} maxValue={maxValue} onChange={(e)=>setFilter({...e}) } />
                 </section>
 
