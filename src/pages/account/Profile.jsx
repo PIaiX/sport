@@ -299,22 +299,6 @@ const Profile = () => {
                     </Col>
                     <Col md={6}>
                         <fieldset>
-                            <legend>Уровни пояса/навыков</legend>
-                            <ul className='list-info mb-4'>
-                                <li>
-                                    <h6>Дисциплина</h6>
-                                    <p>Пояс</p>
-                                </li>
-                                <li>
-                                    <h6>Дисциплина</h6>
-                                    <p>Пояс</p>
-                                </li>
-                            </ul>
-                            <button type='button' className='btn-4 mb-4'>добавить пояс/навык</button>
-                        </fieldset>
-                    </Col>
-                    <Col md={6}>
-                        <fieldset>
                             <legend>Ваши команды</legend>
                             <ul className='list-info mb-4'>
                                 <li>

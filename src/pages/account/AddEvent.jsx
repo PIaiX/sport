@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import TournamentBracket from '../../components/TournamentBracket';
 import ParticipantControl from '../../components/utils/ParticipantControl';
-import {useController, useForm} from "react-hook-form";
+import {useController, useFieldArray, useForm, Controller} from "react-hook-form";
 import {GetAgeCategory, GetDiscipline, GetRankCategory, GetWightCategory} from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
 import {CreateEvent, EditEvent, GetOneEvent} from "../../services/event";
@@ -30,7 +30,11 @@ const sexList = [
 ];
 
 const AddEvent = () => {
-    const {register, handleSubmit, formState: {errors}, setValue, clearErrors, control, watch} = useForm()
+    const {register, handleSubmit, formState: {errors}, setValue, clearErrors, control, watch} = useForm({
+        defaultValues: {
+            test: [{firstName: "Bill", lastName: "Luo"}]
+        }
+    })
     const {
         field: {value: disciplineIdValue, onChange: disciplineIdOnChange, ...disciplineIdField}
     } = useController({name: 'disciplineId', control, rules: {required: 'Выберите значение'}});
@@ -41,11 +45,12 @@ const AddEvent = () => {
         field: {value: genderValue, onChange: genderOnChange, ...genderField}
     } = useController({name: 'gender', control, rules: {required: 'Выберите значение'}});
     const {
-        field: {value: rankIdValue, onChange: rankIdOnChange, ...rankIdField}
-    } = useController({name: 'rankId', control, rules: {required: 'Выберите значение'}});
-    const {
         field: {value: ageCategoriesIdsValue, onChange: ageCategoriesIdsOnChange, ...ageCategoriesIdsField}
     } = useController({name: 'ageCategoryIds', control, rules: {required: 'Выберите значение'}});
+    const {
+        fields, append, prepend, remove, swap, move, insert, replace
+    } = useFieldArray({name: "test", control});
+
 
     const {id} = useParams()
     const {setNotFound} = useAppAction()
@@ -126,17 +131,11 @@ const AddEvent = () => {
             setValue('youtubeLink', event?.youtubeLink)
             setValue('description', event?.description)
             setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
-            setValue('gender', sexList[event?.gender?0:1])
+            setValue('gender', sexList[event?.gender ? 0 : 1])
             setValue('weightCategoryId',
                 event?.weightCategoryOnEvent?.map((element) =>
                     weightCategories?.find(jlement =>
                         jlement.value == element.weightCategoryId)
-                )
-            )
-            setValue('rankId',
-                event?.rankOnEvent?.map((element) =>
-                    rankCategories?.find(jlement =>
-                        jlement.value == element.rankId)
                 )
             )
             setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
@@ -171,7 +170,6 @@ const AddEvent = () => {
                              disciplineId,
                              gender,
                              weightCategoryId,
-                             rankId,
                              ...data
                          }) => {
         const request = {
@@ -194,11 +192,10 @@ const AddEvent = () => {
         for (const key in request) {
             formData.append(key, request[key])
         }
-        if(setImageToNull)
+        if (setImageToNull)
             formData.append('setImageToNull', true)
         formData.append('image', avatar?.image)
         weightCategoryId.forEach(element => formData.append('weightCategoryIds[]', element.value))
-        rankId.forEach(element => formData.append('rankIds[]', element.value))
 
         if (id) {
             EditEvent(formData, id)
@@ -214,7 +211,7 @@ const AddEvent = () => {
         setPlaceState(e)
     }
 
-    const DelImage = () =>{
+    const DelImage = () => {
         setAvatar(null)
         setSetImageToNull(true)
     }
@@ -222,18 +219,18 @@ const AddEvent = () => {
     return (
         <section className='account-box'>
             <h1>
-                {id?'Редактирование мероприятия':'Создание мероприятия'}
+                {id ? 'Редактирование мероприятия' : 'Создание мероприятия'}
             </h1>
             <form onSubmit={handleSubmit(SubmitClick)}>
                 <fieldset>
                     <legend>Основное</legend>
                     <Row className={'mb-3'}>
                         <img className={'col-sm-8 col-md-6 col-xl-5 img-event'}
-                             src={avatar?photo?.data_url:checkPhotoPath( setImageToNull?'':event?.image, true) } />
+                             src={avatar ? photo?.data_url : checkPhotoPath(setImageToNull ? '' : event?.image, true)}/>
                         <div className={'d-flex gap-2 mt-2'}>
                             <div className="file-upload">
                                 <button className="btn-4">Загрузить фото</button>
-                                <input type="file" onChange={(e) =>{
+                                <input type="file" onChange={(e) => {
                                     setSetImageToNull(false)
                                     onImageHandler(e, setAvatar, 'image')
                                 }}/>
@@ -360,7 +357,7 @@ const AddEvent = () => {
                     </Row>
                 </fieldset>
                 <fieldset>
-                    <Row xs={1} md={2}>
+                    <Row>
                         <Col className={'mb-2'}>
                             <MapWrapper error={errors.venue} textarea={true}>
                                 <div className="card">
@@ -388,63 +385,158 @@ const AddEvent = () => {
                                 </div>
                             </MapWrapper>
                         </Col>
-                        <Col>
-                            <h5>Весовая категория</h5>
-                            <ValidateWrapper error={errors.weightCategoryId}>
-                                <Select
-                                    name="weightCategoryId"
-                                    placeholder="Весовая категория"
-                                    classNamePrefix="simple-select"
-                                    isMulti
-                                    className="simple-select-container borderless w-100 mb-3 validate-select"
-                                    options={weightCategories}
-                                    value={weightCategoryIdValue}
-                                    onChange={option => weightCategoryIdOnChange(option)}
-                                    {...weightCategoryIdField}
-                                />
-                            </ValidateWrapper>
-                            <h5>Пол</h5>
-                            <ValidateWrapper error={errors.gender}>
-                                <Select
-                                    name="gender"
-                                    placeholder="Пол"
-                                    classNamePrefix="simple-select"
-                                    className="simple-select-container borderless w-100 mb-3 validate-select"
-                                    options={sexList}
-                                    value={genderValue}
-                                    onChange={option => genderOnChange(option)}
-                                    {...genderField}
-                                />
-                            </ValidateWrapper>
-                            <h5>Возраст</h5>
-                            <ValidateWrapper error={errors.ageCategoryIds}>
-                                <Select
-                                    name="ageCategoryIds"
-                                    placeholder="Возраст"
-                                    classNamePrefix="simple-select"
-                                    className="simple-select-container borderless w-100 mb-3 validate-select"
-                                    options={ageCategories}
-                                    value={ageCategoriesIdsValue}
-                                    onChange={option => ageCategoriesIdsOnChange(option)}
-                                    {...ageCategoriesIdsField}
-                                />
-                            </ValidateWrapper>
-                            <h5>Разряд</h5>
-                            <ValidateWrapper error={errors.rankId}>
-                                <Select
-                                    name="rank"
-                                    isMulti
-                                    placeholder="Разряд"
-                                    classNamePrefix="simple-select"
-                                    className="simple-select-container borderless w-100 mb-3 validate-select"
-                                    options={rankCategories}
-                                    value={rankIdValue}
-                                    onChange={option => rankIdOnChange(option)}
-                                    {...rankIdField}
-                                />
-                            </ValidateWrapper>
-                        </Col>
                     </Row>
+                    <Row>
+                        <h5>Категории</h5>
+                        {fields?.map((item, index) => {
+                            return (
+                                <Row key={item.id} xs={4}>
+                                    <Col>
+                                        <ValidateWrapper error={errors.ageCategoryIds} className={'col-xl-2'}>
+                                            <Select
+                                                name="ageCategoryIds"
+                                                placeholder="Возраст"
+                                                classNamePrefix="simple-select"
+                                                className="simple-select-container borderless w-100 mb-3 validate-select"
+                                                options={ageCategories}
+                                                value={ageCategoriesIdsValue}
+                                                onChange={option => ageCategoriesIdsOnChange(option)}
+                                                {...ageCategoriesIdsField}
+                                            />
+                                        </ValidateWrapper>
+                                    </Col>
+                                    <Col>
+                                        <ValidateWrapper error={errors.weightCategoryId}>
+                                            <Select
+                                                name="weightCategoryId"
+                                                placeholder="Весовая категория"
+                                                classNamePrefix="simple-select"
+                                                isMulti
+                                                className="simple-select-container borderless w-100 mb-3 validate-select"
+                                                options={weightCategories}
+                                                value={weightCategoryIdValue}
+                                                onChange={option => weightCategoryIdOnChange(option)}
+                                                {...weightCategoryIdField}
+                                            />
+                                        </ValidateWrapper>
+                                    </Col>
+                                    <Col>
+                                        <ValidateWrapper error={errors.gender}>
+                                            <Select
+                                                name="gender"
+                                                placeholder="Пол"
+                                                classNamePrefix="simple-select"
+                                                className="simple-select-container borderless w-100 mb-3 validate-select"
+                                                options={sexList}
+                                                value={genderValue}
+                                                onChange={option => genderOnChange(option)}
+                                                {...genderField}
+                                            />
+                                        </ValidateWrapper>
+                                    </Col>
+                                    <Col>
+                                        <input type={'button'} className={'btn-5'} value={'Удалить'} onClick={() => remove(index)}/>
+                                    </Col>
+                                </Row>
+                            );
+                        })}
+                        <Row>
+                            <button type='button' className='btn-4 mb-4'
+                                    onClick={() => {
+                                        append({});
+                                    }}>Добавить
+                            </button>
+                        </Row>
+                    </Row>
+                    {/*<Row>*/
+                    }
+                    {/*    <Col>*/
+                    }
+                    {/*        <h5>Возраст</h5>*/
+                    }
+                    {/*        <ValidateWrapper error={errors.ageCategoryIds}>*/
+                    }
+                    {/*            <Select*/
+                    }
+                    {/*                name="ageCategoryIds"*/
+                    }
+                    {/*                placeholder="Возраст"*/
+                    }
+                    {/*                classNamePrefix="simple-select"*/
+                    }
+                    {/*                className="simple-select-container borderless w-100 mb-3 validate-select"*/
+                    }
+                    {/*                options={ageCategories}*/
+                    }
+                    {/*                value={ageCategoriesIdsValue}*/
+                    }
+                    {/*                onChange={option => ageCategoriesIdsOnChange(option)}*/
+                    }
+                    {/*                {...ageCategoriesIdsField}*/
+                    }
+                    {/*            />*/
+                    }
+                    {/*        </ValidateWrapper>*/
+                    }
+                    {/*        <h5>Весовая категория</h5>*/
+                    }
+                    {/*        <ValidateWrapper error={errors.weightCategoryId}>*/
+                    }
+                    {/*            <Select*/
+                    }
+                    {/*                name="weightCategoryId"*/
+                    }
+                    {/*                placeholder="Весовая категория"*/
+                    }
+                    {/*                classNamePrefix="simple-select"*/
+                    }
+                    {/*                isMulti*/
+                    }
+                    {/*                className="simple-select-container borderless w-100 mb-3 validate-select"*/
+                    }
+                    {/*                options={weightCategories}*/
+                    }
+                    {/*                value={weightCategoryIdValue}*/
+                    }
+                    {/*                onChange={option => weightCategoryIdOnChange(option)}*/
+                    }
+                    {/*                {...weightCategoryIdField}*/
+                    }
+                    {/*            />*/
+                    }
+                    {/*        </ValidateWrapper>*/
+                    }
+                    {/*        <h5>Пол</h5>*/
+                    }
+                    {/*        <ValidateWrapper error={errors.gender}>*/
+                    }
+                    {/*            <Select*/
+                    }
+                    {/*                name="gender"*/
+                    }
+                    {/*                placeholder="Пол"*/
+                    }
+                    {/*                classNamePrefix="simple-select"*/
+                    }
+                    {/*                className="simple-select-container borderless w-100 mb-3 validate-select"*/
+                    }
+                    {/*                options={sexList}*/
+                    }
+                    {/*                value={genderValue}*/
+                    }
+                    {/*                onChange={option => genderOnChange(option)}*/
+                    }
+                    {/*                {...genderField}*/
+                    }
+                    {/*            />*/
+                    }
+                    {/*        </ValidateWrapper>*/
+                    }
+                    {/*    </Col>*/
+                    }
+
+                    {/*</Row>*/
+                    }
                     <Row className='mb-4'>
                         <legend>Социальные сети</legend>
                         <Row xs={1} md={2}>
@@ -541,7 +633,8 @@ const AddEvent = () => {
                     {id ? 'Редактировать' : 'Сформировать'}
                 </button>
 
-                {id &&
+                {
+                    id &&
                     <>
                         <fieldset>
                             <legend className='mb-0'>Участники</legend>
@@ -582,7 +675,8 @@ const AddEvent = () => {
                 }
             </form>
         </section>
-    );
+    )
+        ;
 };
 
 export default AddEvent;
