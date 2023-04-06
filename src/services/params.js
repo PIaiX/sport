@@ -12,9 +12,13 @@ export const GetDiscipline = async () => {
 export const GetWightCategory = async (payload) => {
     try {
         const result = await $api.get(`${apiRoutes.GET_WEIGHT_CATEGORY}/${payload}`)
-        return result?.data
+        return result?.data.map((element) => ({
+            value: element.id,
+            label: `От ${element.weightFrom} до ${element.weightTo}`
+        }))
     } catch (error) {
         console.log(error)
+        return null
     }
 }
 

@@ -30,42 +30,36 @@ const sexList = [
 ];
 
 const AddEvent = () => {
-    const {register, handleSubmit, formState: {errors}, setValue, clearErrors, control, watch} = useForm({
-        defaultValues: {
-            test: [{firstName: "Bill", lastName: "Luo"}]
-        }
-    })
-    const {
-        field: {value: disciplineIdValue, onChange: disciplineIdOnChange, ...disciplineIdField}
-    } = useController({name: 'disciplineId', control, rules: {required: 'Выберите значение'}});
-    const {
-        field: {value: weightCategoryIdValue, onChange: weightCategoryIdOnChange, ...weightCategoryIdField}
-    } = useController({name: 'weightCategoryId', control, rules: {required: 'Выберите значение'}});
-    const {
-        field: {value: genderValue, onChange: genderOnChange, ...genderField}
-    } = useController({name: 'gender', control, rules: {required: 'Выберите значение'}});
-    const {
-        field: {value: ageCategoriesIdsValue, onChange: ageCategoriesIdsOnChange, ...ageCategoriesIdsField}
-    } = useController({name: 'ageCategoryIds', control, rules: {required: 'Выберите значение'}});
-    const {
-        fields, append, prepend, remove, swap, move, insert, replace
-    } = useFieldArray({name: "test", control});
-
 
     const {id} = useParams()
     const {setNotFound} = useAppAction()
     const navigate = useNavigate()
 
     const [categories, setCategories] = useState()
-    const [weightCategories, setWeightCategories] = useState()
     const [ageCategories, setAgeCategories] = useState()
-    const [rankCategories, setRankCategories] = useState()
     const [placeState, setPlaceState] = useState([55.821283, 49.161006])
     const [event, setEvent] = useState()
 
     const [setImageToNull, setSetImageToNull] = useState(false)
     const [avatar, setAvatar] = useState(null)
     const photo = useImageViewer(avatar?.image)
+
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+        setValue,
+        getValues,
+        clearErrors,
+        control,
+    } = useForm()
+    const {
+        field: {value: disciplineIdValue, onChange: disciplineIdOnChange, ...disciplineIdField}
+    } = useController({name: 'disciplineId', control, rules: {required: 'Выберите значение'}});
+    const {
+        fields, append, prepend, remove, swap, move, insert, replace
+    } = useFieldArray({name: "categoriesItems", control});
+
 
     useEffect(() => {
         GetDiscipline().then(res => {
@@ -75,30 +69,14 @@ const AddEvent = () => {
         })
         GetAgeCategory(5).then(res => {
             if (res) {
-                setAgeCategories(res.map((element) => ({
+                const list = res.map((element) => ({
                     value: element.id,
                     label: `От ${element.ageFrom} до ${element.ageTo}`
-                })))
+                }))
+                setAgeCategories(list)
+                setValue('categoriesItems', [{ageCategories: list}])
             }
         })
-        GetRankCategory(5).then(res => {
-            if (res) {
-                setRankCategories(res.map((element) => ({
-                    value: element.id,
-                    label: element.name
-                })))
-            }
-        })
-        GetWightCategory(2).then(res => {
-            if (res) {
-                setWeightCategories(res.map((element) => ({
-                    value: element.id,
-                    label: `От ${element.weightFrom} до ${element.weightTo}`
-                })))
-            }
-        })
-
-
     }, [])
 
     useEffect(() => {
@@ -132,12 +110,6 @@ const AddEvent = () => {
             setValue('description', event?.description)
             setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
             setValue('gender', sexList[event?.gender ? 0 : 1])
-            setValue('weightCategoryId',
-                event?.weightCategoryOnEvent?.map((element) =>
-                    weightCategories?.find(jlement =>
-                        jlement.value == element.weightCategoryId)
-                )
-            )
             setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
 
             setPlaceState([event?.latitude, event?.longitude])
@@ -158,20 +130,21 @@ const AddEvent = () => {
     const changeAge = (index) => {
     }
     // setImageToNull
-    const SubmitClick = ({
-                             startsAt,
-                             earlyRegistrationFrom,
-                             earlyRegistrationTo,
-                             standartRegistrationFrom,
-                             standartRegistrationTo,
-                             lateRegistrationFrom,
-                             lateRegistrationTo,
-                             ageCategoryIds,
-                             disciplineId,
-                             gender,
-                             weightCategoryId,
-                             ...data
-                         }) => {
+    const SubmitClick = (state) => {
+        const {
+            startsAt,
+            earlyRegistrationFrom,
+            earlyRegistrationTo,
+            standartRegistrationFrom,
+            standartRegistrationTo,
+            lateRegistrationFrom,
+            lateRegistrationTo,
+            ageCategoryIds,
+            disciplineId,
+            gender,
+            weightCategoryId,
+            ...data
+        } = state
         const request = {
             startsAt: startsAt.toISOString(),
             earlyRegistrationFrom: earlyRegistrationFrom.toISOString(),
@@ -215,7 +188,11 @@ const AddEvent = () => {
         setAvatar(null)
         setSetImageToNull(true)
     }
-
+    const selectOptions = [
+        {value: "student", label: "Student"},
+        {value: "developer", label: "Developer"},
+        {value: "manager", label: "Manager"}
+    ];
     return (
         <section className='account-box'>
             <h1>
@@ -388,155 +365,88 @@ const AddEvent = () => {
                     </Row>
                     <Row>
                         <h5>Категории</h5>
-                        {fields?.map((item, index) => {
-                            return (
-                                <Row key={item.id} xs={4}>
-                                    <Col>
-                                        <ValidateWrapper error={errors.ageCategoryIds} className={'col-xl-2'}>
-                                            <Select
-                                                name="ageCategoryIds"
-                                                placeholder="Возраст"
-                                                classNamePrefix="simple-select"
-                                                className="simple-select-container borderless w-100 mb-3 validate-select"
-                                                options={ageCategories}
-                                                value={ageCategoriesIdsValue}
-                                                onChange={option => ageCategoriesIdsOnChange(option)}
-                                                {...ageCategoriesIdsField}
-                                            />
-                                        </ValidateWrapper>
-                                    </Col>
-                                    <Col>
-                                        <ValidateWrapper error={errors.weightCategoryId}>
-                                            <Select
-                                                name="weightCategoryId"
-                                                placeholder="Весовая категория"
-                                                classNamePrefix="simple-select"
-                                                isMulti
-                                                className="simple-select-container borderless w-100 mb-3 validate-select"
-                                                options={weightCategories}
-                                                value={weightCategoryIdValue}
-                                                onChange={option => weightCategoryIdOnChange(option)}
-                                                {...weightCategoryIdField}
-                                            />
-                                        </ValidateWrapper>
-                                    </Col>
-                                    <Col>
-                                        <ValidateWrapper error={errors.gender}>
-                                            <Select
-                                                name="gender"
-                                                placeholder="Пол"
-                                                classNamePrefix="simple-select"
-                                                className="simple-select-container borderless w-100 mb-3 validate-select"
-                                                options={sexList}
-                                                value={genderValue}
-                                                onChange={option => genderOnChange(option)}
-                                                {...genderField}
-                                            />
-                                        </ValidateWrapper>
-                                    </Col>
-                                    <Col>
-                                        <input type={'button'} className={'btn-5'} value={'Удалить'} onClick={() => remove(index)}/>
-                                    </Col>
-                                </Row>
-                            );
-                        })}
+                        {fields?.map((item, index) =>
+                            <Row key={index} xs={4}>
+                                <Col>
+                                    <ValidateWrapper error={errors[`ageCategoryId-${index}`]} className={'col-xl-2'}>
+                                        <Controller
+                                            name={`ageCategoryId-${index}`}
+                                            control={control}
+                                            rules={{
+                                                required: 'Выберите значение', onChange: async ({target:{value:{value}}}) => {
+                                                    const weightCategories = await GetWightCategory(value)
+                                                    let array = getValues('categoriesItems')
+                                                    array[index]={...array[index], weightCategories}
+                                                    setValue('categoriesItems', array)
+                                                }
+                                            }}
+                                            render={({field}) => (
+                                                <Select
+                                                    placeholder="Возраст"
+                                                    classNamePrefix="simple-select"
+                                                    className="simple-select-container borderless w-100 mb-3 validate-select"
+                                                    options={item?.ageCategories}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                    </ValidateWrapper>
+                                </Col>
+                                <Col>
+                                    <ValidateWrapper error={errors[`weightCategoryId-${index}`]} className={'col-xl-2'}>
+                                        <Controller
+                                            name={`weightCategoryId-${index}`}
+                                            control={control}
+                                            rules={{required: 'Выберите значение'}}
+                                            render={({field}) => (
+                                                <Select
+                                                    placeholder="Весовая категория"
+                                                    classNamePrefix="simple-select"
+                                                    className="simple-select-container borderless w-100 mb-3 validate-select"
+                                                    options={item?.weightCategories}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                    </ValidateWrapper>
+                                </Col>
+                                <Col>
+                                    <ValidateWrapper error={errors[`genderId-${index}`]} className={'col-xl-2'}>
+                                        <Controller
+                                            name={`genderId-${index}`}
+                                            control={control}
+                                            rules={{required: 'Выберите значение'}}
+                                            render={({field}) => (
+                                                <Select
+                                                    placeholder="Пол"
+                                                    classNamePrefix="simple-select"
+                                                    className="simple-select-container borderless w-100 mb-3 validate-select"
+                                                    options={sexList}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                    </ValidateWrapper>
+                                </Col>
+                                <Col>
+                                    <input type={'button'} className={'btn-5'} value={'Удалить'}
+                                           onClick={() => {
+                                               clearErrors(`ageCategoryId-${index}`)
+                                               clearErrors(`weightCategoryId-${index}`)
+                                               clearErrors(`genderId-${index}`)
+                                               remove(index)
+                                           }}/>
+                                </Col>
+                            </Row>
+                        )}
                         <Row>
                             <button type='button' className='btn-4 mb-4'
                                     onClick={() => {
-                                        append({});
+                                        append({ageCategories});
                                     }}>Добавить
                             </button>
                         </Row>
                     </Row>
-                    {/*<Row>*/
-                    }
-                    {/*    <Col>*/
-                    }
-                    {/*        <h5>Возраст</h5>*/
-                    }
-                    {/*        <ValidateWrapper error={errors.ageCategoryIds}>*/
-                    }
-                    {/*            <Select*/
-                    }
-                    {/*                name="ageCategoryIds"*/
-                    }
-                    {/*                placeholder="Возраст"*/
-                    }
-                    {/*                classNamePrefix="simple-select"*/
-                    }
-                    {/*                className="simple-select-container borderless w-100 mb-3 validate-select"*/
-                    }
-                    {/*                options={ageCategories}*/
-                    }
-                    {/*                value={ageCategoriesIdsValue}*/
-                    }
-                    {/*                onChange={option => ageCategoriesIdsOnChange(option)}*/
-                    }
-                    {/*                {...ageCategoriesIdsField}*/
-                    }
-                    {/*            />*/
-                    }
-                    {/*        </ValidateWrapper>*/
-                    }
-                    {/*        <h5>Весовая категория</h5>*/
-                    }
-                    {/*        <ValidateWrapper error={errors.weightCategoryId}>*/
-                    }
-                    {/*            <Select*/
-                    }
-                    {/*                name="weightCategoryId"*/
-                    }
-                    {/*                placeholder="Весовая категория"*/
-                    }
-                    {/*                classNamePrefix="simple-select"*/
-                    }
-                    {/*                isMulti*/
-                    }
-                    {/*                className="simple-select-container borderless w-100 mb-3 validate-select"*/
-                    }
-                    {/*                options={weightCategories}*/
-                    }
-                    {/*                value={weightCategoryIdValue}*/
-                    }
-                    {/*                onChange={option => weightCategoryIdOnChange(option)}*/
-                    }
-                    {/*                {...weightCategoryIdField}*/
-                    }
-                    {/*            />*/
-                    }
-                    {/*        </ValidateWrapper>*/
-                    }
-                    {/*        <h5>Пол</h5>*/
-                    }
-                    {/*        <ValidateWrapper error={errors.gender}>*/
-                    }
-                    {/*            <Select*/
-                    }
-                    {/*                name="gender"*/
-                    }
-                    {/*                placeholder="Пол"*/
-                    }
-                    {/*                classNamePrefix="simple-select"*/
-                    }
-                    {/*                className="simple-select-container borderless w-100 mb-3 validate-select"*/
-                    }
-                    {/*                options={sexList}*/
-                    }
-                    {/*                value={genderValue}*/
-                    }
-                    {/*                onChange={option => genderOnChange(option)}*/
-                    }
-                    {/*                {...genderField}*/
-                    }
-                    {/*            />*/
-                    }
-                    {/*        </ValidateWrapper>*/
-                    }
-                    {/*    </Col>*/
-                    }
-
-                    {/*</Row>*/
-                    }
                     <Row className='mb-4'>
                         <legend>Социальные сети</legend>
                         <Row xs={1} md={2}>
