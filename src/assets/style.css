@@ -2576,7 +2576,7 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     border: 2px solid white;
 }
 
-.validate-wrapper_error > input, .validate-wrapper_error > textarea, .validate-wrapper_error > .validate-select {
+.validate-wrapper_error > input, .validate-wrapper_error > textarea, .validate-wrapper_error > .validate-select, .validate-wrapper_error>.RichEditor-root{
     border-color: red;
 }
 

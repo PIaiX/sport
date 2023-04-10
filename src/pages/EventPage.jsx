@@ -22,6 +22,7 @@ import {CiYoutube} from "react-icons/ci";
 import {FaTiktok} from "react-icons/fa";
 import {GetStringFromDate} from "../helpers/GetStringFromDate";
 import {checkPhotoPath} from "../helpers/checkPhotoPath";
+import {MyEditor} from "../components/MyEditor/MyEditor";
 
 const EventPage = () => {
 
@@ -154,7 +155,7 @@ const EventPage = () => {
                                 <Row className='gx-4 gx-xl-5'>
                                     <Col md={8}>
                                         <h2>Информация</h2>
-                                        {event?.description}
+                                        <MyEditor readOnly={true} value={event?.description} />
                                     </Col>
                                     <Col md={4} className='mt-4 mt-md-0'>
                                         <ul className='list-unstyled list-15'>

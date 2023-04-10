@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useLayoutEffect} from 'react'
 import {Outlet, ScrollRestoration, useLocation} from 'react-router-dom'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -17,9 +17,8 @@ const AppLayout = () => {
     const {myRequests, getMyEvents} = useUserAction()
     const [myRef, executeScroll] = useAnchor()
     const dispatch = useDispatch()
-    useEffect(() => {
+    useLayoutEffect(() => {
         setNotFound(false)
-        executeScroll()
     }, [pathname])
 
     useEffect(() => {
@@ -42,8 +41,8 @@ const AppLayout = () => {
 
     return (
         <>
-            <ScrollRestoration/>
             <div ref={myRef}></div>
+            <ScrollRestoration/>
             <Header/>
             <ChangeLocation>
                 {notFound ?
@@ -52,6 +51,7 @@ const AppLayout = () => {
                 }
             </ChangeLocation>
             <Footer/>
+            {executeScroll()}
         </>
     )
 }

@@ -23,6 +23,7 @@ import {onImageHandler} from "../../helpers/onImageHandler";
 import {useImageViewer} from "../../hooks/imageViewer";
 import {useAppAction} from "../../store";
 import {checkPhotoPath} from "../../helpers/checkPhotoPath";
+import {MyEditor} from "../../components/MyEditor/MyEditor";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -51,8 +52,10 @@ const AddEvent = () => {
         setValue,
         getValues,
         clearErrors,
+        unregister,
         control,
     } = useForm()
+
     const {
         field: {value: disciplineIdValue, onChange: disciplineIdOnChange, ...disciplineIdField}
     } = useController({name: 'disciplineId', control, rules: {required: 'Выберите значение'}});
@@ -109,10 +112,27 @@ const AddEvent = () => {
             setValue('youtubeLink', event?.youtubeLink)
             setValue('description', event?.description)
             setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
-            setValue('gender', sexList[event?.gender ? 0 : 1])
             setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
-
             setPlaceState([event?.latitude, event?.longitude])
+
+            const categoriesItems =[]
+            event?.categoryOnEvent.forEach((element, index)=>{
+                    const ageCategoriesId = element?.weightCategory?.ageCategory?.id
+                    GetWightCategory(ageCategoriesId).then(weightCategories=>{
+                        const ageId = ageCategories?.find(valueFind => valueFind?.value == ageCategoriesId)
+                        const gender=sexList[event?.gender ? 0 : 1]
+                        const weightCategoryId = weightCategories?.find(elementFind=>elementFind.value==element.weightCategoryId)
+                        const el = {ageCategories, gender, ageId, weightCategories, weightCategoryId}
+                        setValue(`ageCategoryId-${index}`, ageId)
+                        setValue(`gender-${index}`, gender)
+                        setValue(`weightCategoryId-${index}`, weightCategoryId)
+                        categoriesItems.push(el)
+                        if(index+1==event?.categoryOnEvent.length){
+                            console.log(getValues('categoriesItems'))
+                            setValue('categoriesItems', categoriesItems)
+                        }
+                    })
+                })
         }
     }, [event])
 
@@ -127,25 +147,34 @@ const AddEvent = () => {
         }
     }, [placeState])
 
-    const changeAge = (index) => {
-    }
     // setImageToNull
     const SubmitClick = (state) => {
         const {
+            name,
+            description,
+            venue,
             startsAt,
             earlyRegistrationFrom,
             earlyRegistrationTo,
             standartRegistrationFrom,
             standartRegistrationTo,
             lateRegistrationFrom,
+
+            vkLink,
+            instaLink,
+            telegramLink,
+            whatsAppLink,
+            tictokLink,
+            youtubeLink,
+
             lateRegistrationTo,
-            ageCategoryIds,
             disciplineId,
-            gender,
-            weightCategoryId,
-            ...data
+            categoriesItems,
         } = state
         const request = {
+            name,
+            description,
+            venue,
             startsAt: startsAt.toISOString(),
             earlyRegistrationFrom: earlyRegistrationFrom.toISOString(),
             earlyRegistrationTo: earlyRegistrationTo.toISOString(),
@@ -154,13 +183,20 @@ const AddEvent = () => {
             lateRegistrationFrom: lateRegistrationFrom.toISOString(),
             lateRegistrationTo: lateRegistrationTo.toISOString(),
 
+            vkLink,
+            instaLink,
+            telegramLink,
+            whatsAppLink,
+            tictokLink,
+            youtubeLink,
+
             numberOfParticipants: 10000,
             disciplineId: Number(disciplineId.value),
-            gender: gender.value,
+
             latitude: placeState[0].toString(),
             longitude: placeState[1].toString(),
-            ...data
         }
+
         const formData = new FormData()
         for (const key in request) {
             formData.append(key, request[key])
@@ -168,7 +204,11 @@ const AddEvent = () => {
         if (setImageToNull)
             formData.append('setImageToNull', true)
         formData.append('image', avatar?.image)
-        weightCategoryId.forEach(element => formData.append('weightCategoryIds[]', element.value))
+
+        categoriesItems?.forEach(element=>{
+            formData.append('categoriesOnEvent[]', JSON.stringify({gender:element.gender?.value, weightCategoryId:element.weightCategoryId?.value}))
+                // formData.append('categoriesOnEvent[]', JSON.stringify({gender:element.gender?.value, weightCategoryId:element.weightCategoryId?.value}))
+        })
 
         if (id) {
             EditEvent(formData, id)
@@ -188,11 +228,6 @@ const AddEvent = () => {
         setAvatar(null)
         setSetImageToNull(true)
     }
-    const selectOptions = [
-        {value: "student", label: "Student"},
-        {value: "developer", label: "Developer"},
-        {value: "manager", label: "Manager"}
-    ];
     return (
         <section className='account-box'>
             <h1>
@@ -373,15 +408,19 @@ const AddEvent = () => {
                                             name={`ageCategoryId-${index}`}
                                             control={control}
                                             rules={{
-                                                required: 'Выберите значение', onChange: async ({target:{value:{value}}}) => {
+                                                required: 'Выберите значение',
+                                                onChange: async ({target: {value: option}}) => {
+                                                    const {value} = option
                                                     const weightCategories = await GetWightCategory(value)
                                                     let array = getValues('categoriesItems')
-                                                    array[index]={...array[index], weightCategories}
+                                                    array[index] = {...array[index], weightCategories, ageId:option}
                                                     setValue('categoriesItems', array)
-                                                }
+                                                    setValue(`weightCategoryId-${index}`, null)
+                                                },
                                             }}
                                             render={({field}) => (
                                                 <Select
+                                                    value={item?.option}
                                                     placeholder="Возраст"
                                                     classNamePrefix="simple-select"
                                                     className="simple-select-container borderless w-100 mb-3 validate-select"
@@ -397,7 +436,13 @@ const AddEvent = () => {
                                         <Controller
                                             name={`weightCategoryId-${index}`}
                                             control={control}
-                                            rules={{required: 'Выберите значение'}}
+                                            rules={{required: 'Выберите значение',
+                                                onChange:({target: {value: option}})=>{
+                                                    let array = getValues('categoriesItems')
+                                                    array[index] = {...array[index], weightCategoryId : option}
+                                                    setValue('categoriesItems', array)
+                                                }
+                                            }}
                                             render={({field}) => (
                                                 <Select
                                                     placeholder="Весовая категория"
@@ -411,11 +456,17 @@ const AddEvent = () => {
                                     </ValidateWrapper>
                                 </Col>
                                 <Col>
-                                    <ValidateWrapper error={errors[`genderId-${index}`]} className={'col-xl-2'}>
+                                    <ValidateWrapper error={errors[`gender-${index}`]} className={'col-xl-2'}>
                                         <Controller
-                                            name={`genderId-${index}`}
+                                            name={`gender-${index}`}
                                             control={control}
-                                            rules={{required: 'Выберите значение'}}
+                                            rules={{required: 'Выберите значение',
+                                                onChange:({target: {value: option}})=>{
+                                                    let array = getValues('categoriesItems')
+                                                    array[index] = {...array[index], gender : option}
+                                                    setValue('categoriesItems', array)
+                                                }
+                                            }}
                                             render={({field}) => (
                                                 <Select
                                                     placeholder="Пол"
@@ -428,15 +479,18 @@ const AddEvent = () => {
                                         />
                                     </ValidateWrapper>
                                 </Col>
-                                <Col>
-                                    <input type={'button'} className={'btn-5'} value={'Удалить'}
-                                           onClick={() => {
-                                               clearErrors(`ageCategoryId-${index}`)
-                                               clearErrors(`weightCategoryId-${index}`)
-                                               clearErrors(`genderId-${index}`)
-                                               remove(index)
-                                           }}/>
-                                </Col>
+                                {index!=0 &&
+                                    <Col>
+                                        <input type={'button'} className={'btn-5'} value={'Удалить'}
+                                               onClick={() => {
+                                                   unregister(`ageCategoryId-${index}`)
+                                                   unregister(`weightCategoryId-${index}`)
+                                                   unregister(`gender-${index}`)
+                                                   remove(index)
+                                               }}/>
+                                    </Col>
+
+                                }
                             </Row>
                         )}
                         <Row>
@@ -527,16 +581,17 @@ const AddEvent = () => {
                         <Col className='mb-3 mb-md-0'>
                             <legend>Информация</legend>
                             <ValidateWrapper error={errors?.description} textarea={true}>
-                                <textarea rows="14" placeholder='Описание мероприятия'
-                                          {...register('description', {
-                                              required: 'Выберите значение',
-                                              minLength: {value: 5, message: 'Минимальное значение 5 символов'},
-                                              maxLength: {value: 500, message: 'Максимальное значение 500 символов'}
-                                          })}
-                                >
-                                </textarea>
+                                <Controller
+                                    name="description"
+                                    control={control}
+                                    rules={{required: 'Выберите значение'}}
+                                    render={({field: {value, onChange}}) =>
+                                        <MyEditor value={value} onChange={onChange}/>
+                                    }
+                                />
                             </ValidateWrapper>
                         </Col>
+
                     </Row>
                 </fieldset>
                 <button type='submit' className='btn-4 mb-4'>
