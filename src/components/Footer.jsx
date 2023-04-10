@@ -19,7 +19,9 @@ const Footer = () => {
                             <NavLink to="/about">О нас</NavLink>
                         </li>
                         <li>
-                            <a href="https://www.alfastrah.ru/individuals/life/protection-family/calc/?%20tag=smartmed&utm_source=smartmed_pro&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family">Страхование</a>
+                            <a href="https://www.alfastrah.ru/individuals/life/protection-family/calc/?tag=ruchamp&utm_source=ruchamp_ru&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family">
+                                Страхование
+                            </a>
                         </li>
                         <li>
                             <NavLink to={`${auth ? '/account' : '/login'}`}>Личный кабинет</NavLink>

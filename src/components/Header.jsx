@@ -37,7 +37,9 @@ const Header = () => {
                                         <NavLink to="/all-news">Блог</NavLink>
                                     </li> */}
                                     <li>
-                                        <NavLink to="https://www.alfastrah.ru/individuals/life/protection-family/calc/?%20tag=smartmed&utm_source=smartmed_pro&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family">Страхование</NavLink>
+                                        <NavLink to="https://www.alfastrah.ru/individuals/life/protection-family/calc/?tag=ruchamp&utm_source=ruchamp_ru&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family">
+                                            Страхование
+                                        </NavLink>
                                     </li>
                                     <li>
                                         <NavLink to={`${auth ? '/account/profile' : '/login'}`}>Личный кабинет</NavLink>
