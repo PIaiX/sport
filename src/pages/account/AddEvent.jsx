@@ -115,27 +115,23 @@ const AddEvent = () => {
             setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
             setPlaceState([event?.latitude, event?.longitude])
 
-            const categoriesItems =[]
-            event?.categoryOnEvent.forEach((element, index)=>{
-                    const ageCategoriesId = element?.weightCategory?.ageCategory?.id
-                    GetWightCategory(ageCategoriesId).then(weightCategories=>{
-                        const ageId = ageCategories?.find(valueFind => valueFind?.value == ageCategoriesId)
-                        const gender=sexList[event?.gender ? 0 : 1]
-                        const weightCategoryId = weightCategories?.find(elementFind=>elementFind.value==element.weightCategoryId)
-                        const el = {ageCategories, gender, ageId, weightCategories, weightCategoryId}
-                        setValue(`ageCategoryId-${index}`, ageId)
-                        setValue(`gender-${index}`, gender)
-                        setValue(`weightCategoryId-${index}`, weightCategoryId)
-                        categoriesItems.push(el)
-                        if(index+1==event?.categoryOnEvent.length){
-                            console.log(getValues('categoriesItems'))
-                            setValue('categoriesItems', categoriesItems)
-                        }
-                    })
-                })
+            const categoryOnEvent = event?.categoryOnEvent.map((element, index)=>{
+                const gender=sexList[event?.gender ? 0 : 1]
+                const ageCategoryId = {value: element?.weightCategory?.ageCategoryId, label:`От ${element?.weightCategory?.weightFrom} до ${element?.weightCategory?.weightTo}`}
+                const weightCategoryId={value: element?.weightCategory?.id, label:`От ${element?.weightCategory?.ageCategory?.ageFrom} до ${element?.weightCategory?.ageCategory?.ageTo}`}
+                setValue(`ageCategoryId-${index}`, ageCategoryId)
+                setValue(`weightCategoryId-${index}`, weightCategoryId)
+                setValue(`gender-${index}`, gender)
+
+                return {ageCategories, gender, ageId:ageCategoryId, weightCategories:[weightCategoryId], weightCategoryId}
+
+            })
+            setValue('categoriesItems', categoryOnEvent)
+
         }
     }, [event])
 
+    console.log(errors)
     useEffect(() => {
         if (placeState) {
             getAddress(placeState).then(res => {
@@ -465,7 +461,7 @@ const AddEvent = () => {
                                                     let array = getValues('categoriesItems')
                                                     array[index] = {...array[index], gender : option}
                                                     setValue('categoriesItems', array)
-                                                }
+                                                },
                                             }}
                                             render={({field}) => (
                                                 <Select
