@@ -50,7 +50,7 @@ const getMyEvents = createAsyncThunk(
         try {
             const response = await $authApi.get(apiRoutes.GET_MY_EVENTS)
             if (response && response.status === 200) {
-                return thunkAPI.fulfillWithValue(response?.data?.creator)
+                return thunkAPI.fulfillWithValue(response?.data)
             }
         } catch (error) {
             return thunkAPI.rejectWithValue(error)

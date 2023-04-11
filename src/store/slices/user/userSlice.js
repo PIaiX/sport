@@ -93,7 +93,8 @@ const userSlice= createSlice({
             state.user.requests = action.payload
         },
         [getMyEvents.fulfilled]:(state, action)=>{
-            state.user.myEvents = action.payload
+            state.user.myEvents = action.payload?.creator
+            state.user.participation = action.payload?.participant
         },
         [JoinEvent.fulfilled]:(state, action)=>{
             state.user.requests = [...state.user.requests, {event:{...action.payload, id:action.payload.eventId}}]

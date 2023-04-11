@@ -4,8 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import TournamentBracket from '../../components/TournamentBracket';
 import ParticipantControl from '../../components/utils/ParticipantControl';
-import {useController, useFieldArray, useForm, Controller} from "react-hook-form";
-import {GetAgeCategory, GetDiscipline, GetRankCategory, GetWightCategory} from "../../services/params";
+import {Controller, useController, useFieldArray, useForm} from "react-hook-form";
+import {GetAgeCategory, GetDiscipline, GetWightCategory} from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
 import {CreateEvent, EditEvent, GetOneEvent} from "../../services/event";
 import {Map, Placemark, YMaps} from "@pbe/react-yandex-maps";
@@ -55,7 +55,6 @@ const AddEvent = () => {
         unregister,
         control,
     } = useForm()
-
     const {
         field: {value: disciplineIdValue, onChange: disciplineIdOnChange, ...disciplineIdField}
     } = useController({name: 'disciplineId', control, rules: {required: 'Выберите значение'}});
@@ -115,15 +114,27 @@ const AddEvent = () => {
             setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
             setPlaceState([event?.latitude, event?.longitude])
 
-            const categoryOnEvent = event?.categoryOnEvent.map((element, index)=>{
-                const gender=sexList[event?.gender ? 0 : 1]
-                const ageCategoryId = {value: element?.weightCategory?.ageCategoryId, label:`От ${element?.weightCategory?.weightFrom} до ${element?.weightCategory?.weightTo}`}
-                const weightCategoryId={value: element?.weightCategory?.id, label:`От ${element?.weightCategory?.ageCategory?.ageFrom} до ${element?.weightCategory?.ageCategory?.ageTo}`}
+            const categoryOnEvent = event?.categoryOnEvent.map((element, index) => {
+                const gender = sexList[event?.gender ? 0 : 1]
+                const ageCategoryId = {
+                    value: element?.weightCategory?.ageCategoryId,
+                    label: `От ${element?.weightCategory?.weightFrom} до ${element?.weightCategory?.weightTo}`
+                }
+                const weightCategoryId = {
+                    value: element?.weightCategory?.id,
+                    label: `От ${element?.weightCategory?.ageCategory?.ageFrom} до ${element?.weightCategory?.ageCategory?.ageTo}`
+                }
                 setValue(`ageCategoryId-${index}`, ageCategoryId)
                 setValue(`weightCategoryId-${index}`, weightCategoryId)
                 setValue(`gender-${index}`, gender)
 
-                return {ageCategories, gender, ageId:ageCategoryId, weightCategories:[weightCategoryId], weightCategoryId}
+                return {
+                    ageCategories,
+                    gender,
+                    ageId: ageCategoryId,
+                    weightCategories: [weightCategoryId],
+                    weightCategoryId
+                }
 
             })
             setValue('categoriesItems', categoryOnEvent)
@@ -131,7 +142,6 @@ const AddEvent = () => {
         }
     }, [event])
 
-    console.log(errors)
     useEffect(() => {
         if (placeState) {
             getAddress(placeState).then(res => {
@@ -171,13 +181,13 @@ const AddEvent = () => {
             name,
             description,
             venue,
-            startsAt: startsAt.toISOString(),
-            earlyRegistrationFrom: earlyRegistrationFrom.toISOString(),
-            earlyRegistrationTo: earlyRegistrationTo.toISOString(),
-            standartRegistrationFrom: standartRegistrationFrom.toISOString(),
-            standartRegistrationTo: standartRegistrationTo.toISOString(),
-            lateRegistrationFrom: lateRegistrationFrom.toISOString(),
-            lateRegistrationTo: lateRegistrationTo.toISOString(),
+            startsAt: startsAt+'Z',
+            earlyRegistrationFrom: earlyRegistrationFrom+'Z',
+            earlyRegistrationTo: earlyRegistrationTo+'Z',
+            standartRegistrationFrom: standartRegistrationFrom+'Z',
+            standartRegistrationTo: standartRegistrationTo+'Z',
+            lateRegistrationFrom: lateRegistrationFrom+'Z',
+            lateRegistrationTo: lateRegistrationTo+'Z',
 
             vkLink,
             instaLink,
@@ -185,13 +195,21 @@ const AddEvent = () => {
             whatsAppLink,
             tictokLink,
             youtubeLink,
-
             numberOfParticipants: 10000,
             disciplineId: Number(disciplineId.value),
 
             latitude: placeState[0].toString(),
             longitude: placeState[1].toString(),
         }
+
+
+        // let tzoffset = (startsAt).getTimezoneOffset() * 60000; //offset in milliseconds
+        // let localISOTime = (new Date(startsAt?.getTimezoneOffset() - tzoffset)).toISOString().slice(0, -1);
+        // console.log(localISOTime)  // => '2015-01-26T06:40:36.181'
+
+        // console.log(startsAt?.getTimezoneOffset()/60)
+        // console.log((startsAt.now()-minus).toISOString())
+
 
         const formData = new FormData()
         for (const key in request) {
@@ -201,9 +219,12 @@ const AddEvent = () => {
             formData.append('setImageToNull', true)
         formData.append('image', avatar?.image)
 
-        categoriesItems?.forEach(element=>{
-            formData.append('categoriesOnEvent[]', JSON.stringify({gender:element.gender?.value, weightCategoryId:element.weightCategoryId?.value}))
-                // formData.append('categoriesOnEvent[]', JSON.stringify({gender:element.gender?.value, weightCategoryId:element.weightCategoryId?.value}))
+        categoriesItems?.forEach(element => {
+            formData.append('categoriesOnEvent[]', JSON.stringify({
+                gender: element.gender?.value,
+                weightCategoryId: element.weightCategoryId?.value
+            }))
+            // formData.append('categoriesOnEvent[]', JSON.stringify({gender:element.gender?.value, weightCategoryId:element.weightCategoryId?.value}))
         })
 
         if (id) {
@@ -278,9 +299,7 @@ const AddEvent = () => {
                                        className='mb-3'
                                        placeholder='Начало мероприятия'
                                        {...register('startsAt', {
-                                           required: 'Поле обязательно к заполнению',
-                                           valueAsDate: true,
-                                           onChange: (e) => console.log(e.target.value)
+                                           required: 'Поле обязательно к заполнению'
                                        })}
                                 />
                             </ValidateWrapper>
@@ -293,8 +312,7 @@ const AddEvent = () => {
                                     <ValidateWrapper error={errors?.earlyRegistrationFrom}>
                                         <input type="datetime-local"
                                                {...register('earlyRegistrationFrom', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
+                                                   required: 'Поле обязательно к заполнению'
                                                })}
                                         />
                                     </ValidateWrapper>
@@ -304,8 +322,7 @@ const AddEvent = () => {
                                     <ValidateWrapper error={errors?.earlyRegistrationTo}>
                                         <input type="datetime-local"
                                                {...register('earlyRegistrationTo', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
+                                                   required: 'Поле обязательно к заполнению'
                                                })}
                                         />
                                     </ValidateWrapper>
@@ -318,8 +335,7 @@ const AddEvent = () => {
                                     <ValidateWrapper error={errors?.standartRegistrationFrom}>
                                         <input type="datetime-local"
                                                {...register('standartRegistrationFrom', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
+                                                   required: 'Поле обязательно к заполнению'
                                                })}
                                         />
                                     </ValidateWrapper>
@@ -329,8 +345,7 @@ const AddEvent = () => {
                                     <ValidateWrapper error={errors?.standartRegistrationTo}>
                                         <input type="datetime-local"
                                                {...register('standartRegistrationTo', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
+                                                   required: 'Поле обязательно к заполнению'
                                                })}
                                         />
                                     </ValidateWrapper>
@@ -343,8 +358,7 @@ const AddEvent = () => {
                                     <ValidateWrapper error={errors?.lateRegistrationFrom}>
                                         <input type="datetime-local"
                                                {...register('lateRegistrationFrom', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
+                                                   required: 'Поле обязательно к заполнению'
                                                })}
                                         />
                                     </ValidateWrapper>
@@ -354,8 +368,7 @@ const AddEvent = () => {
                                     <ValidateWrapper error={errors?.lateRegistrationTo}>
                                         <input type="datetime-local"
                                                {...register('lateRegistrationTo', {
-                                                   required: 'Поле обязательно к заполнению',
-                                                   valueAsDate: true
+                                                   required: 'Поле обязательно к заполнению'
                                                })}
                                         />
                                     </ValidateWrapper>
@@ -409,7 +422,7 @@ const AddEvent = () => {
                                                     const {value} = option
                                                     const weightCategories = await GetWightCategory(value)
                                                     let array = getValues('categoriesItems')
-                                                    array[index] = {...array[index], weightCategories, ageId:option}
+                                                    array[index] = {...array[index], weightCategories, ageId: option}
                                                     setValue('categoriesItems', array)
                                                     setValue(`weightCategoryId-${index}`, null)
                                                 },
@@ -432,12 +445,13 @@ const AddEvent = () => {
                                         <Controller
                                             name={`weightCategoryId-${index}`}
                                             control={control}
-                                            rules={{required: 'Выберите значение',
-                                                onChange:({target: {value: option}})=>{
+                                            rules={{
+                                                required: 'Выберите значение',
+                                                onChange: ({target: {value: option}}) => {
                                                     let array = getValues('categoriesItems')
-                                                    array[index] = {...array[index], weightCategoryId : option}
+                                                    array[index] = {...array[index], weightCategoryId: option}
                                                     setValue('categoriesItems', array)
-                                                }
+                                                },
                                             }}
                                             render={({field}) => (
                                                 <Select
@@ -456,10 +470,11 @@ const AddEvent = () => {
                                         <Controller
                                             name={`gender-${index}`}
                                             control={control}
-                                            rules={{required: 'Выберите значение',
-                                                onChange:({target: {value: option}})=>{
+                                            rules={{
+                                                required: 'Выберите значение',
+                                                onChange: ({target: {value: option}}) => {
                                                     let array = getValues('categoriesItems')
-                                                    array[index] = {...array[index], gender : option}
+                                                    array[index] = {...array[index], gender: option}
                                                     setValue('categoriesItems', array)
                                                 },
                                             }}
@@ -475,14 +490,14 @@ const AddEvent = () => {
                                         />
                                     </ValidateWrapper>
                                 </Col>
-                                {index!=0 &&
+                                {index == fields?.length-1 &&
                                     <Col>
                                         <input type={'button'} className={'btn-5'} value={'Удалить'}
                                                onClick={() => {
+                                                   remove(index)
                                                    unregister(`ageCategoryId-${index}`)
                                                    unregister(`weightCategoryId-${index}`)
                                                    unregister(`gender-${index}`)
-                                                   remove(index)
                                                }}/>
                                     </Col>
 

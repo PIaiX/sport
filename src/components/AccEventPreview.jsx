@@ -13,12 +13,8 @@ const AccEventPreview = (props) => {
             <div className='date'><span className='d-xl-none'>Дата: </span>{GetStringFromDate(startsAt)?.slice(0, 6)}</div>
             <div className='title'>{name}</div>
             <div className='role'>
-                <span className='d-xl-none'>Роль: </span>
-                {
-                    (role === 2)
-                        ? 'Организатор'
-                        : 'Участник'
-                }
+                <span className='d-xl-none'>Статус: </span>
+                {role}
             </div>
             <div className='count'><span className='d-xl-none'>Количество участников: </span>{participants}</div>
             <div className="btns">

@@ -31,10 +31,15 @@ const EventPage = () => {
     const auth = useAppSelector(state => state.user.auth)
     const requests = useAppSelector(state => state.user.user?.requests)
     const myEvents = useAppSelector(state => state.user.user?.myEvents)
-    const {JoinEvent, ExitEvent} = useUserAction()
+    const participation = useAppSelector(state=>state.user.user?.participation)?.map(element=>element?.event)
+
     const [isJoinEvent, setIsJoinEvent] = useState(false)
-    const [isMyEvent, setIsMyEvent] = useState()
+    const [isMyEvent, setIsMyEvent] = useState(false)
+    const [isParticipat, setIsParticipat] = useState(false)
+
     const {setNotFound} = useAppAction()
+    const {JoinEvent, ExitEvent} = useUserAction()
+
     const navigate = useNavigate()
 
     const [event, setEvent] = useState(state ? state : null)
@@ -59,6 +64,9 @@ const EventPage = () => {
         setIsJoinEvent(requests?.find(element => element?.event?.id == id) !== undefined)
     }, [requests])
 
+    useEffect(() => {
+        setIsParticipat(participation?.find(element => element?.id == id) !== undefined)
+    }, [participation])
 
     if (!event)
         return <main></main>
@@ -139,11 +147,10 @@ const EventPage = () => {
                                 </ul>
                                 <button type='button' className='btn-3' onClick={AddEvent}>
                                     {
-                                        isMyEvent ?
-                                            'Редактировать'
-                                            : isJoinEvent ?
-                                                'Вы являетесь участником'
-                                                : 'Принять участие'
+                                        (isMyEvent && 'Редактировать')
+                                        || (isJoinEvent && 'Запрос отправлен')
+                                        || (isParticipat && 'Вы являетесь участником')
+                                        || 'Принять участие'
                                     }
                                 </button>
                             </nav>

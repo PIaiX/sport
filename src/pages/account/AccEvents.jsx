@@ -73,13 +73,15 @@ const are=[
 const AccEvents = () => {
     const myEvents = useAppSelector(state=>state.user.user?.myEvents)
     const requests = useAppSelector(state=>state.user.user?.requests)?.map(element=>element?.event)
+    const participation = useAppSelector(state=>state.user.user?.participation)?.map(element=>element?.event)
     const {getMyEvents, myRequests} = useUserAction()
+
+    console.log(participation)
 
     useEffect(() => {
         getMyEvents()
         myRequests()
     }, [])
-
 
     return (
         <section className='account-box'>
@@ -98,12 +100,17 @@ const AccEvents = () => {
             <ul className='g-3 g-xl-2 row row-cols-1 row-cols-sm-2 row-cols-xl-1 list-unstyled mb-4 mb-sm-5'>
                 {myEvents?.map((element, index)=>
                     <li key={index}>
-                        <AccEventPreview role={2} active={true} {...element} />
+                        <AccEventPreview role={'Организатор'} active={true} {...element} />
+                    </li>
+                )}
+                {participation?.map((element, index)=>
+                    <li key={index}>
+                        <AccEventPreview role={'Участник'} active={true} {...element} />
                     </li>
                 )}
                 {requests?.map((element, index)=>
                     <li key={index}>
-                        <AccEventPreview role={1} active={true} {...element} />
+                        <AccEventPreview role={'Ожидание ответа'} active={true} {...element} />
                     </li>
                 )}
             </ul>

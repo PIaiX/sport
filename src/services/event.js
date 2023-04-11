@@ -30,7 +30,6 @@ export const CreateEvent = async (payload) => {
 }
 
 export const EditEvent = async (payload, id) => {
-    console.log(id)
     try {
         const result = await $authFormDataApi.patch(`${apiRoutes.CREATE_EVENT}/${id}`, payload)
         return result?.data
