@@ -63,10 +63,16 @@ const AddEvent = () => {
     } = useFieldArray({name: "categoriesItems", control});
 
 
+    useEffect(()=>{
+        setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
+    }, [event, categories])
+
     useEffect(() => {
         GetDiscipline().then(res => {
             if (res) {
-                setCategories(res.map((element) => ({value: element.id, label: element.name})))
+                const categ=res.map((element) => ({value: element.id, label: element.name}))
+                setCategories(categ)
+                console.log(event)
             }
         })
         GetAgeCategory(5).then(res => {
@@ -94,6 +100,7 @@ const AddEvent = () => {
 
     useEffect(() => {
         if (event) {
+            console.log(categories)
             setValue('name', event?.name)
             setValue('venue', event?.venue)
             setValue('startsAt', event?.startsAt.slice(0, -1))
@@ -110,17 +117,16 @@ const AddEvent = () => {
             setValue('tictokLink', event?.tictokLink)
             setValue('youtubeLink', event?.youtubeLink)
             setValue('description', event?.description)
-            setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
             setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
             setPlaceState([event?.latitude, event?.longitude])
 
             const categoryOnEvent = event?.categoryOnEvent.map((element, index) => {
                 const gender = sexList[event?.gender ? 0 : 1]
-                const ageCategoryId = {
+                const weightCategoryId = {
                     value: element?.weightCategory?.ageCategoryId,
                     label: `От ${element?.weightCategory?.weightFrom} до ${element?.weightCategory?.weightTo}`
                 }
-                const weightCategoryId = {
+                const ageCategoryId = {
                     value: element?.weightCategory?.id,
                     label: `От ${element?.weightCategory?.ageCategory?.ageFrom} до ${element?.weightCategory?.ageCategory?.ageTo}`
                 }
