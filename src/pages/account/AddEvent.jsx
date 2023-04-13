@@ -24,6 +24,7 @@ import {useImageViewer} from "../../hooks/imageViewer";
 import {useAppAction} from "../../store";
 import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 import {MyEditor} from "../../components/MyEditor/MyEditor";
+import TableWithUsers from "../../components/Table/TableWithUsers";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -63,14 +64,14 @@ const AddEvent = () => {
     } = useFieldArray({name: "categoriesItems", control});
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
     }, [event, categories])
 
     useEffect(() => {
         GetDiscipline().then(res => {
             if (res) {
-                const categ=res.map((element) => ({value: element.id, label: element.name}))
+                const categ = res.map((element) => ({value: element.id, label: element.name}))
                 setCategories(categ)
                 console.log(event)
             }
@@ -187,13 +188,13 @@ const AddEvent = () => {
             name,
             description,
             venue,
-            startsAt: startsAt+'Z',
-            earlyRegistrationFrom: earlyRegistrationFrom+'Z',
-            earlyRegistrationTo: earlyRegistrationTo+'Z',
-            standartRegistrationFrom: standartRegistrationFrom+'Z',
-            standartRegistrationTo: standartRegistrationTo+'Z',
-            lateRegistrationFrom: lateRegistrationFrom+'Z',
-            lateRegistrationTo: lateRegistrationTo+'Z',
+            startsAt: startsAt + 'Z',
+            earlyRegistrationFrom: earlyRegistrationFrom + 'Z',
+            earlyRegistrationTo: earlyRegistrationTo + 'Z',
+            standartRegistrationFrom: standartRegistrationFrom + 'Z',
+            standartRegistrationTo: standartRegistrationTo + 'Z',
+            lateRegistrationFrom: lateRegistrationFrom + 'Z',
+            lateRegistrationTo: lateRegistrationTo + 'Z',
 
             vkLink,
             instaLink,
@@ -207,15 +208,7 @@ const AddEvent = () => {
             latitude: placeState[0].toString(),
             longitude: placeState[1].toString(),
         }
-
-
-        // let tzoffset = (startsAt).getTimezoneOffset() * 60000; //offset in milliseconds
-        // let localISOTime = (new Date(startsAt?.getTimezoneOffset() - tzoffset)).toISOString().slice(0, -1);
-        // console.log(localISOTime)  // => '2015-01-26T06:40:36.181'
-
-        // console.log(startsAt?.getTimezoneOffset()/60)
-        // console.log((startsAt.now()-minus).toISOString())
-
+        console.log(startsAt)
 
         const formData = new FormData()
         for (const key in request) {
@@ -496,7 +489,7 @@ const AddEvent = () => {
                                         />
                                     </ValidateWrapper>
                                 </Col>
-                                {index == fields?.length-1 &&
+                                {index == fields?.length - 1 &&
                                     <Col>
                                         <input type={'button'} className={'btn-5'} value={'Удалить'}
                                                onClick={() => {
@@ -615,45 +608,8 @@ const AddEvent = () => {
                     {id ? 'Редактировать' : 'Сформировать'}
                 </button>
 
-                {
-                    id &&
-                    <>
-                        <fieldset>
-                            <legend className='mb-0'>Участники</legend>
-                            <ul className='list-unstyled row row-cols-1 row-cols-md-2 g-2 g-sm-3 g-md-4'>
-                                <li>
-                                    <ParticipantControl
-                                        approved={true}
-                                        name={'Имя'}
-                                        surname={'Фамилия'}
-                                        town={'Город'}
-                                        birth={'01.01.2001'}/>
-                                </li>
-                                <li>
-                                    <ParticipantControl
-                                        approved={true}
-                                        name={'Имя'}
-                                        surname={'Фамилия'}
-                                        town={'Город'}
-                                        birth={'01.01.2001'}/>
-                                </li>
-                                <li>
-                                    <ParticipantControl
-                                        approved={true}
-                                        name={'Имя'}
-                                        surname={'Фамилия'}
-                                        town={'Город'}
-                                        birth={'01.01.2001'}/>
-                                </li>
-                            </ul>
-                        </fieldset>
-
-                        <fieldset>
-                            <legend>Турнирная таблица</legend>
-
-                            <TournamentBracket/>
-                        </fieldset>
-                    </>
+                {!id &&
+                    <TableWithUsers event={event} />
                 }
             </form>
         </section>

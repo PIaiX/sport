@@ -2613,3 +2613,12 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     aspect-ratio: 4/2;
     object-fit: cover;
 }
+.table-tab{
+    background-color:white;
+    padding:5px;
+    border-radius: 5px;
+}
+.table-tab .active{
+    padding: 3px;
+    background-color: #b5b5b5a7;
+}

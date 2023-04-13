@@ -1,9 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { RiMore2Fill, RiArrowDownSLine } from "react-icons/ri";
 import useOnClickOutside from '../../hooks/useOnClickOutside';
+import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 
 const ParticipantControl = (props) => {
-  const [isApproved, setIsApproved] = useState(false);
+  const {firstName, lastName, gender, image, height, isJoin, birthDate , weight, age, registrationDate} = props
+
+  const [isApproved, setIsApproved] = useState(isJoin);
   const ref = useRef();
   const [showParams, setShowParams] = useState(false);
   const [showControl, setShowControl] = useState(false);
@@ -14,12 +17,12 @@ const ParticipantControl = (props) => {
   useOnClickOutside(ref, () => handleClick());
 
   return (
-    <div className={(isApproved)?'participant-control approved':'participant-control'}>
+    <div className={`participant-control ${isApproved?'approved':''}`} style={{backgroundColor:isApproved?'white':'#b5b5b5a7'}}>
       <div className='name'>
-        <img src="imgs/photo-replace.png" alt="replace" />
+        <img src={checkPhotoPath(image, true)} />
         <div>
-          <h6>{props.surname + ' ' + props.name}</h6>
-          <div>Дата регистрации: 14.02.2023</div>
+          <h6>{lastName + ' ' + firstName}</h6>
+          <div>Дата регистрации: {registrationDate}</div>
         </div>
       </div>
       <button type='button' className='btn-none' onClick={() => setShowParams(!showParams)}><RiArrowDownSLine/></button>
@@ -33,9 +36,6 @@ const ParticipantControl = (props) => {
               <span>Одобрить</span>
             </label>
           </li>
-          <li>
-            <button type='button' className='btn-5'>Удалить</button>
-          </li>
         </ul>
       }
       {
@@ -43,23 +43,23 @@ const ParticipantControl = (props) => {
         <ul className='params' ref={ref}>
           <li>
             <strong>Дата рождения: </strong>
-            <span>{props.birth}</span>
+            <span>{birthDate}</span>
           </li>
           <li>
-            <strong>Название параметра: </strong>
-            <span>Параметр</span>
+            <strong>Возраст: </strong>
+            <span>{age}</span>
           </li>
           <li>
-            <strong>Название параметра: </strong>
-            <span>Параметр</span>
+            <strong>Рост: </strong>
+            <span>{height}</span>
           </li>
           <li>
-            <strong>Название параметра: </strong>
-            <span>Параметр</span>
+            <strong>Вес: </strong>
+            <span>{weight}</span>
           </li>
           <li>
-            <strong>Название параметра: </strong>
-            <span>Параметр</span>
+            <strong>Пол: </strong>
+            <span>{gender?'Мужской':'Женский'}</span>
           </li>
         </ul>
       }

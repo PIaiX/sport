@@ -44,20 +44,18 @@ const Profile = () => {
     const [avatar, setAvatar] = useState(null)
     let photo = useImageViewer(avatar?.image)
 
-    const SubmitUserClick = ({password, gender, ...data}) => {
-        let request = {...data, gender:gender?.value}
+    const SubmitUserClick = ({password, gender, birthDate,  ...data}) => {
+        let request = {...data, gender:gender?.value, birthDate:birthDate+'T21:00:00.000Z'}
         const formData = new FormData()
         for (const key in request) {
             formData.append(key, request[key])
         }
         formData.append('image', avatar?.image)
-        console.log(setImageToNull)
         if(setImageToNull)
             formData.append('setImageToNull', true)
         editMe(formData)
         executeScroll()
     }
-
     useEffect(() => {
         setValue('firstName', user?.firstName)
         setValue('lastName', user?.lastName)
@@ -69,6 +67,7 @@ const Profile = () => {
         setValue('district', user?.district)
         setValue('region', user?.region)
         setValue('weight', user?.weight)
+        setValue('birthDate', user?.birthDate.slice(0, -14))
         setValue('height', user?.height)
         setValue('isPublicProfile', !user?.isPublicProfile)
         setValue('gender',
@@ -98,7 +97,7 @@ const Profile = () => {
                                 onImageHandler(e, setAvatar, 'image')
                             }} />
                         </div>
-                        <input onClick={DelImage} type={'button'} className={'btn-5'} value={'Удалить фото'}/>
+
                     </div>
                 </Row>
                 <Row className='gx-4 gx-xxl-5'>
@@ -223,37 +222,17 @@ const Profile = () => {
                         <fieldset>
                             <legend className='mb-0'>Ваши параметры</legend>
                             <Row className='gx-4 gy-2 gy-sm-3 align-items-center'>
-                                <Col md={12}>
-                                    <p className='mb-1'>Дата рождения</p>
-                                    <Row xs={1} sm={3} className="gy-2 gy-sm-0 gx-1">
-                                        <Col>
-                                            <Select
-                                                name="day"
-                                                placeholder="День"
-                                                classNamePrefix="simple-select"
-                                                className="simple-select-container borderless w-100"
-                                                options={daysList}
-                                            />
-                                        </Col>
-                                        <Col>
-                                            <Select
-                                                name="month"
-                                                placeholder="Месяц"
-                                                classNamePrefix="simple-select"
-                                                className="simple-select-container borderless w-100"
-                                                options={monthsList}
-                                            />
-                                        </Col>
-                                        <Col>
-                                            <Select
-                                                name="year"
-                                                placeholder="Год"
-                                                classNamePrefix="simple-select"
-                                                className="simple-select-container borderless w-100"
-                                                options={yearsList}
-                                            />
-                                        </Col>
-                                    </Row>
+                                <Col md={3}>
+                                    Дата рождения
+                                </Col>
+                                <Col md={9}>
+                                    <ValidateWrapper error={errors?.birthDate}>
+                                        <input type="date"
+                                               className='mb-3'
+                                               placeholder='Дата рождения'
+                                               {...register('birthDate', )}
+                                        />
+                                    </ValidateWrapper>
                                 </Col>
                                 <Col md={3}>
                                     Рост, см.
@@ -263,14 +242,7 @@ const Profile = () => {
                                         <input type="text" placeholder='Рост'
                                                {...register('height',{
                                                    valueAsNumber:true,
-                                                   }
-                                               //     {
-                                               //     required: 'Поле обязательно к заполнению',
-                                               //     min:{value:118, message:'Минимальный рост 118см'},
-                                               //     max:{value:250, message:'Максимальный рост 250см'},
-                                               //     pattern: {value: /^[0-9]+$/i, message: 'Для ввода допускаются только цифры'},
-                                               // }
-                                               )}
+                                               })}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -282,17 +254,9 @@ const Profile = () => {
                                         <input type="text" placeholder='Вес'
                                                {...register('weight',{
                                                    valueAsNumber: true
-                                                   }
-                                               //     {
-                                               //     required: 'Поле обязательно к заполнению',
-                                               //     min:{value:45, message:'Минимальный вес 45кг'},
-                                               //     max:{value:100, message:'Максимальный вес 200кг'},
-                                               //     pattern: {value: /^[0-9]+$/i, message: 'Для ввода допускаются только цифры'},
-                                               // }
-                                               )}
+                                               })}
                                         />
                                     </ValidateWrapper>
-
                                 </Col>
                             </Row>
                         </fieldset>
