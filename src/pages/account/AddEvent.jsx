@@ -37,7 +37,7 @@ const AddEvent = () => {
     const {setNotFound} = useAppAction()
     const navigate = useNavigate()
 
-    const [categories, setCategories] = useState()
+    const [categoriesOptions, setCategories] = useState()
     const [ageCategories, setAgeCategories] = useState()
     const [placeState, setPlaceState] = useState([55.821283, 49.161006])
     const [event, setEvent] = useState()
@@ -61,12 +61,12 @@ const AddEvent = () => {
     } = useController({name: 'disciplineId', control, rules: {required: 'Выберите значение'}});
     const {
         fields, append, prepend, remove, swap, move, insert, replace
-    } = useFieldArray({name: "categoriesItems", control});
+    } = useFieldArray({name: "categories", control});
 
 
     useEffect(() => {
-        setValue('disciplineId', categories?.find(element => element?.value == event?.disciplineId))
-    }, [event, categories])
+        setValue('disciplineId', categoriesOptions?.find(element => element?.value == event?.disciplineId))
+    }, [event, categoriesOptions])
 
     useEffect(() => {
         GetDiscipline().then(res => {
@@ -83,7 +83,7 @@ const AddEvent = () => {
                     label: `От ${element.ageFrom} до ${element.ageTo}`
                 }))
                 setAgeCategories(list)
-                setValue('categoriesItems', [{ageCategories: list}])
+                setValue('categories', [{ageCategories: list}])
             }
         })
     }, [])
@@ -101,7 +101,6 @@ const AddEvent = () => {
 
     useEffect(() => {
         if (event) {
-            console.log(categories)
             setValue('name', event?.name)
             setValue('venue', event?.venue)
             setValue('startsAt', event?.startsAt.slice(0, -1))
@@ -121,7 +120,7 @@ const AddEvent = () => {
             setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
             setPlaceState([event?.latitude, event?.longitude])
 
-            const categoryOnEvent = event?.categoryOnEvent.map((element, index) => {
+            const categories = event?.categories.map((element, index) => {
                 const gender = sexList[event?.gender ? 0 : 1]
                 const weightCategoryId = {
                     value: element?.weightCategory?.ageCategoryId,
@@ -144,8 +143,7 @@ const AddEvent = () => {
                 }
 
             })
-            setValue('categoriesItems', categoryOnEvent)
-
+            setValue('categories', categories)
         }
     }, [event])
 
@@ -182,7 +180,7 @@ const AddEvent = () => {
 
             lateRegistrationTo,
             disciplineId,
-            categoriesItems,
+            categories,
         } = state
         const request = {
             name,
@@ -208,7 +206,6 @@ const AddEvent = () => {
             latitude: placeState[0].toString(),
             longitude: placeState[1].toString(),
         }
-        console.log(startsAt)
 
         const formData = new FormData()
         for (const key in request) {
@@ -218,12 +215,11 @@ const AddEvent = () => {
             formData.append('setImageToNull', true)
         formData.append('image', avatar?.image)
 
-        categoriesItems?.forEach(element => {
-            formData.append('categoriesOnEvent[]', JSON.stringify({
+        categories?.forEach(element => {
+            formData.append('categories[]', JSON.stringify({
                 gender: element.gender?.value,
                 weightCategoryId: element.weightCategoryId?.value
             }))
-            // formData.append('categoriesOnEvent[]', JSON.stringify({gender:element.gender?.value, weightCategoryId:element.weightCategoryId?.value}))
         })
 
         if (id) {
@@ -276,7 +272,7 @@ const AddEvent = () => {
                                     placeholder="Дисциплина"
                                     classNamePrefix="simple-select"
                                     className="simple-select-container borderless w-100 mb-3 validate-select"
-                                    options={categories}
+                                    options={categoriesOptions}
                                     value={disciplineIdValue}
                                     onChange={option => disciplineIdOnChange(option)}
                                     {...disciplineIdField}
@@ -420,9 +416,9 @@ const AddEvent = () => {
                                                 onChange: async ({target: {value: option}}) => {
                                                     const {value} = option
                                                     const weightCategories = await GetWightCategory(value)
-                                                    let array = getValues('categoriesItems')
+                                                    let array = getValues('categories')
                                                     array[index] = {...array[index], weightCategories, ageId: option}
-                                                    setValue('categoriesItems', array)
+                                                    setValue('categories', array)
                                                     setValue(`weightCategoryId-${index}`, null)
                                                 },
                                             }}
@@ -447,9 +443,9 @@ const AddEvent = () => {
                                             rules={{
                                                 required: 'Выберите значение',
                                                 onChange: ({target: {value: option}}) => {
-                                                    let array = getValues('categoriesItems')
+                                                    let array = getValues('categories')
                                                     array[index] = {...array[index], weightCategoryId: option}
-                                                    setValue('categoriesItems', array)
+                                                    setValue('categories', array)
                                                 },
                                             }}
                                             render={({field}) => (
@@ -472,9 +468,9 @@ const AddEvent = () => {
                                             rules={{
                                                 required: 'Выберите значение',
                                                 onChange: ({target: {value: option}}) => {
-                                                    let array = getValues('categoriesItems')
+                                                    let array = getValues('categories')
                                                     array[index] = {...array[index], gender: option}
-                                                    setValue('categoriesItems', array)
+                                                    setValue('categories', array)
                                                 },
                                             }}
                                             render={({field}) => (

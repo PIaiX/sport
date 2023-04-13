@@ -76,8 +76,6 @@ const AccEvents = () => {
     const participation = useAppSelector(state=>state.user.user?.participation)?.map(element=>element?.event)
     const {getMyEvents, myRequests} = useUserAction()
 
-    console.log(participation)
-
     useEffect(() => {
         getMyEvents()
         myRequests()
