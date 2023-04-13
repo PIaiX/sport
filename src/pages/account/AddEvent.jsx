@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
-import TournamentBracket from '../../components/TournamentBracket';
-import ParticipantControl from '../../components/utils/ParticipantControl';
 import {Controller, useController, useFieldArray, useForm} from "react-hook-form";
 import {GetAgeCategory, GetDiscipline, GetWightCategory} from "../../services/params";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
@@ -73,20 +71,26 @@ const AddEvent = () => {
             if (res) {
                 const categ = res.map((element) => ({value: element.id, label: element.name}))
                 setCategories(categ)
-                console.log(event)
-            }
-        })
-        GetAgeCategory(5).then(res => {
-            if (res) {
-                const list = res.map((element) => ({
-                    value: element.id,
-                    label: `От ${element.ageFrom} до ${element.ageTo}`
-                }))
-                setAgeCategories(list)
-                setValue('categories', [{ageCategories: list}])
             }
         })
     }, [])
+
+    useEffect(()=>{
+        const disciplineId = getValues('disciplineId')
+        if(disciplineId){
+            GetAgeCategory(disciplineId?.value).then(res => {
+                if (res) {
+                    const list = res.map((element) => ({
+                        value: element.id,
+                        label: `От ${element.ageFrom} до ${element.ageTo}`
+                    }))
+                    setAgeCategories(list)
+                    if(!id)
+                        setValue('categories', [{ageCategories: list}])
+                }
+            })
+        }
+    }, [getValues('disciplineId')])
 
     useEffect(() => {
         if (id) {
@@ -604,7 +608,7 @@ const AddEvent = () => {
                     {id ? 'Редактировать' : 'Сформировать'}
                 </button>
 
-                {!id &&
+                {id &&
                     <TableWithUsers event={event} />
                 }
             </form>

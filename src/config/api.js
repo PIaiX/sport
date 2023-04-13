@@ -87,15 +87,20 @@ const apiRoutes = {
     GET_ARCHIVED_EVENTS:'',
     GET_MY_EVENTS:'events/current',
     JOIN_EVENT:'events/requests/send',
+    ACCEPT_REQUEST: 'events/requests/accept',
     EXIT_EVENT:'events/requests/send',
+    //table
+    GET_TABLE: 'events/category/tournamentTable',
 
     //categories
     GET_CATEGORIES: 'discipline',
     GET_WEIGHT_CATEGORY: 'discipline/weightCategory/byAgeCategoryId',
     GET_AGE_CATEGORY: 'discipline/ageCategory/byDisciplineId',
     GET_RANK_CATEGORY: 'discipline/rank/byDisciplineId',
+
     //document
     GET_DOCUMENT: 'documents',
+
 }
 
 export { $api, $authApi, $authFormDataApi}

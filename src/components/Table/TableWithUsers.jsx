@@ -3,22 +3,23 @@ import ParticipantControl from "../utils/ParticipantControl";
 import TournamentBracket from "../TournamentBracket";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import {GetTable} from "../../services/table";
 
-const u = [
+const au = [
     {
-        firstName: "Ramil",
+        firstName: "Ramil1",
         lastName: "Zinnatullin",
         gender: true,
         image: null,
         height: '182',
-        isJoin: true,
         birthDate: '22.02.2002',
         weight: '100',
         age: 21,
-        registrationDate: '13.04.2023'
+        registrationDate: '13.04.2023',
+        id: 1
     },
     {
-        firstName: "Ramil",
+        firstName: "Ramil2",
         lastName: "Zinnatullin",
         gender: false,
         image: null,
@@ -27,33 +28,35 @@ const u = [
         birthDate: '22.02.2002',
         weight: '100',
         age: 21,
-        registrationDate: '13.04.2023'
+        registrationDate: '13.04.2023',
+        id: 2
     },
     {
-        firstName: "Ramil",
+        firstName: "Ramil3",
         lastName: "Zinnatullin",
         gender: true,
         image: null,
         height: '182',
-        isJoin: true,
         birthDate: '22.02.2002',
         weight: '100',
         age: 21,
+        id: 3,
         registrationDate: '13.04.2023'
-    },    {
-        firstName: "Ramil",
+    },
+    {
+        firstName: "Ramil4",
         lastName: "Zinnatullin",
         gender: true,
         image: null,
         height: '182',
-        isJoin: true,
         birthDate: '22.02.2002',
         weight: '100',
         age: 21,
-        registrationDate: '13.04.2023'
+        registrationDate: '13.04.2023',
+        id: 4
     },
     {
-        firstName: "Ramil",
+        firstName: "Ramil5",
         lastName: "Zinnatullin",
         gender: false,
         image: null,
@@ -62,55 +65,42 @@ const u = [
         birthDate: '22.02.2002',
         weight: '100',
         age: 21,
-        registrationDate: '13.04.2023'
+        registrationDate: '13.04.2023',
+        id: 5
     },
     {
-        firstName: "Ramil",
+        firstName: "Ramil6",
         lastName: "Zinnatullin",
         gender: true,
         image: null,
         height: '182',
-        isJoin: true,
         birthDate: '22.02.2002',
         weight: '100',
         age: 21,
-        registrationDate: '13.04.2023'
+        registrationDate: '13.04.2023',
+        id: 6
     },
 ]
 
 const TableWithUsers = (props) => {
     const {event} = props
-    const [users, setUsers] = useState(u)
+    const [acceptUsers, setAcceptUsers] = useState(au)
+    const [categoriesTab, setCategoriesTab] = useState()
     const [tab, setTab] = useState(0)
-    const er = [{
-            age: '0-10',
-            weight:'20kg',
-            gender:true
-        },
-        {
-            age: '0-10',
-            weight:'20kg',
-            gender:false
-        },
-        {
-            age: '12-13',
-            weight:'30kg',
-            gender:true
-        },
-        {
-            age: '12-13',
-            weight:'30kg',
-            gender:false
-        },
-        {
-            age: '13-14',
-            weight:'40kg',
-            gender:true
-        }]
-    useEffect(()=>{
-        // запрос на юзеров
+
+    useEffect(() => {
+        // запрос на запросных юзеров
     }, [tab])
 
+    useEffect(() => {
+        setTab(event?.categories[0]?.id)
+        setCategoriesTab(event?.categories.map(element => ({
+            age: element.weightCategory?.ageCategory?.ageFrom + '-' + element.weightCategory?.ageCategory?.ageTo,
+            gender: element?.gender,
+            weight: element?.weightCategory?.weightFrom + '-' + element?.weightCategory?.weightTo,
+            id: element?.id
+        })))
+    }, [event])
 
     return (
         <>
@@ -119,13 +109,13 @@ const TableWithUsers = (props) => {
                     <h3>Турнирные таблицы</h3>
                 </Row>
                 <div className={'row gy-1 gx-1'}>
-                    {er?.map((element, index)=>
-                        <Col onClick={()=>setTab(index)}>
+                    {categoriesTab?.map((element, index) =>
+                        <Col key={index} onClick={() => setTab(element?.id)}>
                             <div className={`table-tab`}>
-                                <div className={`${tab==index?'active':''}`}>
+                                <div className={`${tab == element?.id ? 'active' : ''}`}>
                                     <div>{element.age}</div>
                                     <div>{element.weight}</div>
-                                    <div>{element.gender?'Мужской':'Женский'}</div>
+                                    <div>{element.gender ? 'Мужской' : 'Женский'}</div>
                                 </div>
                             </div>
                         </Col>
@@ -134,11 +124,17 @@ const TableWithUsers = (props) => {
             </div>
             <div>
                 <fieldset>
-                    <legend className='mb-0'>Участники</legend>
+                    <legend className='mb-0'>Заявки</legend>
                     <ul className='list-unstyled row row-cols-1 row-cols-md-2 g-2 g-sm-3 g-md-4'>
-                        {users?.map((element, index) =>
+                        {acceptUsers?.map((element, index) =>
                             <li>
-                                <ParticipantControl {...element} />
+                                <ParticipantControl
+                                    {...element}
+                                    eventId={event?.id}
+                                    onChange={()=>{
+                                        setAcceptUsers(acceptUsers.filter(user=>user.id!=element.id))
+                                    }}
+                                />
                             </li>
                         )}
                     </ul>
@@ -146,7 +142,7 @@ const TableWithUsers = (props) => {
 
                 <fieldset>
                     <legend>Турнирная таблица</legend>
-                    <TournamentBracket users={users} />
+                    <TournamentBracket acceptUsers={acceptUsers}/>
                 </fieldset>
 
             </div>

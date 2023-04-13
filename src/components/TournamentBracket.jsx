@@ -492,14 +492,91 @@ const tour5 = [
         },
     },
 ]
-
+const u = [
+    {
+        firstName: "Ramil1",
+        lastName: "Zinnatullin",
+        gender: true,
+        image: null,
+        height: '182',
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023',
+        id: 1
+    },
+    {
+        firstName: "Ramil2",
+        lastName: "Zinnatullin",
+        gender: false,
+        image: null,
+        height: '182',
+        isJoin: false,
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023',
+        id: 2
+    },
+    {
+        firstName: "Ramil3",
+        lastName: "Zinnatullin",
+        gender: true,
+        image: null,
+        height: '182',
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        id: 3,
+        registrationDate: '13.04.2023'
+    },
+    {
+        firstName: "Ramil4",
+        lastName: "Zinnatullin",
+        gender: true,
+        image: null,
+        height: '182',
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023',
+        id: 4
+    },
+    {
+        firstName: "Ramil5",
+        lastName: "Zinnatullin",
+        gender: false,
+        image: null,
+        height: '182',
+        isJoin: false,
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023',
+        id: 5
+    },
+    {
+        firstName: "Ramil6",
+        lastName: "Zinnatullin",
+        gender: true,
+        image: null,
+        height: '182',
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023',
+        id: 6
+    },
+]
 const tours = [tour1, tour2, tour3, tour4, tour5]
 
 const TournamentBracket = (props) => {
-    const {users} = props
+    const {acceptUsers} = props
 
     const [scrollX, setScrollX] = useState(0);
     const bracket = useRef(null)
+
+    const [users, setUsers] = useState(u)
 
     const scrollBracket = (event) => {
         event.preventDefault()
@@ -526,7 +603,7 @@ const TournamentBracket = (props) => {
 
     useEffect(() => {
         // если кол-во пользователей поменялось, значит делаем новый запрос на эту таблицу
-    }, [users])
+    }, [acceptUsers])
 
     return (
         <div
@@ -537,7 +614,7 @@ const TournamentBracket = (props) => {
         >
             <div className="bracket" id="id-1">
                 {tours?.map((tour, index) =>
-                    <div className="tour">
+                    <div className="tour" key={index}>
                         {
                             tour.map((obj, i) => {
                                 return <BracketItem
