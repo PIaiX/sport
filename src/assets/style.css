@@ -1641,6 +1641,9 @@ main {
     -o-object-fit: cover;
     object-fit: cover;
 }
+.person-btn img {
+    border-radius: 10px;
+}
 
 .bracket .tour .item .person-btn .name, .bracket .tour .item-1 .person-btn .name, .bracket .tour .item-2 .person-btn .name, .bracket .tour .item-3 .person-btn .name, .bracket .tour .item-4 .person-btn .name, .bracket .tour .item-5 .person-btn .name {
     font-weight: 600;

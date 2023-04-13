@@ -40,6 +40,41 @@ const u = [
         weight: '100',
         age: 21,
         registrationDate: '13.04.2023'
+    },    {
+        firstName: "Ramil",
+        lastName: "Zinnatullin",
+        gender: true,
+        image: null,
+        height: '182',
+        isJoin: true,
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023'
+    },
+    {
+        firstName: "Ramil",
+        lastName: "Zinnatullin",
+        gender: false,
+        image: null,
+        height: '182',
+        isJoin: false,
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023'
+    },
+    {
+        firstName: "Ramil",
+        lastName: "Zinnatullin",
+        gender: true,
+        image: null,
+        height: '182',
+        isJoin: true,
+        birthDate: '22.02.2002',
+        weight: '100',
+        age: 21,
+        registrationDate: '13.04.2023'
     },
 ]
 
@@ -110,7 +145,7 @@ const TableWithUsers = (props) => {
 
                 <fieldset>
                     <legend>Турнирная таблица</legend>
-                    <TournamentBracket/>
+                    <TournamentBracket users={users} />
                 </fieldset>
 
             </div>

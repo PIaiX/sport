@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
 import BracketItem from './utils/BracketItem'
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
 const tour1 = [
     {
@@ -495,10 +493,13 @@ const tour5 = [
     },
 ]
 
+const tours = [tour1, tour2, tour3, tour4, tour5]
 
 const TournamentBracket = (props) => {
-    const {} = props
+    const {users} = props
+
     const [scrollX, setScrollX] = useState(0);
+    const bracket = useRef(null)
 
     const scrollBracket = (event) => {
         event.preventDefault()
@@ -514,46 +515,34 @@ const TournamentBracket = (props) => {
             moveAt(e);
         }
     }
-
     const stopScroll = () => {
         document.onmousemove = null
         bracket.onmouseup = null
     }
 
-    const bracket = useRef(null)
-
     useEffect(() => {
         bracket.current.scrollLeft = scrollX
     })
 
+    useEffect(() => {
+        // если кол-во пользователей поменялось, значит делаем новый запрос на эту таблицу
+    }, [users])
+
     return (
-        <>
-            <Row>
-                <Col>
-                    23
-                </Col>
-                <Col>
-                    23
-                </Col>
-                <Col>
-                    23
-                </Col>
-            </Row>
-            <div
-                className="wrap"
-                ref={bracket}
-                onMouseUp={() => stopScroll()}
-                onMouseDown={(event) => scrollBracket(event)}
-            >
-                <div
-                    className="bracket"
-                    id="id-1">
+        <div
+            className="wrap"
+            ref={bracket}
+            onMouseUp={() => stopScroll()}
+            onMouseDown={(event) => scrollBracket(event)}
+        >
+            <div className="bracket" id="id-1">
+                {tours?.map((tour, index) =>
                     <div className="tour">
                         {
-                            tour1.map((obj, i) => {
+                            tour.map((obj, i) => {
                                 return <BracketItem
                                     key={i}
-                                    tour={1}
+                                    tour={index+1}
                                     order={i}
                                     person1={obj.opponent1}
                                     person2={obj.opponent2}
@@ -561,61 +550,9 @@ const TournamentBracket = (props) => {
                             })
                         }
                     </div>
-                    <div className="tour">
-                        {
-                            tour2.map((obj, i) => {
-                                return <BracketItem
-                                    key={i}
-                                    tour={2}
-                                    order={i}
-                                    person1={obj.opponent1}
-                                    person2={obj.opponent2}
-                                />
-                            })
-                        }
-                    </div>
-                    <div className="tour">
-                        {
-                            tour3.map((obj, i) => {
-                                return <BracketItem
-                                    key={i}
-                                    tour={3}
-                                    order={i}
-                                    person1={obj.opponent1}
-                                    person2={obj.opponent2}
-                                />
-                            })
-                        }
-                    </div>
-                    <div className="tour">
-                        {
-                            tour4.map((obj, i) => {
-                                return <BracketItem
-                                    key={i}
-                                    tour={4}
-                                    order={i}
-                                    person1={obj.opponent1}
-                                    person2={obj.opponent2}
-                                />
-                            })
-                        }
-                    </div>
-                    <div className="tour">
-                        {
-                            tour5.map((obj, i) => {
-                                return <BracketItem
-                                    key={i}
-                                    tour={5}
-                                    order={i}
-                                    person1={obj.opponent1}
-                                    person2={obj.opponent2}
-                                />
-                            })
-                        }
-                    </div>
-                </div>
+                )}
             </div>
-        </>
+        </div>
     )
 }
 

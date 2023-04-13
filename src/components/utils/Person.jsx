@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
+import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 
 const Person = (props) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -9,7 +10,7 @@ const Person = (props) => {
   return (
     <div className='person'>
       <button type='button' className='person-btn' onClick={() => setShowMenu(!showMenu)}>
-        <img src="imgs/photo-replace.png" alt="replace" />
+        <img src={checkPhotoPath('', true)} alt="replace" />
         <div>
           <div className='name'>{props.person.name}</div>
           <div className='text'>{props.person.birth}</div>
