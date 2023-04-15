@@ -1424,16 +1424,6 @@ main {
     grid-gap: 20px 0;
 }
 
-.bracket .tour:last-child .item::before, .bracket .tour:last-child .item-5::before, .bracket .tour:last-child .item-4::before, .bracket .tour:last-child .item-3::before, .bracket .tour:last-child .item-2::before, .bracket .tour:last-child .item-1::before {
-    content: "";
-    position: absolute;
-    top: calc(50% - 1px);
-    right: 100%;
-    height: 2px;
-    width: 1.5em;
-    background-color: #D6E7FF;
-}
-
 .bracket .tour:last-child .item::after, .bracket .tour:last-child .item-5::after, .bracket .tour:last-child .item-4::after, .bracket .tour:last-child .item-3::after, .bracket .tour:last-child .item-2::after, .bracket .tour:last-child .item-1::after {
     content: none !important;
 }
@@ -1443,38 +1433,9 @@ main {
     position: relative;
 }
 
-.bracket .tour .item::before, .bracket .tour .item-5::before, .bracket .tour .item-4::before, .bracket .tour .item-3::before, .bracket .tour .item-2::before, .bracket .tour .item-1::before {
-    content: "";
-    position: absolute;
-    top: calc(50% - 1px);
-    left: -1.5em;
-    height: 2px;
-    width: calc(100% + 3em);
-    background-color: #D6E7FF;
-}
 
 .bracket .tour .item-1 {
     grid-row: span 2;
-}
-
-.bracket .tour .item-1:nth-child(odd)::after {
-    content: "";
-    position: absolute;
-    top: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 61px;
-    width: 2px;
-    background-color: #D6E7FF;
-}
-
-.bracket .tour .item-1:nth-child(even)::after {
-    content: "";
-    position: absolute;
-    bottom: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 61px;
-    width: 2px;
-    background-color: #D6E7FF;
 }
 
 .bracket .tour .item-2.index-0 {
@@ -1517,25 +1478,7 @@ main {
     grid-row-end: 32;
 }
 
-.bracket .tour .item-2:nth-child(odd)::after {
-    content: "";
-    position: absolute;
-    top: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 122px;
-    width: 2px;
-    background-color: #D6E7FF;
-}
 
-.bracket .tour .item-2:nth-child(even)::after {
-    content: "";
-    position: absolute;
-    bottom: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 122px;
-    width: 2px;
-    background-color: #D6E7FF;
-}
 
 .bracket .tour .item-3.index-0 {
     grid-row-start: 4;
@@ -1557,25 +1500,6 @@ main {
     grid-row-end: 30;
 }
 
-.bracket .tour .item-3:nth-child(odd)::after {
-    content: "";
-    position: absolute;
-    top: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 244px;
-    width: 2px;
-    background-color: #D6E7FF;
-}
-
-.bracket .tour .item-3:nth-child(even)::after {
-    content: "";
-    position: absolute;
-    bottom: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 244px;
-    width: 2px;
-    background-color: #D6E7FF;
-}
 
 .bracket .tour .item-4.index-0 {
     grid-row-start: 8;
@@ -1587,25 +1511,6 @@ main {
     grid-row-end: 26;
 }
 
-.bracket .tour .item-4:nth-child(odd)::after {
-    content: "";
-    position: absolute;
-    top: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 488px;
-    width: 2px;
-    background-color: #D6E7FF;
-}
-
-.bracket .tour .item-4:nth-child(even)::after {
-    content: "";
-    position: absolute;
-    bottom: calc(50% - 1px);
-    left: calc(100% + 1.5em);
-    height: 488px;
-    width: 2px;
-    background-color: #D6E7FF;
-}
 
 .bracket .tour .item-5.index-0 {
     grid-row-start: 16;
@@ -1617,10 +1522,6 @@ main {
     background-color: aliceblue;
     border: 2px solid #D6E7FF;
     transition: 0.3s ease;
-}
-
-.bracket .tour .item .person:hover, .bracket .tour .item-1 .person:hover, .bracket .tour .item-2 .person:hover, .bracket .tour .item-3 .person:hover, .bracket .tour .item-4 .person:hover, .bracket .tour .item-5 .person:hover, .bracket .tour .item .person:focus, .bracket .tour .item-1 .person:focus, .bracket .tour .item-2 .person:focus, .bracket .tour .item-3 .person:focus, .bracket .tour .item-4 .person:focus, .bracket .tour .item-5 .person:focus, .bracket .tour .item .person:active, .bracket .tour .item-1 .person:active, .bracket .tour .item-2 .person:active, .bracket .tour .item-3 .person:active, .bracket .tour .item-4 .person:active, .bracket .tour .item-5 .person:active {
-    background-color: #D6E7FF;
 }
 
 .bracket .tour .item .person-btn, .bracket .tour .item-1 .person-btn, .bracket .tour .item-2 .person-btn, .bracket .tour .item-3 .person-btn, .bracket .tour .item-4 .person-btn, .bracket .tour .item-5 .person-btn {
@@ -2408,6 +2309,20 @@ article.preview .more {
     flex: 1;
 }
 
+
+
+
+.person-in-table .participant-control{
+    position: inherit;
+    height:50%;
+}
+.person-in-table .participant-control .name img{
+    height:40px;
+    width:40px;
+}
+
+
+
 .account .participant-control .btn-none {
     font-size: 1.5em;
     color: #004AAD;
@@ -2434,6 +2349,22 @@ article.preview .more {
 .account .participant-control .params li:not(:first-child) {
     margin-top: 0.25em;
 }
+
+
+
+.person-in-table .participant-control .params{
+    padding: 0;
+    cursor:pointer;
+}
+
+.user-select li{
+    padding: 0.5em 1em;
+}
+.user-select li:hover{
+    background-color: white;
+}
+
+
 
 .account .participant-control .params.controls {
     display: flex;

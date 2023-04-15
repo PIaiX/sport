@@ -87,10 +87,13 @@ const apiRoutes = {
     GET_ARCHIVED_EVENTS:'',
     GET_MY_EVENTS:'events/current',
     JOIN_EVENT:'events/requests/send',
-    ACCEPT_REQUEST: 'events/requests/accept',
     EXIT_EVENT:'events/requests/send',
+
     //table
     GET_TABLE: 'events/category/tournamentTable',
+    ACCEPT_REQUEST: 'events/requests/accept',
+    GET_ACCEPT_REQUESTS:'events/requests/myEvent',
+    GET_ACCEPTED_REQUESTS:'events/category',
 
     //categories
     GET_CATEGORIES: 'discipline',

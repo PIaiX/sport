@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useContext, useEffect, useState} from 'react';
 import ParticipantControl from "../utils/ParticipantControl";
 import TournamentBracket from "../TournamentBracket";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {GetTable} from "../../services/table";
+import {AcceptRequest, GetAcceptRequests} from "../../services/table";
+import {EventContext, UserContext} from "../../pages/account/AddEvent";
 
 const au = [
     {
@@ -86,48 +87,38 @@ const TableWithUsers = (props) => {
     const {event} = props
     const [acceptUsers, setAcceptUsers] = useState(au)
     const [categoriesTab, setCategoriesTab] = useState()
-    const [tab, setTab] = useState(0)
+    const [tab, setTab] = useState()
+//     useEffect(() => {
+//         if(tab){
+//             GetAcceptRequests(event?.id).then(res=>{
+//                 if(res)
+//                     setAcceptUsers(res)
+//             })
+//         }
+//     }, [tab])
 
     useEffect(() => {
-        // запрос на запросных юзеров
-    }, [tab])
+        if(!tab)
+            setTab(event?.categories[0]?.id)
 
-    useEffect(() => {
-        setTab(event?.categories[0]?.id)
         setCategoriesTab(event?.categories.map(element => ({
             age: element.weightCategory?.ageCategory?.ageFrom + '-' + element.weightCategory?.ageCategory?.ageTo,
             gender: element?.gender,
             weight: element?.weightCategory?.weightFrom + '-' + element?.weightCategory?.weightTo,
+            count:element?._count?.participants,
             id: element?.id
         })))
     }, [event])
 
     return (
         <>
-            <div className={'py-2'}>
-                <Row>
-                    <h3>Турнирные таблицы</h3>
-                </Row>
-                <div className={'row gy-1 gx-1'}>
-                    {categoriesTab?.map((element, index) =>
-                        <Col key={index} onClick={() => setTab(element?.id)}>
-                            <div className={`table-tab`}>
-                                <div className={`${tab == element?.id ? 'active' : ''}`}>
-                                    <div>{element.age}</div>
-                                    <div>{element.weight}</div>
-                                    <div>{element.gender ? 'Мужской' : 'Женский'}</div>
-                                </div>
-                            </div>
-                        </Col>
-                    )}
-                </div>
-            </div>
-            <div>
+            {acceptUsers?.length>0 &&
+                <div className={'py-2'}>
                 <fieldset>
                     <legend className='mb-0'>Заявки</legend>
                     <ul className='list-unstyled row row-cols-1 row-cols-md-2 g-2 g-sm-3 g-md-4'>
                         {acceptUsers?.map((element, index) =>
-                            <li>
+                            <li key={index}>
                                 <ParticipantControl
                                     {...element}
                                     eventId={event?.id}
@@ -139,10 +130,33 @@ const TableWithUsers = (props) => {
                         )}
                     </ul>
                 </fieldset>
-
+            </div>
+            }
+            <div>
+                <Row>
+                    <h3>Турнирные таблицы</h3>
+                </Row>
+                <div className={'row gy-1 gx-1'}>
+                    {categoriesTab?.map((element, index) =>
+                        <Col key={index} onClick={() => setTab(element?.id)}>
+                            <div className={`table-tab`}>
+                                <div className={`${tab == element?.id ? 'active' : ''}`}>
+                                    <div>Возраст: {element.age}</div>
+                                    <div>Вес: {element.weight}</div>
+                                    <div>{element.gender ? 'Мужской' : 'Женский'}</div>
+                                    <div>Участников: {element.count}</div>
+                                </div>
+                            </div>
+                        </Col>
+                    )}
+                </div>
                 <fieldset>
                     <legend>Турнирная таблица</legend>
-                    <TournamentBracket acceptUsers={acceptUsers}/>
+                    <TournamentBracket
+                        acceptUsers={acceptUsers}
+                        tab={tab}
+                        tournamentTableId={event?.categories?.find(element=>element.id==tab)?.tournamentTable?.id}
+                    />
                 </fieldset>
 
             </div>
@@ -150,4 +164,4 @@ const TableWithUsers = (props) => {
     );
 };
 
-export default TableWithUsers;
+export default memo(TableWithUsers);

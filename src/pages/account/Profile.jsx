@@ -321,13 +321,7 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.address}>
                                         <input type="text" placeholder='Адрес'
-                                               {...register('address',
-                                               //     {
-                                               //     required: 'Поле обязательно к заполнению',
-                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
-                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               // }
-                                               )}
+                                               {...register('address')}
                                         />
                                     </ValidateWrapper>
 
@@ -338,17 +332,7 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.city}>
                                         <input type="text" placeholder='Город'
-                                               {...register('city',
-                                               //     {
-                                               //     required: 'Поле обязательно к заполнению',
-                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
-                                               //     pattern: {
-                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
-                                               //         message: "Для ввода допускаются только буквы"
-                                               //     },
-                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               // }
-                                               )}
+                                               {...register('city')}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -358,17 +342,7 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.district}>
                                         <input type="text" placeholder='Район'
-                                               {...register('district',
-                                               //     {
-                                               //     required: 'Поле обязательно к заполнению',
-                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
-                                               //     pattern: {
-                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
-                                               //         message: "Для ввода допускаются только буквы"
-                                               //     },
-                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               // }
-                                               )}
+                                               {...register('district')}
                                         />
                                     </ValidateWrapper>
 

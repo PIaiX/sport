@@ -9,9 +9,36 @@ export const AcceptRequest = async (payload) => {
     }
 }
 
+export const GetAcceptRequests = async (payload) => {
+    try {
+        const result = await $authApi.get(`${apiRoutes.GET_ACCEPT_REQUESTS}/${payload}`)
+        return result?.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const GetAcceptedRequests = async (payload) => {
+    try {
+        const result = await $authApi.get(`${apiRoutes.GET_ACCEPTED_REQUESTS}/${payload}`)
+        return result?.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const GetTable = async (payload) => {
     try {
-        const result = await $authApi.get(`${apiRoutes.ACCEPT_REQUEST}` , payload)
+        const result = await $authApi.get(`${apiRoutes.GET_TABLE}/${payload}`)
+        return result?.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const CreateTable = async (payload) => {
+    try {
+        const result = await $authApi.post(`${apiRoutes.GET_TABLE}`, payload)
         return result?.data
     } catch (error) {
         console.log(error)

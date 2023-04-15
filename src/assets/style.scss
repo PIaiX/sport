@@ -1,3 +1,4 @@
+/*
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap');
 // "homepage": "https://ngf93.github.io/sport",
 :root {
@@ -32,7 +33,7 @@ $red: #e50000;
 $yellow: #ffd900;
 $green: #02c12b;
 
-/* mixins */
+!* mixins *!
 @mixin flex-center {
     display: flex;
     justify-content: center;
@@ -70,7 +71,7 @@ h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, selec
     margin-bottom: 0px;
 }
 
-/* Form elements */
+!* Form elements *!
 input, textarea {
     background: $achromat-5;
     border: none;
@@ -1834,3 +1835,4 @@ footer {
         }
     }
 }
+*/

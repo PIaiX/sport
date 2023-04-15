@@ -3,6 +3,8 @@ import useOnClickOutside from '../../hooks/useOnClickOutside';
 import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 
 const Person = (props) => {
+  const {person={}} = props
+  const firstName='', lastName='', image=null, birthDate='', place=0
   const [showMenu, setShowMenu] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, () => setShowMenu(false));
@@ -10,18 +12,18 @@ const Person = (props) => {
   return (
     <div className='person'>
       <button type='button' className='person-btn' onClick={() => setShowMenu(!showMenu)}>
-        <img src={checkPhotoPath('', true)} alt="replace" />
+        <img src={checkPhotoPath(image, true)} alt="replace" />
         <div>
-          <div className='name'>{props.person.name}</div>
-          <div className='text'>{props.person.birth}</div>
+          <div className='name'>{firstName+' '+lastName}</div>
+          <div className='text'>{birthDate}</div>
         </div>
         {
-          (props.person.winner) &&
+          true &&
           <div className='winner'></div>
         }
         {
-          (props.person.place !== 0) &&
-          <div className='place'>{props.person.place}</div>
+          place !== 0 &&
+          <div className='place'>{2}</div>
         }
       </button>
       {

@@ -1,13 +1,16 @@
 import React from 'react'
-import Person from './Person'
+import PersonFroTable from "./PersonFroTable";
 
 const BracketItem = (props) => {
-  return (
-    <div className={'item-'+props.tour+' index-'+props.order}>
-      <Person person={props.person1}/>
-      <Person person={props.person2}/>
-    </div>
-  )
+    const {participantOneId, participantTwoId, round, ordinal, id} =props
+
+    return (
+        <div className={`item-${round} index-${ordinal} person-in-table`}>
+            <PersonFroTable />
+            <PersonFroTable />
+
+        </div>
+    )
 }
 
 export default BracketItem

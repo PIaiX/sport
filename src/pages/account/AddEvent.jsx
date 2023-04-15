@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
@@ -28,6 +28,9 @@ const sexList = [
     {value: true, label: 'Мужской'},
     {value: false, label: 'Женский'},
 ];
+
+export const EventContext = createContext()
+
 
 const AddEvent = () => {
 
@@ -607,11 +610,12 @@ const AddEvent = () => {
                 <button type='submit' className='btn-4 mb-4'>
                     {id ? 'Редактировать' : 'Сформировать'}
                 </button>
-
-                {id &&
-                    <TableWithUsers event={event} />
-                }
             </form>
+            {id &&
+                <EventContext.Provider value={{setEvent, event}}>
+                    <TableWithUsers event={event} />
+                </EventContext.Provider>
+            }
         </section>
     )
         ;

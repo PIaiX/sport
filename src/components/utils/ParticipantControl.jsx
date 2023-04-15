@@ -5,7 +5,7 @@ import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 import {AcceptRequest} from "../../services/table";
 
 const ParticipantControl = (props) => {
-    const {firstName, lastName, gender, id, image, eventId, height, isJoin, birthDate, weight, age, registrationDate, onChange} = props
+    const {firstName, lastName, gender, id, image, eventId, height, isJoin, birthDate, weight, age, onChange} = props
     const [isApproved, setIsApproved] = useState(isJoin);
     const ref = useRef();
     const [showParams, setShowParams] = useState(false);
@@ -36,10 +36,6 @@ const ParticipantControl = (props) => {
         <div className={`participant-control ${isApproved ? 'approved' : ''}`}>
             <div className='name'>
                 <img src={checkPhotoPath(image, true)}/>
-                <div>
-                    <h6>{lastName + ' ' + firstName}</h6>
-                    <div>Дата регистрации: {registrationDate}</div>
-                </div>
             </div>
             <button type='button' className='btn-none' onClick={() => setShowParams(!showParams)}><RiArrowDownSLine/>
             </button>
