@@ -2505,7 +2505,6 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     bottom: -8px;
 }
 
-
 .validate-wrapper > input, .validate-wrapper > textarea, .validate-wrapper > .validate-select {
     border: 2px solid white;
 }
@@ -2539,14 +2538,6 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     opacity: 0;
 }
 
-.img-profile {
-    aspect-ratio: 1/1;
-    object-fit: cover;
-}
-.img-event {
-    aspect-ratio: 4/2;
-    object-fit: cover;
-}
 .table-tab{
     background-color:white;
     padding:5px;
@@ -2555,4 +2546,28 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
 .table-tab .active{
     padding: 3px;
     background-color: #b5b5b5a7;
+}
+
+.img-profile {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+@media (max-width: 576px) {
+    .img-profile{
+        width:100%;
+        height:80vw;
+    }
+}
+
+.img-event {
+    object-fit: cover;
+}
+@media (max-width: 576px) {
+    .img-event{
+        width:100%;
+        height:50vw;
+    }
+}
+.img-banner{
+    width:100px;
 }

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import BracketItem from './utils/BracketItem'
-import {CreateTable, GetAcceptedRequests, GetTable} from "../services/table";
+import {CreateTable, GetAcceptedRequests, GetAllUsersByRound, GetMatchesByRound, GetTable} from "../services/table";
 import Select from "react-select";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -9,6 +9,7 @@ import ValidateWrapper from "./utils/ValidateWrapper";
 import {filterForTable} from "../helpers/filterForTable";
 import {EventContext} from "../pages/account/AddEvent";
 import {GetOneEvent} from "../services/event";
+import {AddNewMatch} from "../helpers/AddNewMatch";
 
 const u = [{
         firstName: "Ramil1",
@@ -102,11 +103,6 @@ const TournamentBracket = (props) => {
     const [users, setUsers] = useState(u)
     const {setEvent, event} = useContext(EventContext);
     const [table, setTable] = useState()
-    // const [table, setTable] = useState(filterForTable(t))
-    // useEffect(()=>{
-    //     setTable(filterForTable(t))
-    // },[t])
-
 
     const {handleSubmit, formState: {errors}, control} = useForm()
 
@@ -114,15 +110,18 @@ const TournamentBracket = (props) => {
         if (tab) {
             GetAcceptedRequests(tab).then(res => {
                 if (res?.length>0) {
-                    setUsers(res)
+                    setUsers(res?.map(element=>element.user))
                 }
+                else setUsers(null)
             })
             if (tournamentTableId) {
                 GetTable(tournamentTableId).then(res => {
                     if(res){
-
+                        setTable(filterForTable(res))
                     }
-                    setTable(filterForTable(res))
+                })
+                GetAllUsersByRound({tournamentTableId:tab, round:0}).then(res=>{
+                    // console.log(res)
                 })
             }
         }
@@ -139,7 +138,6 @@ const TournamentBracket = (props) => {
                 }
             })
     }
-
     const [scrollX, setScrollX] = useState(0);
     const bracket = useRef(null)
     const scrollBracket = (event) => {
@@ -177,8 +175,11 @@ const TournamentBracket = (props) => {
                             {
                                 match.map((obj, i) =>
                                     <BracketItem
+                                        tournamentTableId={tournamentTableId}
+                                        users={users}
                                         {...obj}
                                         key={i}
+                                        ICanGetRound={match=>setTable(AddNewMatch(table?.matches, match))}
                                         ordinal={i}
                                     />
                                 )}

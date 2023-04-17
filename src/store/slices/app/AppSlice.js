@@ -2,6 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState={
     notFound:false,
+    isAdmin:true,
     fingerprint:null
 }
 const AppSlice = createSlice({

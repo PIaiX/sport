@@ -85,17 +85,20 @@ const au = [
 
 const TableWithUsers = (props) => {
     const {event} = props
-    const [acceptUsers, setAcceptUsers] = useState(au)
+    const [acceptUsers, setAcceptUsers] = useState()
     const [categoriesTab, setCategoriesTab] = useState()
     const [tab, setTab] = useState()
-//     useEffect(() => {
-//         if(tab){
-//             GetAcceptRequests(event?.id).then(res=>{
-//                 if(res)
-//                     setAcceptUsers(res)
-//             })
-//         }
-//     }, [tab])
+
+    useEffect(() => {
+        if(tab){
+            GetAcceptRequests(event?.id).then(res=>{
+                if(res && res.length>0){
+                    const users = res?.map(element=>element?.user)
+                    setAcceptUsers(users)
+                }
+            })
+        }
+    }, [tab])
 
     useEffect(() => {
         if(!tab)

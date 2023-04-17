@@ -36,6 +36,9 @@ const ParticipantControl = (props) => {
         <div className={`participant-control ${isApproved ? 'approved' : ''}`}>
             <div className='name'>
                 <img src={checkPhotoPath(image, true)}/>
+                <div>
+                    <h6>{firstName + ' ' + lastName}</h6>
+                </div>
             </div>
             <button type='button' className='btn-none' onClick={() => setShowParams(!showParams)}><RiArrowDownSLine/>
             </button>

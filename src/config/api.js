@@ -94,6 +94,9 @@ const apiRoutes = {
     ACCEPT_REQUEST: 'events/requests/accept',
     GET_ACCEPT_REQUESTS:'events/requests/myEvent',
     GET_ACCEPTED_REQUESTS:'events/category',
+    GET_USERS_BY_ROUND:'events/category/tournamentTable/match/winners',
+    CREATE_MATCH:'events/category/tournamentTable/match',
+    GET_MATCHES_BY_ROUNDS:'events/category/tournamentTable/match/byRound',
 
     //categories
     GET_CATEGORIES: 'discipline',
