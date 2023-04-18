@@ -99,9 +99,8 @@ const tableOptions=[{
     }]
 
 const TournamentBracket = (props) => {
-    const {acceptUsers, tab, tournamentTableId} = props
+    const {acceptUsers, tab, tournamentTableId, setEvent, event} = props
     const [users, setUsers] = useState(u)
-    const {setEvent, event} = useContext(EventContext);
     const [table, setTable] = useState()
 
     const {handleSubmit, formState: {errors}, control} = useForm()

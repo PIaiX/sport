@@ -612,9 +612,7 @@ const AddEvent = () => {
                 </button>
             </form>
             {id &&
-                <EventContext.Provider value={{setEvent, event}}>
-                    <TableWithUsers event={event} />
-                </EventContext.Provider>
+                <TableWithUsers event={event} setEvent={setEvent} />
             }
         </section>
     )

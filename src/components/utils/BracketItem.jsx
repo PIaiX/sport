@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import PersonFroTable from "./PersonFroTable";
 import {CreateMatch, PatchMatch} from "../../services/table";
 
@@ -9,12 +9,18 @@ const BracketItem = (props) => {
         round,
         ordinal,
         users,
+        score,
         tournamentTableId,
         ICanGetRound,
         participantOneFinalPlace,
         participantTwoFinalPlace,
         id
     } = props
+
+    const [win, setWin] = useState()
+    useEffect(()=>{
+        setWin(score=='WIN'?1:score=='LOSE'?2:undefined)
+    }, [score])
 
     const CreateNewMatch = (data) => {
         const match = {round, ordinal: ordinal + 1, tournamentTableId}
@@ -31,9 +37,21 @@ const BracketItem = (props) => {
     }
 
     const updateMatch = (data) =>{
-        PatchMatch(data, id).then(res=>{
+        let req = {...data}
+        const {participantOneId, participantTwoId} = data
+        if(participantTwoId!=undefined || participantOneId!=undefined){
+            req['participantTwoFinalPlace'] = null
+            req['participantOneFinalPlace'] = null
+            req['score'] = null
+        }
+        if (participantTwoId===null)
+            req['participantTwoFinalPlace'] = null
+        if (participantOneId===null)
+            req['participantOneFinalPlace'] = null
+
+        console.log(req)
+        PatchMatch(req, id).then(res=>{
             if (res){
-                console.log(res)
                 ICanGetRound(res)
             }
         })
@@ -48,6 +66,7 @@ const BracketItem = (props) => {
                 ]?.map(({user: element, place}, index) =>
                     <PersonFroTable
                         key={index}
+                        win={win}
                         id={id}
                         place={place}
                         index={index}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {createContext, useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -23,6 +23,9 @@ import {FaTiktok} from "react-icons/fa";
 import {GetStringFromDate} from "../helpers/GetStringFromDate";
 import {checkPhotoPath} from "../helpers/checkPhotoPath";
 import {MyEditor} from "../components/MyEditor/MyEditor";
+import TableWithUsers from "../components/Table/TableWithUsers";
+
+export const EventContext = createContext()
 
 const EventPage = () => {
 
@@ -401,8 +404,9 @@ const EventPage = () => {
                         {
                             (tab === 3) &&
                             <div className='text'>
-                                <h2>Турнирная таблица</h2>
-                                <TournamentBracket/>
+                                <EventContext.Provider value={{setEvent, event}}>
+                                    <TableWithUsers event={event} setEvent={setEvent} />
+                                </EventContext.Provider>
                             </div>
                         }
                         {

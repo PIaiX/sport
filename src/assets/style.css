@@ -1555,18 +1555,21 @@ main {
     color: #7A8290;
 }
 
-.bracket .tour .item .person-btn .winner, .bracket .tour .item-1 .person-btn .winner, .bracket .tour .item-2 .person-btn .winner, .bracket .tour .item-3 .person-btn .winner, .bracket .tour .item-4 .person-btn .winner, .bracket .tour .item-5 .person-btn .winner {
+ .winner, .loser{
     position: absolute;
     top: 1em;
-    right: 0.25em;
+    right: -1.25em;
     width: 1em;
     height: 1em;
     border-radius: 50%;
     background-color: #02c12b;
     z-index: 10;
 }
+.loser{
+    background-color: red;
+}
 
-.bracket .tour .item .person-btn .place, .bracket .tour .item-1 .person-btn .place, .bracket .tour .item-2 .person-btn .place, .bracket .tour .item-3 .person-btn .place, .bracket .tour .item-4 .person-btn .place, .bracket .tour .item-5 .person-btn .place {
+.place{
     position: absolute;
     top: 1em;
     right: -2em;

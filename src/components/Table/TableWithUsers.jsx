@@ -84,7 +84,7 @@ const au = [
 ]
 
 const TableWithUsers = (props) => {
-    const {event} = props
+    const {event, setEvent} = props
     const [acceptUsers, setAcceptUsers] = useState()
     const [categoriesTab, setCategoriesTab] = useState()
     const [tab, setTab] = useState()
@@ -158,6 +158,8 @@ const TableWithUsers = (props) => {
                     <TournamentBracket
                         acceptUsers={acceptUsers}
                         tab={tab}
+                        event={event}
+                        setEvent={setEvent}
                         tournamentTableId={event?.categories?.find(element=>element.id==tab)?.tournamentTable?.id}
                     />
                 </fieldset>

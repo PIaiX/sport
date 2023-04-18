@@ -5,17 +5,25 @@ import {AcceptRequest} from "../../services/table";
 import {RiArrowDownSLine, RiMore2Fill} from "react-icons/ri";
 
 const PersonFroTable = (props) => {
-    const { eventId, height, isJoin,onChange, users, user={firstName:'', lastName:''}, createMatch,  updateMatch, id:idMatch, index:indexOfUser} = props
+    const { eventId, height, isJoin,onChange, users, user={firstName:'', lastName:''}, createMatch,  updateMatch, id:idMatch, index:indexOfUser, win, place:placeOfUser} = props
     const {firstName, lastName, gender, id, image, place:userPlace} = user
     const [isApproved, setIsApproved] = useState(isJoin);
+    const [winner, setWinner] = useState()
     const ref = useRef();
+    useEffect(()=>{
+        setPlace(placeOfUser)
+    }, [placeOfUser])
     const [showParams, setShowParams] = useState(false);
     const [showControl, setShowControl] = useState(false);
     const [place, setPlace] = useState(userPlace)
     useEffect(()=>{
         setPlace(userPlace)
     },[userPlace])
-    console.log(place)
+
+    useEffect(()=>{
+        setWinner(indexOfUser+1==win)
+    } ,[win])
+
     const UpdatePlace=(place2)=>{
         const pl = place2==place?null:place2
         const u= indexOfUser==0?
@@ -39,7 +47,6 @@ const PersonFroTable = (props) => {
                 if (res)
                     onChange()
             })
-
     }, [isApproved])
 
     return (
@@ -58,11 +65,22 @@ const PersonFroTable = (props) => {
                 </button>
             }
             {
+                place && <div className='place'>{place}</div>
+            }
+            {!place && win && user?.firstName!='' && ( winner
+                && <div className='winner'></div>
+                || <div className='loser'></div>
+                )}
+            {
                 (showControl) &&
                 <ul className='params controls' ref={ref}>
                     <li>
                         <label className={'py-1'}>
-                            <input type="checkbox"/>
+                            <input type="checkbox" checked={winner} onClick={()=>{
+                                setWinner(true)
+                                updateMatch({score:winner?null:winner==indexOfUser?'WIN':'LOSE'})
+                            }
+                            }/>
                             <span>Выбрать победителем</span>
                         </label>
                         <label className={'py-1'}>
