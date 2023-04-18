@@ -84,7 +84,7 @@ const au = [
 ]
 
 const TableWithUsers = (props) => {
-    const {event, setEvent} = props
+    const {event, setEvent, readOnly} = props
     const [acceptUsers, setAcceptUsers] = useState()
     const [categoriesTab, setCategoriesTab] = useState()
     const [tab, setTab] = useState()
@@ -99,12 +99,11 @@ const TableWithUsers = (props) => {
             })
         }
     }, [tab])
-
     useEffect(() => {
         if(!tab)
             setTab(event?.categories[0]?.id)
 
-        setCategoriesTab(event?.categories.map(element => ({
+        setCategoriesTab(event?.categories?.map(element => ({
             age: element.weightCategory?.ageCategory?.ageFrom + '-' + element.weightCategory?.ageCategory?.ageTo,
             gender: element?.gender,
             weight: element?.weightCategory?.weightFrom + '-' + element?.weightCategory?.weightTo,
@@ -115,7 +114,7 @@ const TableWithUsers = (props) => {
 
     return (
         <>
-            {acceptUsers?.length>0 &&
+            {acceptUsers?.length>0 && !readOnly &&
                 <div className={'py-2'}>
                 <fieldset>
                     <legend className='mb-0'>Заявки</legend>
@@ -153,9 +152,10 @@ const TableWithUsers = (props) => {
                         </Col>
                     )}
                 </div>
-                <fieldset>
+                <fieldset  className={'bg-for-table'}>
                     <legend>Турнирная таблица</legend>
                     <TournamentBracket
+                        readOnly={readOnly}
                         acceptUsers={acceptUsers}
                         tab={tab}
                         event={event}

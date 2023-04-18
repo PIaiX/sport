@@ -2262,8 +2262,7 @@ article.preview .more {
     flex-wrap: nowrap;
     margin-bottom: 0.5em;
 }
-
-.account .participant-control {
+ .participant-control {
     background-color: #FFFFFF;
     border-radius: 0.5em;
     width: 100%;
@@ -2278,11 +2277,11 @@ article.preview .more {
     color: #7A8290;
 }
 
-.account .participant-control.approved {
+.participant-control.approved {
     color: #004AAD;
 }
 
-.account .participant-control .name {
+ .participant-control .name {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -2290,8 +2289,7 @@ article.preview .more {
     flex-wrap: nowrap;
     flex: 1;
 }
-
-.account .participant-control .name img {
+ .participant-control .name img {
     width: 70px;
     height: 70px;
     background-color: #fff;
@@ -2302,13 +2300,13 @@ article.preview .more {
 }
 
 @media (max-width: 767px) {
-    .account .participant-control .name img {
+    .participant-control .name img {
         width: 50px;
         height: 50px;
     }
 }
 
-.account .participant-control .name > div {
+.participant-control .name > div {
     flex: 1;
 }
 
@@ -2326,17 +2324,17 @@ article.preview .more {
 
 
 
-.account .participant-control .btn-none {
+ .participant-control .btn-none {
     font-size: 1.5em;
     color: #004AAD;
     transition: 0.3s ease;
 }
 
-.account .participant-control .btn-none:hover, .account .participant-control .btn-none:focus, .account .participant-control .btn-none:active {
+ .participant-control .btn-none:hover, .account .participant-control .btn-none:focus, .account .participant-control .btn-none:active {
     color: #4797FF;
 }
 
-.account .participant-control .params {
+ .participant-control .params {
     position: absolute;
     z-index: 10;
     top: 100%;
@@ -2349,7 +2347,7 @@ article.preview .more {
     box-shadow: 0px 2px 6px rgba(122, 130, 144, 0.25);
 }
 
-.account .participant-control .params li:not(:first-child) {
+t .participant-control .params li:not(:first-child) {
     margin-top: 0.25em;
 }
 
@@ -2368,8 +2366,7 @@ article.preview .more {
 }
 
 
-
-.account .participant-control .params.controls {
+ .participant-control .params.controls {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -2378,7 +2375,7 @@ article.preview .more {
     padding: 1em;
 }
 
-.account .participant-control .params.controls li:not(:first-child) {
+ .participant-control .params.controls li:not(:first-child) {
     margin-top: 0px;
 }
 
@@ -2411,7 +2408,9 @@ footer .container .sign img {
         max-height: 35px;
     }
 }
-
+.bg-for-table{
+    background-color: rgba(210, 213, 218, 0.5);
+}
 @media (max-width: 767px) {
     footer .container .sign img {
         max-height: 30px;

@@ -50,7 +50,6 @@ const EventPage = () => {
     const [show, setShow] = useState(false)
 
     useEffect(() => {
-        if (!event)
             GetOneEvent(id).then(res => {
                 if (res)
                     setEvent(res)
@@ -405,7 +404,7 @@ const EventPage = () => {
                             (tab === 3) &&
                             <div className='text'>
                                 <EventContext.Provider value={{setEvent, event}}>
-                                    <TableWithUsers event={event} setEvent={setEvent} />
+                                    <TableWithUsers event={event} setEvent={setEvent} readOnly={true} />
                                 </EventContext.Provider>
                             </div>
                         }

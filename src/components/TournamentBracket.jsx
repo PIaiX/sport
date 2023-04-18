@@ -99,7 +99,7 @@ const tableOptions=[{
     }]
 
 const TournamentBracket = (props) => {
-    const {acceptUsers, tab, tournamentTableId, setEvent, event} = props
+    const {acceptUsers, tab, tournamentTableId, setEvent, event, readOnly} = props
     const [users, setUsers] = useState(u)
     const [table, setTable] = useState()
 
@@ -174,6 +174,7 @@ const TournamentBracket = (props) => {
                             {
                                 match.map((obj, i) =>
                                     <BracketItem
+                                        readOnly={readOnly}
                                         tournamentTableId={tournamentTableId}
                                         users={users}
                                         {...obj}
@@ -188,7 +189,8 @@ const TournamentBracket = (props) => {
             </div>
         )
 
-    else return (
+    else if(!readOnly)
+        return (
         <form onSubmit={handleSubmit(CreateTableFunc)}>
             <Row xs={4} ref={bracket}>
                 <Col xs={6} sm={3}>
@@ -217,9 +219,15 @@ const TournamentBracket = (props) => {
                     </button>
                 </Col>
             </Row>
-
         </form>
-)
+        )
+    else return (
+        <div ref={bracket}>
+            <h4>
+                Таблица не создана
+            </h4>
+        </div>
+        )
 }
 
 export default TournamentBracket

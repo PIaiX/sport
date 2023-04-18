@@ -5,7 +5,7 @@ import {AcceptRequest} from "../../services/table";
 import {RiArrowDownSLine, RiMore2Fill} from "react-icons/ri";
 
 const PersonFroTable = (props) => {
-    const { eventId, height, isJoin,onChange, users, user={firstName:'', lastName:''}, createMatch,  updateMatch, id:idMatch, index:indexOfUser, win, place:placeOfUser} = props
+    const { eventId, height, isJoin,onChange, users, user={firstName:'', lastName:''}, createMatch,  updateMatch, id:idMatch, index:indexOfUser, win, place:placeOfUser, readOnly} = props
     const {firstName, lastName, gender, id, image, place:userPlace} = user
     const [isApproved, setIsApproved] = useState(isJoin);
     const [winner, setWinner] = useState()
@@ -57,10 +57,13 @@ const PersonFroTable = (props) => {
                     {firstName+ ' ' +lastName}
                 </div>
             </div>
-            <button type='button' className='btn-none' onClick={() => setShowParams(!showParams)}><RiArrowDownSLine/>
-            </button>
+            {!readOnly &&
+                <button type='button' className='btn-none' onClick={() => setShowParams(!showParams)}>
+                    <RiArrowDownSLine/>
+                </button>
+            }
             {
-                user?.firstName!='' &&
+                user?.firstName!='' && !readOnly &&
                 <button type='button' className='btn-none ms-3' onClick={() => setShowControl(!showControl)}><RiMore2Fill/>
                 </button>
             }

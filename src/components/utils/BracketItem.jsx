@@ -14,6 +14,7 @@ const BracketItem = (props) => {
         ICanGetRound,
         participantOneFinalPlace,
         participantTwoFinalPlace,
+        readOnly,
         id
     } = props
 
@@ -66,6 +67,7 @@ const BracketItem = (props) => {
                 ]?.map(({user: element, place}, index) =>
                     <PersonFroTable
                         key={index}
+                        readOnly={readOnly}
                         win={win}
                         id={id}
                         place={place}
