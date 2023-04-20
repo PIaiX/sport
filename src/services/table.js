@@ -18,6 +18,15 @@ export const GetAcceptRequests = async (payload) => {
     }
 }
 
+export const GetAllUsers = async (payload) => {
+    try {
+        const result = await $api.get(`${apiRoutes.GET_ALL_USERS}/${payload}`)
+        return result?.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const GetAcceptedRequests = async (payload) => {
     try {
         const result = await $authApi.get(`${apiRoutes.GET_ACCEPTED_REQUESTS}/${payload}`)

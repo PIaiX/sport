@@ -24,6 +24,7 @@ import {GetStringFromDate} from "../helpers/GetStringFromDate";
 import {checkPhotoPath} from "../helpers/checkPhotoPath";
 import {MyEditor} from "../components/MyEditor/MyEditor";
 import TableWithUsers from "../components/Table/TableWithUsers";
+import {GetAllUsers} from "../services/table";
 
 export const EventContext = createContext()
 
@@ -35,6 +36,7 @@ const EventPage = () => {
     const requests = useAppSelector(state => state.user.user?.requests)
     const myEvents = useAppSelector(state => state.user.user?.myEvents)
     const participation = useAppSelector(state=>state.user.user?.participation)?.map(element=>element?.event)
+    const [users, setUsers] = useState()
 
     const [isJoinEvent, setIsJoinEvent] = useState(false)
     const [isMyEvent, setIsMyEvent] = useState(false)
@@ -49,6 +51,14 @@ const EventPage = () => {
     const [tab, setTab] = useState(1)
     const [show, setShow] = useState(false)
 
+    useEffect(()=>{
+        if(event){
+            GetAllUsers(event?.id).then(res=>{
+                console.log(res)
+                setUsers(res)
+            })
+        }
+    },[event])
     useEffect(() => {
             GetOneEvent(id).then(res => {
                 if (res)

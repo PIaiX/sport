@@ -48,9 +48,8 @@ const PersonFroTable = (props) => {
                     onChange()
             })
     }, [isApproved])
-
     return (
-        <div className={`participant-control m-1`}>
+        <div className={`participant-control ${indexOfUser==1?'align-self-end':''}`}>
             <div className='name'>
                 <img src={checkPhotoPath(image, true)}/>
                 <div>

@@ -97,6 +97,7 @@ const apiRoutes = {
     GET_USERS_BY_ROUND:'events/category/tournamentTable/match/winners',
     CREATE_MATCH:'events/category/tournamentTable/match',
     GET_MATCHES_BY_ROUNDS:'events/category/tournamentTable/match/byRound',
+    GET_ALL_USERS:'events/category/byEventWithParticipants',
 
     //categories
     GET_CATEGORIES: 'discipline',
