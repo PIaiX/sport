@@ -67,7 +67,7 @@ const Profile = () => {
         setValue('district', user?.district)
         setValue('region', user?.region)
         setValue('weight', user?.weight)
-        setValue('birthDate', user?.birthDate.slice(0, -14))
+        setValue('birthDate', user?.birthDate?.slice(0, -14))
         setValue('height', user?.height)
         setValue('isPublicProfile', !user?.isPublicProfile)
         setValue('gender',
