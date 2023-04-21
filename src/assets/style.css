@@ -2680,13 +2680,16 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
 .person-in-table{
     border-radius: 20px;
 }
-.participant-control:nth-child(2n+1){
+.tour .participant-control:nth-child(2n+1){
     border-radius: 15px 15px 0 0;
     border:2px solid #D6E7FF;
 }
-.participant-control:nth-child(2n){
+.tour .participant-control:nth-child(2n){
     border-radius: 0 0 15px 15px;
     border:2px solid #D6E7FF;
+}
+.list-unstyled .participant-control{
+    border-radius: 10px;
 }
 
 

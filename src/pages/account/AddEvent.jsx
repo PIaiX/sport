@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
@@ -78,9 +78,9 @@ const AddEvent = () => {
         })
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         const disciplineId = getValues('disciplineId')
-        if(disciplineId){
+        if (disciplineId) {
             GetAgeCategory(disciplineId?.value).then(res => {
                 if (res) {
                     const list = res.map((element) => ({
@@ -88,7 +88,7 @@ const AddEvent = () => {
                         label: `От ${element.ageFrom} до ${element.ageTo}`
                     }))
                     setAgeCategories(list)
-                    if(!id)
+                    if (!id)
                         setValue('categories', [{ageCategories: list}])
                 }
             })
@@ -142,8 +142,8 @@ const AddEvent = () => {
                 setValue(`gender-${index}`, gender)
 
                 return {
-                    ageCategories,
-                    gender,
+                    ageCategories:id?[]:ageCategories,
+                    gender:id?[]:ageCategories,
                     ageId: ageCategoryId,
                     weightCategories: [weightCategoryId],
                     weightCategoryId
@@ -412,7 +412,7 @@ const AddEvent = () => {
                     <Row>
                         <h5>Категории</h5>
                         {fields?.map((item, index) =>
-                            <Row key={index} xs={4}>
+                            <Row key={index} xs={3}>
                                 <Col>
                                     <ValidateWrapper error={errors[`ageCategoryId-${index}`]} className={'col-xl-2'}>
                                         <Controller
@@ -485,14 +485,14 @@ const AddEvent = () => {
                                                     placeholder="Пол"
                                                     classNamePrefix="simple-select"
                                                     className="simple-select-container borderless w-100 mb-3 validate-select"
-                                                    options={sexList}
+                                                    options={id?[]:sexList}
                                                     {...field}
                                                 />
                                             )}
                                         />
                                     </ValidateWrapper>
                                 </Col>
-                                {index == fields?.length - 1 &&
+                                {!index == fields?.length - 1 &&
                                     <Col>
                                         <input type={'button'} className={'btn-5'} value={'Удалить'}
                                                onClick={() => {
@@ -506,13 +506,15 @@ const AddEvent = () => {
                                 }
                             </Row>
                         )}
-                        <Row>
-                            <button type='button' className='btn-4 mb-4'
-                                    onClick={() => {
-                                        append({ageCategories});
-                                    }}>Добавить
-                            </button>
-                        </Row>
+                        {!id &&
+                            <Row>
+                                <button type='button' className='btn-4 mb-4'
+                                        onClick={() => {
+                                            append({ageCategories});
+                                        }}>Добавить
+                                </button>
+                            </Row>
+                        }
                     </Row>
                     <Row className='mb-4'>
                         <legend>Социальные сети</legend>
@@ -612,7 +614,7 @@ const AddEvent = () => {
                 </button>
             </form>
             {id &&
-                <TableWithUsers event={event} setEvent={setEvent} />
+                <TableWithUsers event={event} setEvent={setEvent}/>
             }
         </section>
     )
