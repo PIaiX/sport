@@ -34,10 +34,6 @@ const Participant = (props) => {
           <span>{new Date().getFullYear() - new Date(birthDateFromServer).getFullYear()}</span>
         </li>
         <li>
-          <strong>Название параметра: </strong>
-          <span>Параметр</span>
-        </li>
-        <li>
           <strong>Пол: </strong>
           <span>{gender?'мужской':'женский'}</span>
         </li>

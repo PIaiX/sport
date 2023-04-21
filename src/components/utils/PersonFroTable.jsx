@@ -10,12 +10,15 @@ const PersonFroTable = (props) => {
     const [isApproved, setIsApproved] = useState(isJoin);
     const [winner, setWinner] = useState()
     const ref = useRef();
-    useEffect(()=>{
-        setPlace(placeOfUser)
-    }, [placeOfUser])
+
     const [showParams, setShowParams] = useState(false);
     const [showControl, setShowControl] = useState(false);
     const [place, setPlace] = useState(userPlace)
+
+    useEffect(()=>{
+        setPlace(placeOfUser)
+    }, [placeOfUser])
+
     useEffect(()=>{
         setPlace(userPlace)
     },[userPlace])

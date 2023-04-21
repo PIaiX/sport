@@ -242,6 +242,7 @@ const Profile = () => {
                                         <input type="text" placeholder='Рост'
                                                {...register('height',{
                                                    valueAsNumber:true,
+                                                   required: 'Поле обязательно к заполнению'
                                                })}
                                         />
                                     </ValidateWrapper>
@@ -253,6 +254,7 @@ const Profile = () => {
                                     <ValidateWrapper error={errors?.weight}>
                                         <input type="text" placeholder='Вес'
                                                {...register('weight',{
+                                                   required: 'Поле обязательно к заполнению',
                                                    valueAsNumber: true
                                                })}
                                         />

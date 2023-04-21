@@ -1231,10 +1231,6 @@ main {
     margin-bottom: 3em;
 }
 
-.event-page .text p, .event-page .text ul, .event-page .text ol {
-    margin-bottom: 1em;
-}
-
 .event-page .form-search {
     border-radius: 1em;
     box-shadow: 0px 0px 1em #D6E7FF;

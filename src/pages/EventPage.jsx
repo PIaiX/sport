@@ -95,6 +95,7 @@ const EventPage = () => {
             navigate(`/login`)
         }
     }
+    console.log(users?.length)
 
     if (event)
         return (
@@ -276,42 +277,63 @@ const EventPage = () => {
                             (tab === 2) &&
                             <div className='text'>
                                 <h2>Участники</h2>
-                                <FormSearch/>
+                                {users?.length!=0?
+                                    <FormSearch/>
+                                    :<div><h4>Участников не найдено</h4></div>
+                                }
                                 <ul className='list-unstyled list-30 mt-5'>
                                     {users?.map((element, index)=>
                                         <li key={index}>
-                                            <h3>{element?.id}</h3>
-                                            <div className='participant head'>
-                                                <div className='name'>Участник</div>
-                                                <div className="birthDate">Год рождения</div>
-                                                <ul className="params">
-                                                    <li>
-                                                        Название параметра
-                                                    </li>
-                                                    <li>
-                                                        Название параметра
-                                                    </li>
-                                                    <li>
-                                                        Название параметра
-                                                    </li>
-                                                    <li>
-                                                        Название параметра
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            <h3>
+                                                <Row>
+                                                    Возраст: {
+                                                    element?.weightCategory?.ageCategory?.ageTo?
+                                                        element?.weightCategory?.ageCategory?.ageFrom+ ' - '+element?.weightCategory?.ageCategory?.ageTo
+                                                        : 'от '+element?.weightCategory?.ageCategory?.ageFrom
+                                                }
+                                                </Row>
+                                                <Row>
+                                                    Вес: {
+                                                    element?.weightCategory?.weightTo?
+                                                                                   element?.weightCategory?.weightFrom+ ' - '+element?.weightCategory?.weightTo
+                                                                                   : 'от '+element?.weightCategory?.weightFrom
+                                                }
+                                                </Row>
+                                                <Row>
+                                                    Пол: {element?.gender?'Мужской':'Женский'}
+                                                </Row>
+                                            </h3>
+                                            {
+                                                element?.participants?.length!=0 &&
+                                                <div className='participant head'>
+                                                    <div className='name'>Участник</div>
+                                                    <div className="birthDate">Год рождения</div>
+                                                    <ul className="params">
+                                                        <li>
+                                                            Полных лет
+                                                        </li>
+                                                        <li>
+                                                            Пол
+                                                        </li>
+                                                        <li>
+                                                            Вес
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            }
                                             <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
                                                 {
                                                     element?.participants?.map((ele, ind)=>
                                                         <li key={ind}>
                                                             <Participant
                                                                 approved={true}
-                                                                {...ele}
+                                                                {...ele?.user}
                                                             />
                                                         </li>
                                                     )
                                                 }
                                                 {
-                                                    show &&
+                                                    show && index==users?.length-1 &&
                                                     element?.event?.requestToEvent?.map((ele, ind)=>
                                                         <li key={ind}>
                                                             <Participant
@@ -323,84 +345,15 @@ const EventPage = () => {
                                                 }
                                             </ul>
                                             <p>Подтвержденных регистраций: {element?.participants?.length}</p>
-                                            <button type='button' className="link"
-                                                    onClick={() => setShow((show) ? false : true)}>{(show) ? 'Скрыть' : 'Показать'} неподтвержденные
-                                                регистрации (1)
-                                            </button>
-                                        </li>
 
-                                    )}
-                                    <li>
-                                        <h3>Категория 1</h3>
-                                        <div className='participant head'>
-                                            <div className='name'>Участник</div>
-                                            <div className="birthDate">Год рождения</div>
-                                            <ul className="params">
-                                                <li>
-                                                    Название параметра
-                                                </li>
-                                                <li>
-                                                    Название параметра
-                                                </li>
-                                                <li>
-                                                    Название параметра
-                                                </li>
-                                                <li>
-                                                    Название параметра
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
-                                            <li>
-                                                <Participant
-                                                    approved={true}
-                                                    firstName={'Имя'}
-                                                    lastName={'Фамилия'}
-                                                    city={'Город'}
-                                                    birthDate={'01.01.2001'}/>
-                                            </li>
-                                            <li>
-                                                <Participant
-                                                    approved={true}
-                                                    firstName={'Имя'}
-                                                    lastName={'Фамилия'}
-                                                    city={'Город'}
-                                                    birthDate={'01.01.2001'}/>
-                                            </li>
-                                            <li>
-                                                <Participant
-                                                    approved={true}
-                                                    firstName={'Имя'}
-                                                    lastName={'Фамилия'}
-                                                    city={'Город'}
-                                                    birthDate={'01.01.2001'}/>
-                                            </li>
-                                            <li>
-                                                <Participant
-                                                    approved={true}
-                                                    firstName={'Имя'}
-                                                    lastName={'Фамилия'}
-                                                    city={'Город'}
-                                                    birthDate={'01.01.2001'}/>
-                                            </li>
-                                            {
-                                                (show) &&
-                                                <li>
-                                                    <Participant
-                                                        approved={false}
-                                                        firstName={'Имя'}
-                                                        lastName={'Фамилия'}
-                                                        city={'Город'}
-                                                        birthDate={'01.01.2001'}/>
-                                                </li>
-                                            }
-                                        </ul>
-                                        <p>Подтвержденных регистраций: 4</p>
-                                        <button type='button' className="link"
+                                            {index==users?.length-1 &&
+                                                < button type='button' className="link"
                                                 onClick={() => setShow((show) ? false : true)}>{(show) ? 'Скрыть' : 'Показать'} неподтвержденные
-                                            регистрации (1)
-                                        </button>
-                                    </li>
+                                                регистрации (1)
+                                                </button>
+                                            }
+                                        </li>
+                                    )}
                                 </ul>
                             </div>
                         }

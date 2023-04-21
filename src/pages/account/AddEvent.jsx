@@ -85,7 +85,9 @@ const AddEvent = () => {
                 if (res) {
                     const list = res.map((element) => ({
                         value: element.id,
-                        label: `От ${element.ageFrom} до ${element.ageTo}`
+                        label: element.ageTo?
+                            `От ${element.ageFrom} до ${element.ageTo}`
+                            :`От ${element.ageFrom}`
                     }))
                     setAgeCategories(list)
                     if (!id)
@@ -124,18 +126,22 @@ const AddEvent = () => {
             setValue('tictokLink', event?.tictokLink)
             setValue('youtubeLink', event?.youtubeLink)
             setValue('description', event?.description)
-            setValue('ageCategoryIds', {value: 2, label: 'От 12 до 13'})
             setPlaceState([event?.latitude, event?.longitude])
 
             const categories = event?.categories.map((element, index) => {
                 const gender = sexList[event?.gender ? 0 : 1]
                 const weightCategoryId = {
                     value: element?.weightCategory?.ageCategoryId,
-                    label: `От ${element?.weightCategory?.weightFrom} до ${element?.weightCategory?.weightTo}`
+                    label: element?.weightCategory?.weightTo?
+                        `От ${element?.weightCategory?.weightFrom} до ${element?.weightCategory?.weightTo}`
+                        :`От ${element?.weightCategory?.weightFrom}`
                 }
+
                 const ageCategoryId = {
                     value: element?.weightCategory?.id,
-                    label: `От ${element?.weightCategory?.ageCategory?.ageFrom} до ${element?.weightCategory?.ageCategory?.ageTo}`
+                    label: element?.weightCategory?.ageCategory?.ageTo?
+                        `От ${element?.weightCategory?.ageCategory?.ageFrom} до ${element?.weightCategory?.ageCategory?.ageTo}`
+                        :`От ${element?.weightCategory?.ageCategory?.ageFrom}`
                 }
                 setValue(`ageCategoryId-${index}`, ageCategoryId)
                 setValue(`weightCategoryId-${index}`, weightCategoryId)
@@ -193,13 +199,13 @@ const AddEvent = () => {
             name,
             description,
             venue,
-            startsAt: startsAt + 'Z',
-            earlyRegistrationFrom: earlyRegistrationFrom + 'Z',
-            earlyRegistrationTo: earlyRegistrationTo + 'Z',
-            standartRegistrationFrom: standartRegistrationFrom + 'Z',
-            standartRegistrationTo: standartRegistrationTo + 'Z',
-            lateRegistrationFrom: lateRegistrationFrom + 'Z',
-            lateRegistrationTo: lateRegistrationTo + 'Z',
+            startsAt: startsAt + ':00.000Z',
+            earlyRegistrationFrom: earlyRegistrationFrom + ':00.000Z',
+            earlyRegistrationTo: earlyRegistrationTo + ':00.000Z',
+            standartRegistrationFrom: standartRegistrationFrom + ':00.000Z',
+            standartRegistrationTo: standartRegistrationTo + ':00.000Z',
+            lateRegistrationFrom: lateRegistrationFrom + ':00.000Z',
+            lateRegistrationTo: lateRegistrationTo + ':00.000Z',
 
             vkLink,
             instaLink,
