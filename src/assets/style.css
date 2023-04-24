@@ -2687,6 +2687,17 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
 .list-unstyled .participant-control{
     border-radius: 10px;
 }
+@media (max-width: 767px) {
+    .account-menu ul .admin-li a, .account-menu ul .admin-li button {
+        padding: 0.45em 0.2em;
+    }
+}
+
+@media (max-width: 575px) {
+    .account-menu ul .admin-li a, .account-menu ul .admin-li button {
+        padding: 0.25em 0.65em;
+    }
+}
 
 
-
+/*.account-menu ul li a, .account-menu ul li button*/

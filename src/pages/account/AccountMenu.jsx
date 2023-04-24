@@ -16,19 +16,19 @@ const AccountMenu = () => {
     return (
         <nav className='account-menu'>
             <ul>
-                <li>
+                <li className={isAdmin?'admin-li':''}>
                     <NavLink to='profile'>
                         <RiFolderUserLine className='d-sm-none'/>
                         <span className='d-none d-sm-inline'>Личные данные</span>
                     </NavLink>
                 </li>
-                <li>
+                <li className={isAdmin?'admin-li':''}>
                     <NavLink to='events'>
                         <RiCalendarEventLine className='d-sm-none'/>
                         <span className='d-none d-sm-inline'>Мероприятия</span>
                     </NavLink>
                 </li>
-                <li>
+                <li className={isAdmin?'admin-li':''}>
                     <NavLink to='banners'>
                         <AiOutlinePicture className='d-sm-none'/>
                         <span className='d-none d-sm-inline'>Баннеры</span>
@@ -37,13 +37,13 @@ const AccountMenu = () => {
                 {
                     isAdmin &&
                     <>
-                        <li>
+                        <li className={isAdmin?'admin-li':''}>
                             <NavLink to='news'>
                                 <TbNews className='d-sm-none'/>
                                 <span className='d-none d-sm-inline'>Новости</span>
                             </NavLink>
                         </li>
-                        <li>
+                        <li className={isAdmin?'admin-li':''}>
                             <button type='button' onClick={LogOut}>
                                 <RiLogoutBoxRLine className='d-sm-none'/>
                                 <span className='d-none d-sm-inline'>Выход</span>
