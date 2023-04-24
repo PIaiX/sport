@@ -1,8 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {getMe, login, logout} from "../user/actions";
 
 const initialState={
     notFound:false,
-    isAdmin:true,
+    isAdmin:false,
     fingerprint:null
 }
 const AppSlice = createSlice({
@@ -16,6 +17,20 @@ const AppSlice = createSlice({
             state.fingerprint = action?.payload
         },
     },
+    extraReducers:{
+        [login.fulfilled]:(state, action)=>{
+            if(action?.payload?.user?.role=='ADMIN')
+                state.isAdmin=true
+        },
+        [logout.fulfilled]:(state, action)=>{
+            state.isAdmin=false;
+        },
+        [getMe.fulfilled]:(state, action)=>{
+            if(action.payload?.role=='ADMIN')
+                state.isAdmin=true
+        },
+
+    }
 })
 export const AppActions= AppSlice.actions;
 export const AppReducers= AppSlice.reducer;

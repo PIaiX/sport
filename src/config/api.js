@@ -73,7 +73,8 @@ const apiRoutes = {
     USER_UPDATE_PASSWORD: 'user/updatePassword',
 
     //banner
-    GET_BANNER: 'banner',
+    GET_BANNERS: 'banner/paginate',
+    GET_ONE_BANNER: 'banner',
 
     //news
     GET_NEWS: 'news/paginate',
@@ -98,6 +99,8 @@ const apiRoutes = {
     CREATE_MATCH:'events/category/tournamentTable/match',
     GET_MATCHES_BY_ROUNDS:'events/category/tournamentTable/match/byRound',
     GET_ALL_USERS:'events/category/byEventWithParticipants',
+    GET_REQUESTS:'events/category/byEventWithParticipants',
+
 
     //categories
     GET_CATEGORIES: 'discipline',

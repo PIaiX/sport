@@ -39,7 +39,7 @@ a, a:hover, a:focus, a:active {
 }
 
 h1, h2, h3, h4, h5, h6, p, label, span, a, button, form, fieldset, legend, select, input, textarea, button, div, blockquote, cite, figure, figcaption, table, ul, ol, dl, address {
-    line-height: 130%;
+    line-height: 120%;
     margin-bottom: 0px;
 }
 
@@ -997,6 +997,12 @@ main {
     transition: opacity 0.3s ease 200ms;
 }
 
+@media (min-width: 768px) {
+    .calendar-box {
+        right: -100px;
+    }
+}
+
 @media (max-width: 767px) {
     .calendar-box {
         right: -300px;
@@ -1005,19 +1011,19 @@ main {
 
 @media (max-width: 575px) {
     .calendar-box {
-        right: 10px;
+        right: -110px;
     }
 }
 
 @media (max-width: 480px) {
     .calendar-box {
-        right: -270px;
+        right: -100px;
     }
 }
 
 @media (max-width: 396px) {
     .calendar-box {
-        right: -40px;
+        right: -70px;
     }
 }
 
@@ -2698,6 +2704,19 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
         padding: 0.25em 0.65em;
     }
 }
+.news-title{
+    display: block;
+    height: 210px;
+}
 
+@media (max-width: 992px) {
+    .news-title{
+        height:150px;
+    }
+}
 
-/*.account-menu ul li a, .account-menu ul li button*/
+@media (max-width: 767px) {
+    .news-title{
+        height:0;
+    }
+}

@@ -3,6 +3,8 @@ import Container from 'react-bootstrap/Container'
 import {useLocation, useParams} from "react-router-dom";
 import {GetOneNew} from "../services/news";
 import {useAppAction} from "../store";
+import {checkPhotoPath} from "../helpers/checkPhotoPath";
+import {MyEditor} from "../components/MyEditor/MyEditor";
 
 const n={
     img:"../imgs/image.png",
@@ -16,17 +18,19 @@ const NewsPage = () => {
     const {setNotFound} = useAppAction()
 
     useEffect(()=>{
-        !newState && GetOneNew({id}).then(res=>res && setNewState(res) || setNotFound(true))
+        GetOneNew(id)
+            .then(res=>res && setNewState(res))
     }, [])
+
 
     return (
         <main>
             <Container>
                 <article className='py-4 py-sm-5 mb-5'>
-                    <img src={newState?.img} alt={newState?.title} />
+                    <img src={ checkPhotoPath(newState?.image)} alt={newState?.title} />
                     <h1>{newState?.title}</h1>
                     <div className="text">
-                        <p>{newState?.mainInf}</p>
+                        <MyEditor readOnly={true} value={newState?.description} />
                     </div>
                 </article>
             </Container>

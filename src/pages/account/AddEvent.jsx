@@ -199,13 +199,13 @@ const AddEvent = () => {
             name,
             description,
             venue,
-            startsAt: startsAt + ':00.000Z',
-            earlyRegistrationFrom: earlyRegistrationFrom + ':00.000Z',
-            earlyRegistrationTo: earlyRegistrationTo + ':00.000Z',
-            standartRegistrationFrom: standartRegistrationFrom + ':00.000Z',
-            standartRegistrationTo: standartRegistrationTo + ':00.000Z',
-            lateRegistrationFrom: lateRegistrationFrom + ':00.000Z',
-            lateRegistrationTo: lateRegistrationTo + ':00.000Z',
+            startsAt: startsAt + (id?'Z':':00.000Z'),
+            earlyRegistrationFrom: earlyRegistrationFrom + (id?'Z':':00.000Z'),
+            earlyRegistrationTo: earlyRegistrationTo + (id?'Z':':00.000Z'),
+            standartRegistrationFrom: standartRegistrationFrom + (id?'Z':':00.000Z'),
+            standartRegistrationTo: standartRegistrationTo + (id?'Z':':00.000Z'),
+            lateRegistrationFrom: lateRegistrationFrom + (id?'Z':':00.000Z'),
+            lateRegistrationTo: lateRegistrationTo + (id?'Z':':00.000Z'),
 
             vkLink,
             instaLink,
@@ -226,7 +226,8 @@ const AddEvent = () => {
         }
         if (setImageToNull)
             formData.append('setImageToNull', true)
-        formData.append('image', avatar?.image)
+        else
+            formData.append('image', avatar?.image)
 
         categories?.forEach(element => {
             formData.append('categories[]', JSON.stringify({
@@ -263,7 +264,7 @@ const AddEvent = () => {
                     <legend>Основное</legend>
                     <Row className={'mb-3'}>
                         <img className={'col-sm-8 col-md-6 col-xl-5 img-event'}
-                             src={avatar ? photo?.data_url : checkPhotoPath(setImageToNull ? '' : event?.image, true)}/>
+                             src={avatar ? photo?.data_url : checkPhotoPath(setImageToNull ? '' : event?.image, true, true)}/>
                         <div className={'d-flex gap-2 mt-2'}>
                             <div className="file-upload">
                                 <button className="btn-4">Загрузить фото</button>
@@ -272,7 +273,10 @@ const AddEvent = () => {
                                     onImageHandler(e, setAvatar, 'image')
                                 }}/>
                             </div>
-                            <input type={'button'} onClick={DelImage} className={'btn-5'} value={'Удалить фото'}/>
+                            {
+                                (photo || event?.image)
+                                && <input type={'button'} onClick={DelImage} className={'btn-5'} value={'Удалить фото'}/>
+                            }
                         </div>
                     </Row>
 

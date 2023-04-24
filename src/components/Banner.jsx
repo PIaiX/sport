@@ -1,15 +1,16 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {checkPhotoPath} from "../helpers/checkPhotoPath";
 
-const Banner = ({imgUrl, title, categoryAge, actions, srcLink}) => {
+const Banner = ({image, description, srcLink}) => {
     return (
         <figure>
-            <img src={imgUrl} alt={title} />
+            <img src={checkPhotoPath(image)} alt={description} />
             <figcaption>
                 <ul className='top'>
                 </ul>
                 <div>
-                    <h2><Link to={`${srcLink}`}>{title}</Link></h2>
+                    <h2><Link to={`${srcLink}`}>{description}</Link></h2>
                 </div>
             </figcaption>
         </figure>

@@ -33,9 +33,9 @@ const Header = () => {
                                     <li>
                                         <NavLink to="/about">О нас</NavLink>
                                     </li>
-                                    {/* <li>
+                                    <li>
                                         <NavLink to="/all-news">Блог</NavLink>
-                                    </li> */}
+                                    </li>
                                     <li>
                                         <NavLink to="https://www.alfastrah.ru/individuals/life/protection-family/calc/?tag=ruchamp&utm_source=ruchamp_ru&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family">
                                             Страхование

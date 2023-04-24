@@ -97,7 +97,10 @@ const Profile = () => {
                                 onImageHandler(e, setAvatar, 'image')
                             }} />
                         </div>
-
+                        {
+                            (photo || user?.image)
+                            && <input type={'button'} onClick={DelImage} className={'btn-5'} value={'Удалить фото'}/>
+                        }
                     </div>
                 </Row>
                 <Row className='gx-4 gx-xxl-5'>
@@ -215,7 +218,6 @@ const Profile = () => {
                             <p className='fs-08 achromat-3 mt-2'>Этот параметр скрывает вашу общедоступную страницу
                                 профиля, однако ваше имя по-прежнему будет отображаться в списке результатов
                                 мероприятий, в которых вы участвовали.</p>
-                            <button type='button' className='btn-5 mt-3'>Удалить аккаунт</button>
                         </fieldset>
                     </Col>
                     <Col xs={12} xl={6}>

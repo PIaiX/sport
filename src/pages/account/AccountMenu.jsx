@@ -28,30 +28,30 @@ const AccountMenu = () => {
                         <span className='d-none d-sm-inline'>Мероприятия</span>
                     </NavLink>
                 </li>
-                <li className={isAdmin?'admin-li':''}>
-                    <NavLink to='banners'>
-                        <AiOutlinePicture className='d-sm-none'/>
-                        <span className='d-none d-sm-inline'>Баннеры</span>
-                    </NavLink>
-                </li>
                 {
                     isAdmin &&
                     <>
+                        <li className={isAdmin?'admin-li':''}>
+                            <NavLink to='banners'>
+                                <AiOutlinePicture className='d-sm-none'/>
+                                <span className='d-none d-sm-inline'>Баннеры</span>
+                            </NavLink>
+                        </li>
                         <li className={isAdmin?'admin-li':''}>
                             <NavLink to='news'>
                                 <TbNews className='d-sm-none'/>
                                 <span className='d-none d-sm-inline'>Новости</span>
                             </NavLink>
                         </li>
-                        <li className={isAdmin?'admin-li':''}>
-                            <button type='button' onClick={LogOut}>
-                                <RiLogoutBoxRLine className='d-sm-none'/>
-                                <span className='d-none d-sm-inline'>Выход</span>
-                            </button>
-                        </li>
                     </>
-
                 }
+                <li className={isAdmin?'admin-li':''}>
+                    <button type='button' onClick={LogOut}>
+                        <RiLogoutBoxRLine className='d-sm-none'/>
+                        <span className='d-none d-sm-inline'>Выход</span>
+                    </button>
+                </li>
+
             </ul>
         </nav>
     );

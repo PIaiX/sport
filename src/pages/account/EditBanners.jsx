@@ -1,67 +1,27 @@
-import React, {useState} from 'react';
-import {Link} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {Link, NavLink} from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 import Col from "react-bootstrap/Col";
+import {DeleteOneBanner, GetBanners} from "../../services/banners";
+import {DeleteOneNew} from "../../services/news";
 
-const b=[{
-    imgUrl:'../imgs/photo_5267083206321097225_x.jpg',
-    title:'Мма',
-    categoryAge:'16+',
-    srcLink:'event/2',
-    actions:[
-        'Бокс',
-        'Каратэ',
-        'Шахматы без правил'
-    ]
-},
-    {
-        imgUrl:'../imgs/photo_5267083206321097221_y.jpg',
-        title:'Рукопашный бой',
-        categoryAge:'16+',
-        srcLink:'event/2',
-        actions:[
-            'Бокс',
-            'Каратэ',
-            'Шахматы без правил'
-        ]
-    },
-    {
-        imgUrl:'../imgs/photo_5267083206321097223_x.jpg',
-        title:'Дзюдо',
-        categoryAge:'16+',
-        srcLink:'event/2',
-        actions:[
-            'Бокс',
-            'Каратэ',
-            'Шахматы без правил'
-        ]
-    },
-    {
-        imgUrl:'../imgs/photo_5267083206321097222_x.jpg',
-        title:'Рукопашный бой',
-        categoryAge:'16+',
-        srcLink:'event/2',
-        actions:[
-            'Бокс',
-            'Каратэ',
-            'Шахматы без правил'
-        ]
-    },
-    {
-        imgUrl:'../imgs/photo_5267083206321097224_x.jpg',
-        title:'Дзюдqwerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',
-        categoryAge:'16+',
-        srcLink:'event/2',
-        actions:[
-            'Бокс',
-            'Каратэ',
-            'Шахматы без правил'
-        ]
-    }
-]
 const EditBanners = () => {
-    const [banners, setBanners] =useState(b)
+    const [banners, setBanners] =useState()
+
+    useEffect(()=>{
+        GetBanners().then(res=>{
+            res && setBanners(res)
+        })
+    },[])
+
+    const delOneBanner = (id)=>{
+            DeleteOneBanner(id).then(res=>{
+                console.log(res)
+                res && setBanners(banners?.filter(element=>element?.id!=res.id))
+            })
+    }
+    console.log(banners)
 
     return (
         <section className='account-box'>
@@ -69,14 +29,12 @@ const EditBanners = () => {
                 <h1 className='mb-sm-0'>Баннеры</h1>
                 <Link to='add' className='btn-4'>Добавить баннер</Link>
             </div>
-            <Row>
-            </Row>
-            <Row>
+            <div>
                 {banners?.map((element, index)=>
                     <Row key={index} className={'bg-white p-2 mt-2'}>
                         <Row>
                             <Col>
-                                <img src={checkPhotoPath(element?.imgUr)} className={'img-banner'} alt={element?.title}/>
+                                <img src={checkPhotoPath(element?.image)} className={'img-banner'} alt={element?.title}/>
                             </Col>
                             <Col className={'d-flex align-items-center'}>
                                 <div className={'d-inline-block overflow-hidden'}>
@@ -86,14 +44,21 @@ const EditBanners = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <div className={'position-'}>
-                                    редактировать
+                                <NavLink to={`add/${element?.id}`}>
+                                    <div className={'position-'}>
+                                        Редактировать
+                                    </div>
+                                </NavLink>
+                                <div className={'position-'} onClick={()=>delOneBanner(element?.id)}>
+                                    Удалить
                                 </div>
                             </Col>
                         </Row>
                     </Row>
                 )}
-            </Row>
+
+            </div>
+
         </section>
     );
 };

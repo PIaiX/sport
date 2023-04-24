@@ -9,7 +9,6 @@ import {FiAlertCircle, FiCheckCircle, FiClock, FiHelpCircle, FiMapPin, FiPlayCir
 import {IoMail} from "react-icons/io5"
 import FormSearch from '../components/FormSearch'
 import Participant from '../components/utils/Participant'
-import TournamentBracket from '../components/TournamentBracket'
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {GetOneEvent} from "../services/event";
 import {useUserAction} from '../store/slices/user/actions'
@@ -24,7 +23,7 @@ import {GetStringFromDate} from "../helpers/GetStringFromDate";
 import {checkPhotoPath} from "../helpers/checkPhotoPath";
 import {MyEditor} from "../components/MyEditor/MyEditor";
 import TableWithUsers from "../components/Table/TableWithUsers";
-import {GetAllUsers} from "../services/table";
+import {GetAllUsers, GetRequests} from "../services/table";
 
 export const EventContext = createContext()
 
@@ -35,12 +34,13 @@ const EventPage = () => {
     const auth = useAppSelector(state => state.user.auth)
     const requests = useAppSelector(state => state.user.user?.requests)
     const myEvents = useAppSelector(state => state.user.user?.myEvents)
-    const participation = useAppSelector(state=>state.user.user?.participation)?.map(element=>element?.event)
+    const participation = useAppSelector(state => state.user.user?.participation)?.map(element => element?.event)
     const [users, setUsers] = useState()
+    const [requestsUsers, setRequestsUsers] = useState()
 
     const [isJoinEvent, setIsJoinEvent] = useState(false)
     const [isMyEvent, setIsMyEvent] = useState(false)
-    const [isParticipat, setIsParticipat] = useState(false)
+    const [isParticipant, setIsParticipant] = useState(false)
 
     const {setNotFound} = useAppAction()
     const {JoinEvent, ExitEvent} = useUserAction()
@@ -49,23 +49,31 @@ const EventPage = () => {
 
     const [event, setEvent] = useState(state ? state : null)
     const [tab, setTab] = useState(1)
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState([])
 
-    useEffect(()=>{
-        if(event){
-            GetAllUsers(event?.id).then(res=>{
-                setUsers(res)
+
+    useEffect(() => {
+        if (event) {
+            GetAllUsers(event?.id).then(res => {
+                if(res){
+                    setUsers(res)
+                }
+            })
+            GetRequests(event?.id).then(res => {
+                if(res){
+                    setShow(new Array(res?.length))
+                    setRequestsUsers(res?.map((element, index) => element.participants))
+                }
             })
         }
-    },[event])
-    console.log(users)
+    }, [event])
     useEffect(() => {
-            GetOneEvent(id).then(res => {
-                if (res)
-                    setEvent(res)
-                else
-                    setNotFound(true)
-            })
+        GetOneEvent(id).then(res => {
+            if (res)
+                setEvent(res)
+            else
+                setNotFound(true)
+        })
     }, [])
 
     useEffect(() => {
@@ -77,25 +85,23 @@ const EventPage = () => {
     }, [requests])
 
     useEffect(() => {
-        setIsParticipat(participation?.find(element => element?.id == id) !== undefined)
+        setIsParticipant(participation?.find(element => element?.id == id) !== undefined)
     }, [participation])
 
     if (!event)
         return <main></main>
 
     const AddEvent = () => {
-        if(auth){
+        if (auth) {
             if (isMyEvent)
                 navigate(`/account/events/${id}`)
-            else if (!isJoinEvent){
+            else if (!isJoinEvent) {
                 JoinEvent(id)
             }
-        }
-        else{
+        } else {
             navigate(`/login`)
         }
     }
-    console.log(users?.length)
 
     if (event)
         return (
@@ -106,7 +112,7 @@ const EventPage = () => {
                         <div className="top">
                             <Row className='gx-0'>
                                 <Col xs={12} lg={9}>
-                                    <img  src={checkPhotoPath(event?.image)} alt={event?.title}/>
+                                    <img src={checkPhotoPath(event?.image)} alt={event?.title}/>
                                 </Col>
                                 <Col xs={12} lg={3}>
                                     <ul className='info'>
@@ -162,7 +168,7 @@ const EventPage = () => {
                                     {
                                         (isMyEvent && 'Редактировать')
                                         || (isJoinEvent && 'Запрос отправлен')
-                                        || (isParticipat && 'Вы являетесь участником')
+                                        || (isParticipant && 'Вы являетесь участником')
                                         || 'Принять участие'
                                     }
                                 </button>
@@ -175,7 +181,7 @@ const EventPage = () => {
                                 <Row className='gx-4 gx-xl-5'>
                                     <Col md={8}>
                                         <h2>Информация</h2>
-                                        <MyEditor readOnly={true} value={event?.description} />
+                                        <MyEditor readOnly={true} value={event?.description}/>
                                     </Col>
                                     <Col md={4} className='mt-4 mt-md-0'>
                                         <ul className='list-unstyled list-15'>
@@ -277,34 +283,34 @@ const EventPage = () => {
                             (tab === 2) &&
                             <div className='text'>
                                 <h2>Участники</h2>
-                                {users?.length!=0?
+                                {users?.length != 0 ?
                                     <FormSearch/>
-                                    :<div><h4>Участников не найдено</h4></div>
+                                    : <div><h4>Участников не найдено</h4></div>
                                 }
                                 <ul className='list-unstyled list-30 mt-5'>
-                                    {users?.map((element, index)=>
+                                    {users?.map((element, index) =>
                                         <li key={index}>
                                             <h3>
-                                                <Row>
+                                                <div className={'d-inline-block px-1'}>
                                                     Возраст: {
-                                                    element?.weightCategory?.ageCategory?.ageTo?
-                                                        element?.weightCategory?.ageCategory?.ageFrom+ ' - '+element?.weightCategory?.ageCategory?.ageTo
-                                                        : 'от '+element?.weightCategory?.ageCategory?.ageFrom
+                                                    element?.weightCategory?.ageCategory?.ageTo ?
+                                                        element?.weightCategory?.ageCategory?.ageFrom + ' - ' + element?.weightCategory?.ageCategory?.ageTo
+                                                        : 'от ' + element?.weightCategory?.ageCategory?.ageFrom
                                                 }
-                                                </Row>
-                                                <Row>
+                                                </div>
+                                                <div className={'d-inline-block px-1'}>
                                                     Вес: {
-                                                    element?.weightCategory?.weightTo?
-                                                                                   element?.weightCategory?.weightFrom+ ' - '+element?.weightCategory?.weightTo
-                                                                                   : 'от '+element?.weightCategory?.weightFrom
+                                                    element?.weightCategory?.weightTo ?
+                                                        element?.weightCategory?.weightFrom + ' - ' + element?.weightCategory?.weightTo
+                                                        : 'от ' + element?.weightCategory?.weightFrom
                                                 }
-                                                </Row>
-                                                <Row>
-                                                    Пол: {element?.gender?'Мужской':'Женский'}
-                                                </Row>
+                                                </div>
+                                                <div className={'d-inline-block px-1'}>
+                                                    Пол: {element?.gender ? 'Мужской' : 'Женский'}
+                                                </div>
                                             </h3>
                                             {
-                                                element?.participants?.length!=0 &&
+                                                element?.participants?.length != 0 &&
                                                 <div className='participant head'>
                                                     <div className='name'>Участник</div>
                                                     <div className="birthDate">Год рождения</div>
@@ -323,7 +329,7 @@ const EventPage = () => {
                                             }
                                             <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
                                                 {
-                                                    element?.participants?.map((ele, ind)=>
+                                                    element?.participants?.map((ele, ind) =>
                                                         <li key={ind}>
                                                             <Participant
                                                                 approved={true}
@@ -333,8 +339,8 @@ const EventPage = () => {
                                                     )
                                                 }
                                                 {
-                                                    show && index==users?.length-1 &&
-                                                    element?.event?.requestToEvent?.map((ele, ind)=>
+                                                    show[index] &&
+                                                    requestsUsers[index]?.map((ele, ind) =>
                                                         <li key={ind}>
                                                             <Participant
                                                                 approved={false}
@@ -345,11 +351,15 @@ const EventPage = () => {
                                                 }
                                             </ul>
                                             <p>Подтвержденных регистраций: {element?.participants?.length}</p>
-
-                                            {index==users?.length-1 &&
-                                                < button type='button' className="link"
-                                                onClick={() => setShow((show) ? false : true)}>{(show) ? 'Скрыть' : 'Показать'} неподтвержденные
-                                                регистрации (1)
+                                            {
+                                                requestsUsers[index]?.length>0
+                                                && < button type='button' className="link"
+                                                            onClick={() =>{
+                                                                let arr=[...show]
+                                                                arr[index]=!arr[index]
+                                                                setShow(arr)
+                                                            }}>{(show[index]) ? 'Скрыть ' : 'Показать '}
+                                                    неподтвержденные регистрации ({requestsUsers[index]?.length})
                                                 </button>
                                             }
                                         </li>
@@ -361,7 +371,7 @@ const EventPage = () => {
                             (tab === 3) &&
                             <div className='text'>
                                 <EventContext.Provider value={{setEvent, event}}>
-                                    <TableWithUsers event={event} setEvent={setEvent} readOnly={true} />
+                                    <TableWithUsers event={event} setEvent={setEvent} readOnly={true}/>
                                 </EventContext.Provider>
                             </div>
                         }

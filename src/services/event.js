@@ -3,7 +3,7 @@ import { $api, apiRoutes, $authApi, $authFormDataApi } from "../config/api";
 export const GetAllEvents = async (payload) => {
     try {
         const result = await $api.get(apiRoutes.GET_ALL_EVENTS, {
-            params: { ...payload }
+            params: {...payload,direction:'desc', orderBy:'id'}
         })
         return result?.data
     } catch (error) {
