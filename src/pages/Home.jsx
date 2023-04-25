@@ -97,7 +97,7 @@ const Home = () => {
                     <h2>Календарь спортивных мероприятий</h2>
                     <div className="position-relative">
                         <Swiper
-                            initialSlide={2}
+                            initialSlide={4}
                             className='date-slider'
                             modules={[Navigation, Keyboard]}
                             loop={false}
