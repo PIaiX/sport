@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react'
+import React, {useEffect, useReducer, useRef, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -34,6 +34,7 @@ const Home = () => {
     const year = DoCalendar()
     const [maxValue, setMaxValue] = useState()
     const [myRef, executeScroll] = useAnchor()
+    const disciplineIdRef = useRef()
 
     useEffect(()=>{
         GetNews().then(res=>res && setNews(res?.body))
@@ -96,21 +97,21 @@ const Home = () => {
                     <h2>Календарь спортивных мероприятий</h2>
                     <div className="position-relative">
                         <Swiper
+                            initialSlide={2}
                             className='date-slider'
                             modules={[Navigation, Keyboard]}
                             loop={false}
-                            spaceBetween={10}
                             slidesPerView={'auto'}
+                            grabCursor={true}
                             navigation
-                            cssMode={true}
                             keyboard={true}
                             simulateTouch={true}
                             allowTouchMove={true}
                         >
                             {year?.map((iElement, index)=>
-                                <SwiperSlide key={index}>
+                                <SwiperSlide key={index} centeredSlidesBounds={true}>
                                     <div className="month">
-                                        <span>{iElement.name}</span>
+                                        <span>{index%2!=1?iElement.name:<div>&nbsp;</div>}</span>
                                     </div>
                                     <div className="days">
                                         {iElement.days.map((jElement,jndex)=>
@@ -136,6 +137,7 @@ const Home = () => {
                             onChange = {(value)=>{
                                 setFilter({disciplineId:value.map((element) => element.value )})
                             }}
+                            ref={disciplineIdRef}
                             classNamePrefix="simple-select"
                             className="simple-select-container pb-2"
                             options={categories}
@@ -144,6 +146,17 @@ const Home = () => {
                             isSearchable={true}
                         />
                         <Calendar calendarDays={filter?.days} CalendarClick={(value)=>setFilter({days:value})} />
+                        <div className="calendar pb-2">
+                            <button
+                                className="btn-2"
+                                onClick={()=>{
+                                    disciplineIdRef.current.setValue([])
+                                    setFilter({skip:0, take:12, days:undefined, disciplineId:undefined})
+                                }}
+                            >
+                                Сбросить фильтры
+                            </button>
+                        </div>
                     </div>
                     <Row xs={1} sm={2} md={3} xl={4} className='mt-3 mt-md-4 mt-xl-5 gx-4 gy-4 gy-md-5'>
                         {events?.map((element, index)=>
