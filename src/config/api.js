@@ -65,8 +65,8 @@ const apiRoutes = {
     VERIFICATION: 'verification',
 
     //reset password
-    RESET_PASSWORD_EMAIL_VERIFY: 'auth/forgotPassword/emailVerify',
-    RESET_PASSWORD_CONFIRM: 'auth/forgotPassword',
+    RESET_PASSWORD_EMAIL_VERIFY: 'password/forgot',
+    RESET_PASSWORD_RESTORE: 'password/restore',
 
     //user
     USER_ACTIONS: 'user',

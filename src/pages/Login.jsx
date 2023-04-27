@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form";
 import ValidateWrapper from "../components/utils/ValidateWrapper";
@@ -11,6 +11,7 @@ const Login = () => {
     const dispatch = useDispatch()
     const loginError = useAppSelector(state => state.user.loginError)
     const {register, formState: {errors}, handleSubmit, setError} = useForm()
+    const navigate = useNavigate()
     const {login} = useUserAction()
 
     useEffect(()=>{
@@ -54,8 +55,10 @@ const Login = () => {
 
                         <input type={'submit'} className='btn-1 w-100' value={'Войти'}/>
                         <label className='mt-3'>
-                            <input type="checkbox"/>
-                            <span className='color-main'>Запомнить меня</span>
+                            <input type="checkbox" onChange={()=>{
+                                navigate('/password/restore')
+                            }} />
+                            <span className='color-main'>Забыли пароль</span>
                         </label>
                     </form>
                 </section>

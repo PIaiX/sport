@@ -11,6 +11,8 @@ import NotFound from '../pages/NotFound'
 import Registration from '../pages/Registration'
 import AccountRouter from './AccountRouter'
 import AuthCheck from "../pages/account/AuthCheck";
+import ForgotPassword from "../pages/account/ForgotPassword";
+import CreatePassword from "../pages/account/CreatePassword";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -22,9 +24,10 @@ const router = createBrowserRouter(
             <Route path="about" element={<About/>} />
             <Route path="login" element={<AuthCheck><Login/></AuthCheck>} />
             <Route path="registration" element={<AuthCheck><Registration/></AuthCheck>} />
-            <Route path="*" element={<NotFound/>} />
+            <Route path="password/restore" element={<ForgotPassword/>} />
+            <Route path="password/restore/:id" element={<CreatePassword/>} />
             <Route path="account/*" element={<AuthCheck><AccountRouter/></AuthCheck>}/>
-            <Route path="test/*" element={<AccountRouter/>}/>
+            <Route path="*" element={<NotFound/>} />
         </Route>
     )
 )
