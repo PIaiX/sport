@@ -3,6 +3,7 @@
 
 #root {
     min-height: 100vh;
+    overflow: hidden;
 }
 
 :root {
@@ -652,6 +653,7 @@ nav.pagination ul li button.active {
 
 .swiper {
     position: unset;
+    max-width: 100%;
 }
 
 .swiper-button, .swiper-button-next, .swiper-button-prev {

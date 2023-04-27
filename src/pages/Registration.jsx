@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import {useForm} from "react-hook-form";
 import ValidateWrapper from "../components/utils/ValidateWrapper";
@@ -11,6 +11,7 @@ const Registration = () => {
     const {register, formState: {errors}, handleSubmit, getValues, setValue, setError} = useForm()
     const loginError = useAppSelector(state => state.user.loginError)
     const {registration, login} = useUserAction()
+    const navigate = useNavigate()
 
     useEffect(()=>{
         if(loginError){
@@ -20,7 +21,9 @@ const Registration = () => {
     }, [loginError])
 
     const SubmitClick = ({repeatPassword, ...otherData}) => {
-        registration(otherData)
+        registration(otherData).then(res=>{
+            res && navigate('/account/profile')
+        })
     }
     return (
         <main>
