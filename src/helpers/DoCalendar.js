@@ -44,6 +44,5 @@ export const DoCalendar=()=>{
         year[year.length-1].days.push({day,weekDay:count%7+1})
         count++;
     }
-    console.log(year)
     return year
 }

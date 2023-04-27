@@ -657,12 +657,27 @@ nav.pagination ul li button.active {
 }
 
 .swiper-button, .swiper-button-next, .swiper-button-prev {
-    top: 50%;
     margin: 0px;
     width: 2em;
     height: 3em;
     background-color: transparent;
 }
+
+.calend .swiper-button,.calend .swiper-button-next,.calend .swiper-button-prev {
+    top:60%;
+}
+
+.news .swiper-button,.news .swiper-button-next,.news .swiper-button-prev {
+    top:35%;
+}
+
+@media (max-width: 575px) {
+    .calend, .banne, .news{
+        width:93%;
+        left:3%;
+    }
+}
+
 
 .swiper-button::after, .swiper-button-next::after, .swiper-button-prev::after {
     font-size: 1.75em;

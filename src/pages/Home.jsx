@@ -41,6 +41,7 @@ const Home = () => {
         GetBanners().then(res=>res && setBanners(res))
         GetDiscipline().then(res => {
             if (res) {
+
                 setCategories(res.map((element) => ({ value: element.id, label: element.name })))
             }
         })
@@ -71,7 +72,7 @@ const Home = () => {
         <main>
             <Container>
                 {banners?.length>0
-                    && <section className='py-2 py-sm-4 py-xl-5 position-relative mb-5'>
+                    && <section className='py-2 py-sm-4 py-xl-5 position-relative mb-5 banne'>
                         <Swiper
                             className='main-slider'
                             modules={[Autoplay, Navigation]}
@@ -95,7 +96,7 @@ const Home = () => {
 
                 <section className='mb-5' ref={myRef}>
                     <h2>Календарь спортивных мероприятий</h2>
-                    <div className="position-relative">
+                    <div className="calend position-relative">
                         <Swiper
                             initialSlide={4}
                             className='date-slider'
@@ -170,7 +171,7 @@ const Home = () => {
 
                 <section className='mb-5'>
                     <h2>Новости</h2>
-                    <div className="position-relative">
+                    <div className="position-relative news">
                         <Swiper
                             className=''
                             modules={[Navigation]}
