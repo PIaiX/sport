@@ -4,75 +4,8 @@ import AccEventPreview from '../../components/AccEventPreview';
 import {useAppSelector} from "../../store";
 import {useUserAction} from "../../store/slices/user/actions";
 
-const ae=[
-    {
-        id:123,
-        idUser:1,
-        date:'15.02.2023',
-        img:'imgs/img1.jpeg',
-        title:'Название мероприятия 1',
-        role:1,
-        count:20,
-        active:true
-    },
-    {
-        id:135,
-        idUser:32,
-        date:'23.02.2023',
-        img:'imgs/img2.jpeg',
-        title:'Название мероприятия 2',
-        role:2,
-        count:18,
-        active:true
-    },
-    {
-        id:345,
-        idUser:33,
-        date:'01.03.2023',
-        img:'imgs/img1.jpeg',
-        title:'Название мероприятия 3',
-        role:1,
-        count:20,
-        active:true
-    }
-]
-const are=[
-    {
-        id:123,
-        idUser:1,
-        date:'15.02.2023',
-        img:'imgs/img1.jpeg',
-        title:'Название мероприятия 1',
-        role:1,
-        count:20,
-        active:false
-    },
-    {
-        id:135,
-        idUser:32,
-        date:'23.02.2023',
-        img:'imgs/img2.jpeg',
-        title:'Название мероприятия 2',
-        role:2,
-        count:18,
-        active:false
-    },
-    {
-        id:345,
-        idUser:33,
-        date:'01.03.2023',
-        img:'imgs/img1.jpeg',
-        title:'Название мероприятия 3',
-        role:1,
-        count:20,
-        active:false
-    }
-
-]
-
 const AccEvents = () => {
     const myEvents = useAppSelector(state=>state.user.user?.myEvents)
-    const requests = useAppSelector(state=>state.user.user?.requests)?.map(element=>element?.event)
     const participation = useAppSelector(state=>state.user.user?.participation)?.map(element=>element?.event)
     const {getMyEvents, myRequests} = useUserAction()
 
@@ -104,11 +37,6 @@ const AccEvents = () => {
                 {participation?.map((element, index)=>
                     <li key={index}>
                         <AccEventPreview role={'Участник'} active={true} {...element} />
-                    </li>
-                )}
-                {requests?.map((element, index)=>
-                    <li key={index}>
-                        <AccEventPreview role={'Ожидание ответа'} active={true} {...element} />
                     </li>
                 )}
             </ul>

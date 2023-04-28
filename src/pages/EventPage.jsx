@@ -34,6 +34,8 @@ const EventPage = () => {
     const requests = useAppSelector(state => state.user.user?.requests)
     const myEvents = useAppSelector(state => state.user.user?.myEvents)
     const participation = useAppSelector(state => state.user.user?.participation)?.map(element => element?.event)
+
+    console.log(requests)
     const [users, setUsers] = useState()
     const [requestsUsers, setRequestsUsers] = useState()
 
@@ -43,7 +45,6 @@ const EventPage = () => {
 
     const {setNotFound, setAlert} = useAppAction()
     const {JoinEvent, ExitEvent} = useUserAction()
-    // setAlert({message:'2323', typeAlert:'good'})
 
     const navigate = useNavigate()
 
@@ -81,7 +82,7 @@ const EventPage = () => {
     }, [myEvents])
 
     useEffect(() => {
-        setIsJoinEvent(requests?.find(element => element?.event?.id == id) !== undefined)
+        setIsJoinEvent(requests?.find(element => element?.category?.eventId == id) !== undefined)
     }, [requests])
 
     useEffect(() => {
@@ -126,7 +127,7 @@ const EventPage = () => {
                         <div className="top">
                             <Row className='gx-0'>
                                 <Col xs={12} lg={9}>
-                                    <img src={checkPhotoPath(event?.image)} alt={event?.title}/>
+                                    <img src={checkPhotoPath(event?.image)} onLoad={()=>window.scroll(0, 0)} alt={event?.title}/>
                                 </Col>
                                 <Col xs={12} lg={3}>
                                     <ul className='info'>
