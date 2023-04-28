@@ -1635,12 +1635,12 @@ main {
     padding: 0.75em 0.5em;
 }
 
-.bracket .tour .item .person:first-child, .bracket .tour .item-1 .:first-child, .bracket .tour .item-2 .:first-child, .bracket .tour .item-3 .:first-child, .bracket .tour .item-4 .:first-child, .bracket .tour .item-5 .:first-child {
+.bracket .tour .item .person:first-child, .bracket .tour .item-1 :first-child, .bracket .tour .item-2 :first-child, .bracket .tour .item-3 :first-child, .bracket .tour .item-4 :first-child, .bracket .tour .item-5 :first-child {
     border-bottom-width: 1px;
     border-radius: 1em 1em 0px 0px;
 }
 
-.bracket .tour .item .:last-child, .bracket .tour .item-1 .:last-child, .bracket .tour .item-2 .:last-child, .bracket .tour .item-3 .:last-child, .bracket .tour .item-4 .:last-child, .bracket .tour .item-5 .:last-child {
+.bracket .tour .item :last-child, .bracket .tour .item-1 :last-child, .bracket .tour .item-2 :last-child, .bracket .tour .item-3 :last-child, .bracket .tour .item-4 :last-child, .bracket .tour .item-5 :last-child {
     border-top-width: 1px;
     border-radius: 0px 0px 1em 1em;
 }
@@ -2736,4 +2736,54 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     .news-title{
         height:0;
     }
+}
+.alert {
+    color:white;
+    position: fixed;
+    top: 20vh;
+    z-index: 100000;
+    /*transition: opacity 1s ease;*/
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    word-break: break-word;
+}
+@media (min-width: 1200px) {
+
+    .alert.good,
+    .alert.neutral,
+    .alert.bad {
+        width: 20%;
+        margin-left: 80%;
+    }
+}
+
+@media (max-width: 1199px) {
+
+    .alert.good,
+    .alert.neutral,
+    .alert.bad {
+        width: 30%;
+        margin-left: 70%;
+    }
+}
+@media (max-width: 575px) {
+
+    .alert.good,
+    .alert.neutral,
+    .alert.bad {
+        width: 60%;
+        margin-left: 40%;
+    }
+}
+.alert.good {
+    background: #40D600;
+}
+
+.alert.bad {
+    background: red;
+}
+.alert.neutral {
+    background: #2e5193;
 }

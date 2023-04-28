@@ -24,7 +24,6 @@ import {checkPhotoPath} from "../helpers/checkPhotoPath";
 import {MyEditor} from "../components/MyEditor/MyEditor";
 import TableWithUsers from "../components/Table/TableWithUsers";
 import {GetAllUsers, GetRequests} from "../services/table";
-
 export const EventContext = createContext()
 
 const EventPage = () => {
@@ -42,8 +41,9 @@ const EventPage = () => {
     const [isMyEvent, setIsMyEvent] = useState(false)
     const [isParticipant, setIsParticipant] = useState(false)
 
-    const {setNotFound} = useAppAction()
+    const {setNotFound, setAlert} = useAppAction()
     const {JoinEvent, ExitEvent} = useUserAction()
+    // setAlert({message:'2323', typeAlert:'good'})
 
     const navigate = useNavigate()
 
@@ -96,7 +96,21 @@ const EventPage = () => {
             if (isMyEvent)
                 navigate(`/account/events/${id}`)
             else if (!isJoinEvent) {
-                JoinEvent(id)
+                JoinEvent(id).then(res=>{
+                    const status = res?.payload?.response?.status
+                    if(status==404){
+                        setAlert({message:'Вы не подходите ни под одну категорию', typeAlert:'bad'})
+                        setTimeout(()=> setAlert(null), 3000)
+                    }
+                    else if(status==409){
+                        setAlert({message:'Ваша заявка на рассмотрении', typeAlert:'good'})
+                        setTimeout(()=> setAlert(null), 3000)
+                    }
+                    else {
+                        setAlert({message:'Заявка одобрена', typeAlert:'good'})
+                        setTimeout(()=> setAlert(null), 3000)
+                    }
+                })
             }
         } else {
             navigate(`/login`)

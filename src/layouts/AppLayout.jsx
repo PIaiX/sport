@@ -9,6 +9,7 @@ import {initFingerprint} from "../store/slices/app/Action";
 import {getMe, refreshAuth, myRequests, getMyEvents, useUserAction} from '../store/slices/user/actions'
 import ChangeLocation from "./ChangeLocation";
 import useAnchor from "../hooks/useAnchor";
+import Alert from "../components/utils/Alert";
 
 const AppLayout = () => {
     const {fingerprint, notFound} = useAppSelector(state => state.app)
@@ -50,6 +51,7 @@ const AppLayout = () => {
                     : <Outlet/>
                 }
             </ChangeLocation>
+            <Alert />
             <Footer/>
             {executeScroll()}
         </>

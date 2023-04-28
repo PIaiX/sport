@@ -4,7 +4,8 @@ import {getMe, login, logout} from "../user/actions";
 const initialState={
     notFound:false,
     isAdmin:false,
-    fingerprint:null
+    fingerprint:null,
+    alertSlice:null
 }
 const AppSlice = createSlice({
     name:'app',
@@ -14,8 +15,12 @@ const AppSlice = createSlice({
             state.notFound=action.payload
         },
         setFingerprint: (state, action) => {
-            state.fingerprint = action?.payload
-        },
+            state.fingerprint = {...action?.payload, isShow: true}
+        }
+        ,
+        setAlert:(state, action)=>{
+            state.alertSlice = {...action.payload, isShow: true}
+        }
     },
     extraReducers:{
         [login.fulfilled]:(state, action)=>{
@@ -28,8 +33,7 @@ const AppSlice = createSlice({
         [getMe.fulfilled]:(state, action)=>{
             if(action.payload?.role=='ADMIN')
                 state.isAdmin=true
-        },
-
+        }
     }
 })
 export const AppActions= AppSlice.actions;
