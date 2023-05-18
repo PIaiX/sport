@@ -24,6 +24,7 @@ import {checkPhotoPath} from "../helpers/checkPhotoPath";
 import {MyEditor} from "../components/MyEditor/MyEditor";
 import TableWithUsers from "../components/Table/TableWithUsers";
 import {GetAllUsers, GetRequests} from "../services/table";
+import Loader from "../components/Loader/Loader";
 export const EventContext = createContext()
 
 const EventPage = () => {
@@ -35,7 +36,6 @@ const EventPage = () => {
     const myEvents = useAppSelector(state => state.user.user?.myEvents)
     const participation = useAppSelector(state => state.user.user?.participation)?.map(element => element?.event)
 
-    console.log(requests)
     const [users, setUsers] = useState()
     const [requestsUsers, setRequestsUsers] = useState()
 
@@ -69,6 +69,7 @@ const EventPage = () => {
         }
     }, [event])
     useEffect(() => {
+        setEvent('loading')
         GetOneEvent(id).then(res => {
             if (res)
                 setEvent(res)
@@ -122,289 +123,291 @@ const EventPage = () => {
         return (
             <main>
                 <Container>
-                    <section className='event-page py-4 py-md-5'>
+                    {event=='loading'?
+                        <Loader/>
+                        :<section className='event-page py-4 py-md-5'>
                         <h1>{event?.name}</h1>
                         <div className="top">
-                            <Row className='gx-0'>
-                                <Col xs={12} lg={9}>
-                                    <img src={checkPhotoPath(event?.image)} onLoad={()=>window.scroll(0, 0)} alt={event?.title}/>
-                                </Col>
-                                <Col xs={12} lg={3}>
-                                    <ul className='info'>
-                                        <li>
-                                            <FiClock className='green'/>
-                                            <div>
-                                                <p>Ранняя регистрация</p>
-                                                <p>
-                                                    {GetStringFromDate(event?.earlyRegistrationFrom, event?.earlyRegistrationTo)}
-                                                </p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <FiCheckCircle className='yellow'/>
-                                            <div>
-                                                <p>Стандартная регистрация</p>
-                                                <p>{GetStringFromDate(event?.standartRegistrationFrom, event?.standartRegistrationTo)}</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <FiAlertCircle className='red'/>
-                                            <div>
-                                                <p>Поздняя регистрация</p>
-                                                <p>{GetStringFromDate(event?.lateRegistrationFrom, event?.lateRegistrationTo)}</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <FiPlayCircle className='color-4'/>
-                                            <div>
-                                                <p>Начало мероприятия</p>
-                                                <p>{GetStringFromDate(event?.startsAt)}</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </Col>
-                            </Row>
-                            <nav>
-                                <ul>
-                                    <li>
-                                        <button type='button' onClick={() => setTab(1)}>Информация</button>
-                                    </li>
-                                    <li>
-                                        <button type='button' onClick={() => setTab(2)}>Участники</button>
-                                    </li>
-                                    <li>
-                                        <button type='button' onClick={() => setTab(3)}>Турнирная таблица</button>
-                                    </li>
-                                    <li>
-                                        <button type='button' onClick={() => setTab(4)}>Место проведения</button>
-                                    </li>
-                                </ul>
-                                <button type='button' className='btn-3' onClick={AddEvent}>
-                                    {
-                                        (isMyEvent && 'Редактировать')
-                                        || (isJoinEvent && 'Запрос отправлен')
-                                        || (isParticipant && 'Вы являетесь участником')
-                                        || 'Принять участие'
-                                    }
-                                </button>
-                            </nav>
+                        <Row className='gx-0'>
+                        <Col xs={12} lg={9}>
+                        <img src={checkPhotoPath(event?.image)} onLoad={()=>window.scroll(0, 0)} alt={event?.title}/>
+                        </Col>
+                        <Col xs={12} lg={3}>
+                        <ul className='info'>
+                        <li>
+                        <FiClock className='green'/>
+                        <div>
+                        <p>Ранняя регистрация</p>
+                        <p>
+                    {GetStringFromDate(event?.earlyRegistrationFrom, event?.earlyRegistrationTo)}
+                        </p>
+                        </div>
+                        </li>
+                        <li>
+                        <FiCheckCircle className='yellow'/>
+                        <div>
+                        <p>Стандартная регистрация</p>
+                        <p>{GetStringFromDate(event?.standartRegistrationFrom, event?.standartRegistrationTo)}</p>
+                        </div>
+                        </li>
+                        <li>
+                        <FiAlertCircle className='red'/>
+                        <div>
+                        <p>Поздняя регистрация</p>
+                        <p>{GetStringFromDate(event?.lateRegistrationFrom, event?.lateRegistrationTo)}</p>
+                        </div>
+                        </li>
+                        <li>
+                        <FiPlayCircle className='color-4'/>
+                        <div>
+                        <p>Начало мероприятия</p>
+                        <p>{GetStringFromDate(event?.startsAt)}</p>
+                        </div>
+                        </li>
+                        </ul>
+                        </Col>
+                        </Row>
+                        <nav>
+                        <ul>
+                        <li>
+                        <button type='button' onClick={() => setTab(1)}>Информация</button>
+                        </li>
+                        <li>
+                        <button type='button' onClick={() => setTab(2)}>Участники</button>
+                        </li>
+                        <li>
+                        <button type='button' onClick={() => setTab(3)}>Турнирная таблица</button>
+                        </li>
+                        <li>
+                        <button type='button' onClick={() => setTab(4)}>Место проведения</button>
+                        </li>
+                        </ul>
+                        <button type='button' className='btn-3' onClick={AddEvent}>
+                    {
+                        (isMyEvent && 'Редактировать')
+                        || (isJoinEvent && 'Запрос отправлен')
+                        || (isParticipant && 'Вы являетесь участником')
+                        || 'Принять участие'
+                    }
+                        </button>
+                        </nav>
                         </div>
 
-                        {
-                            (tab === 1) &&
-                            <div className='text'>
-                                <Row className='gx-4 gx-xl-5'>
-                                    <Col md={8}>
-                                        <h2>Информация</h2>
-                                        <MyEditor readOnly={true} value={event?.description}/>
-                                    </Col>
-                                    <Col md={4} className='mt-4 mt-md-0'>
-                                        <ul className='list-unstyled list-15'>
-                                            <li>
-                                                <div className="card">
-                                                    <h5 className='card-title'>
-                                                        <FiMapPin/>
-                                                        <span>Место проведения</span>
-                                                    </h5>
-                                                    <div className='card-body'>
-                                                        <address>{event?.venue}</address>
-                                                    </div>
-                                                    <YMaps query={{lang: "ru_RU"}}>
-                                                        <Map style={{width: '100%', height: '350px'}}
-                                                             defaultState={{
-                                                                 center: [event?.latitude, event?.longitude],
-                                                                 zoom: 13,
-                                                             }}>
-                                                            <Placemark geometry={[event?.latitude, event?.longitude]}
-                                                            />
-                                                        </Map>
-                                                    </YMaps>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div className="card">
-                                                    <h5 className='card-title'>
-                                                        <FiHelpCircle/>
-                                                        <span>Контакты</span>
-                                                    </h5>
-                                                    <div className='card-body'>
-                                                        <ul className='list-unstyled list-10'>
-                                                            {event?.emailLink &&
-                                                                <li>
-                                                                    <a href={event?.emailLink} className='link'>
-                                                                        <IoMail className='fs-12 me-2'/>
-                                                                        <span>{event?.emailLink}</span>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                            {event?.vkLink &&
-                                                                <li>
-                                                                    <a href={event?.vkLink} className='link'>
-                                                                        <SlSocialVkontakte className='fs-12 me-2'/>
-                                                                        <span>{event?.vkLink}</span>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                            {event?.youtubeLink &&
-                                                                <li>
-                                                                    <a href={event?.youtubeLink} className='link'>
-                                                                        <CiYoutube className='fs-12 me-2'/>
-                                                                        <span>{event?.youtubeLink}</span>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                            {event?.instaLink &&
-                                                                <li>
-                                                                    <a href={event?.instaLink} className='link'>
-                                                                        <BsInstagram className='fs-12 me-2'/>
-                                                                        <span>{event?.instaLink}</span>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                            {event?.telegramLink &&
-                                                                <li>
-                                                                    <a href={event?.telegramLink} className='link'>
-                                                                        <TbBrandTelegram className='fs-12 me-2'/>
-                                                                        <span>{event?.telegramLink}</span>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                            {event?.whatsAppLink &&
-                                                                <li>
-                                                                    <a href={event?.whatsAppLink} className='link'>
-                                                                        <AiOutlineWhatsApp className='fs-12 me-2'/>
-                                                                        <span>{event?.whatsAppLink}</span>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                            {event?.tictokLink &&
-                                                                <li>
-                                                                    <a href={event?.tictokLink} className='link'>
-                                                                        <FaTiktok className='fs-12 me-2'/>
-                                                                        <span>{event?.tictokLink}</span>
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </Col>
-                                </Row>
-                            </div>
-                        }
-                        {
-                            (tab === 2) &&
-                            <div className='text'>
-                                <h2>Участники</h2>
-                                {users?.length != 0 ?
-                                    <FormSearch/>
-                                    : <div><h4>Участников не найдено</h4></div>
-                                }
-                                <ul className='list-unstyled list-30 mt-5'>
-                                    {users?.map((element, index) =>
-                                        <li key={index}>
-                                            <h3>
-                                                <div className={'d-inline-block px-1'}>
-                                                    Возраст: {
-                                                    element?.weightCategory?.ageCategory?.ageTo ?
-                                                        element?.weightCategory?.ageCategory?.ageFrom + ' - ' + element?.weightCategory?.ageCategory?.ageTo
-                                                        : 'от ' + element?.weightCategory?.ageCategory?.ageFrom
-                                                }
-                                                </div>
-                                                <div className={'d-inline-block px-1'}>
-                                                    Вес: {
-                                                    element?.weightCategory?.weightTo ?
-                                                        element?.weightCategory?.weightFrom + ' - ' + element?.weightCategory?.weightTo
-                                                        : 'от ' + element?.weightCategory?.weightFrom
-                                                }
-                                                </div>
-                                                <div className={'d-inline-block px-1'}>
-                                                    Пол: {element?.gender ? 'Мужской' : 'Женский'}
-                                                </div>
-                                            </h3>
-                                            {
-                                                element?.participants?.length != 0 &&
-                                                <div className='participant head'>
-                                                    <div className='name'>Участник</div>
-                                                    <div className="birthDate">Год рождения</div>
-                                                    <ul className="params">
-                                                        <li>
-                                                            Полных лет
-                                                        </li>
-                                                        <li>
-                                                            Пол
-                                                        </li>
-                                                        <li>
-                                                            Вес
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            }
-                                            <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
-                                                {
-                                                    element?.participants?.map((ele, ind) =>
-                                                        <li key={ind}>
-                                                            <Participant
-                                                                approved={true}
-                                                                {...ele?.user}
-                                                            />
-                                                        </li>
-                                                    )
-                                                }
-                                                {
-                                                    show[index] &&
-                                                    requestsUsers[index]?.map((ele, ind) =>
-                                                        <li key={ind}>
-                                                            <Participant
-                                                                approved={false}
-                                                                {...ele?.user}
-                                                            />
-                                                        </li>
-                                                    )
-                                                }
-                                            </ul>
-                                            <p>Подтвержденных регистраций: {element?.participants?.length}</p>
-                                            {
-                                                requestsUsers[index]?.length>0
-                                                && < button type='button' className="link"
-                                                            onClick={() =>{
-                                                                let arr=[...show]
-                                                                arr[index]=!arr[index]
-                                                                setShow(arr)
-                                                            }}>{(show[index]) ? 'Скрыть ' : 'Показать '}
-                                                    неподтвержденные регистрации ({requestsUsers[index]?.length})
-                                                </button>
-                                            }
-                                        </li>
-                                    )}
-                                </ul>
-                            </div>
-                        }
-                        {
-                            (tab === 3) &&
-                            <div className='text'>
-                                <EventContext.Provider value={{setEvent, event}}>
-                                    <TableWithUsers event={event} setEvent={setEvent} readOnly={true}/>
-                                </EventContext.Provider>
-                            </div>
-                        }
-                        {
-                            (tab === 4) &&
-                            <div className='text'>
-                                <h2>Место проведения</h2>
-                                <address className='fs-15 mb-3'>{event?.venue}</address>
-                                <YMaps>
-                                    <Map style={{width: '100%', height: '350px'}}
-                                         defaultState={{center: [event?.latitude, event?.longitude], zoom: 13,}}>
-                                        <Placemark geometry={[event?.latitude, event?.longitude]}/>
-                                    </Map>
-                                </YMaps>
-                            </div>
-                        }
-                    </section>
-
+                    {
+                        (tab === 1) &&
+                        <div className='text'>
+                        <Row className='gx-4 gx-xl-5'>
+                        <Col md={8}>
+                        <h2>Информация</h2>
+                        <MyEditor readOnly={true} value={event?.description}/>
+                        </Col>
+                        <Col md={4} className='mt-4 mt-md-0'>
+                        <ul className='list-unstyled list-15'>
+                        <li>
+                        <div className="card">
+                        <h5 className='card-title'>
+                        <FiMapPin/>
+                        <span>Место проведения</span>
+                        </h5>
+                        <div className='card-body'>
+                        <address>{event?.venue}</address>
+                        </div>
+                        <YMaps query={{lang: "ru_RU"}}>
+                        <Map style={{width: '100%', height: '350px'}}
+                        defaultState={{
+                        center: [event?.latitude, event?.longitude],
+                        zoom: 13,
+                    }}>
+                        <Placemark geometry={[event?.latitude, event?.longitude]}
+                        />
+                        </Map>
+                        </YMaps>
+                        </div>
+                        </li>
+                        <li>
+                        <div className="card">
+                        <h5 className='card-title'>
+                        <FiHelpCircle/>
+                        <span>Контакты</span>
+                        </h5>
+                        <div className='card-body'>
+                        <ul className='list-unstyled list-10'>
+                    {event?.emailLink &&
+                        <li>
+                        <a href={event?.emailLink} className='link'>
+                        <IoMail className='fs-12 me-2'/>
+                        <span>{event?.emailLink}</span>
+                        </a>
+                        </li>
+                    }
+                    {event?.vkLink &&
+                        <li>
+                        <a href={event?.vkLink} className='link'>
+                        <SlSocialVkontakte className='fs-12 me-2'/>
+                        <span>{event?.vkLink}</span>
+                        </a>
+                        </li>
+                    }
+                    {event?.youtubeLink &&
+                        <li>
+                        <a href={event?.youtubeLink} className='link'>
+                        <CiYoutube className='fs-12 me-2'/>
+                        <span>{event?.youtubeLink}</span>
+                        </a>
+                        </li>
+                    }
+                    {event?.instaLink &&
+                        <li>
+                        <a href={event?.instaLink} className='link'>
+                        <BsInstagram className='fs-12 me-2'/>
+                        <span>{event?.instaLink}</span>
+                        </a>
+                        </li>
+                    }
+                    {event?.telegramLink &&
+                        <li>
+                        <a href={event?.telegramLink} className='link'>
+                        <TbBrandTelegram className='fs-12 me-2'/>
+                        <span>{event?.telegramLink}</span>
+                        </a>
+                        </li>
+                    }
+                    {event?.whatsAppLink &&
+                        <li>
+                        <a href={event?.whatsAppLink} className='link'>
+                        <AiOutlineWhatsApp className='fs-12 me-2'/>
+                        <span>{event?.whatsAppLink}</span>
+                        </a>
+                        </li>
+                    }
+                    {event?.tictokLink &&
+                        <li>
+                        <a href={event?.tictokLink} className='link'>
+                        <FaTiktok className='fs-12 me-2'/>
+                        <span>{event?.tictokLink}</span>
+                        </a>
+                        </li>
+                    }
+                        </ul>
+                        </div>
+                        </div>
+                        </li>
+                        </ul>
+                        </Col>
+                        </Row>
+                        </div>
+                    }
+                    {
+                        (tab === 2) &&
+                        <div className='text'>
+                        <h2>Участники</h2>
+                    {users?.length != 0 ?
+                        <FormSearch/>
+                        : <div><h4>Участников не найдено</h4></div>
+                    }
+                        <ul className='list-unstyled list-30 mt-5'>
+                    {users?.map((element, index) =>
+                        <li key={index}>
+                        <h3>
+                        <div className={'d-inline-block px-1'}>
+                        Возраст: {
+                        element?.weightCategory?.ageCategory?.ageTo ?
+                        element?.weightCategory?.ageCategory?.ageFrom + ' - ' + element?.weightCategory?.ageCategory?.ageTo
+                        : 'от ' + element?.weightCategory?.ageCategory?.ageFrom
+                    }
+                        </div>
+                        <div className={'d-inline-block px-1'}>
+                        Вес: {
+                        element?.weightCategory?.weightTo ?
+                        element?.weightCategory?.weightFrom + ' - ' + element?.weightCategory?.weightTo
+                        : 'от ' + element?.weightCategory?.weightFrom
+                    }
+                        </div>
+                        <div className={'d-inline-block px-1'}>
+                        Пол: {element?.gender ? 'Мужской' : 'Женский'}
+                        </div>
+                        </h3>
+                    {
+                        element?.participants?.length != 0 &&
+                        <div className='participant head'>
+                        <div className='name'>Участник</div>
+                        <div className="birthDate">Год рождения</div>
+                        <ul className="params">
+                        <li>
+                        Полных лет
+                        </li>
+                        <li>
+                        Пол
+                        </li>
+                        <li>
+                        Вес
+                        </li>
+                        </ul>
+                        </div>
+                    }
+                        <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
+                    {
+                        element?.participants?.map((ele, ind) =>
+                        <li key={ind}>
+                        <Participant
+                        approved={true}
+                    {...ele?.user}
+                        />
+                        </li>
+                        )
+                    }
+                    {
+                        show[index] &&
+                        requestsUsers[index]?.map((ele, ind) =>
+                        <li key={ind}>
+                        <Participant
+                        approved={false}
+                    {...ele?.user}
+                        />
+                        </li>
+                        )
+                    }
+                        </ul>
+                        <p>Подтвержденных регистраций: {element?.participants?.length}</p>
+                    {
+                        requestsUsers[index]?.length>0
+                        && < button type='button' className="link"
+                        onClick={() =>{
+                        let arr=[...show]
+                        arr[index]=!arr[index]
+                        setShow(arr)
+                    }}>{(show[index]) ? 'Скрыть ' : 'Показать '}
+                        неподтвержденные регистрации ({requestsUsers[index]?.length})
+                        </button>
+                    }
+                        </li>
+                        )}
+                        </ul>
+                        </div>
+                    }
+                    {
+                        (tab === 3) &&
+                        <div className='text'>
+                        <EventContext.Provider value={{setEvent, event}}>
+                        <TableWithUsers event={event} setEvent={setEvent} readOnly={true}/>
+                        </EventContext.Provider>
+                        </div>
+                    }
+                    {
+                        (tab === 4) &&
+                        <div className='text'>
+                        <h2>Место проведения</h2>
+                        <address className='fs-15 mb-3'>{event?.venue}</address>
+                        <YMaps>
+                        <Map style={{width: '100%', height: '350px'}}
+                        defaultState={{center: [event?.latitude, event?.longitude], zoom: 13,}}>
+                        <Placemark geometry={[event?.latitude, event?.longitude]}/>
+                        </Map>
+                        </YMaps>
+                        </div>
+                    }
+                        </section>
+                    }
                 </Container>
 
             </main>

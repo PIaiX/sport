@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {getMe, login, logout} from "../user/actions";
-
+import axios from '../../../config/api'
 const initialState={
     notFound:false,
     isAdmin:false,
@@ -16,8 +16,8 @@ const AppSlice = createSlice({
         },
         setFingerprint: (state, action) => {
             state.fingerprint = {...action?.payload, isShow: true}
-        }
-        ,
+            axios.defaults.headers.common.fingerprint=action?.payload
+        },
         setAlert:(state, action)=>{
             state.alertSlice = {...action.payload, isShow: true}
         }

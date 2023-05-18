@@ -10,8 +10,7 @@ const apiBody = {
         'Accept': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': 'include',
-        'Content-Type': 'application/json',
-        'Fingerprint': localStorage.getItem('fingerprint')
+        'Content-Type': 'application/json'
     },
     withCredentials: 'include'
 }
@@ -44,7 +43,9 @@ $authApi.interceptors.response.use(
             try {
                 const response = await $api.get(apiRoutes.AUTH_REFRESH)
                 localStorage.setItem('token', response?.data?.body?.token)
+                return $authApi.request(originalRequest)
             } catch (error) {
+                // делаем логаут
                 console.log(error)
             }
         }
@@ -116,3 +117,4 @@ const apiRoutes = {
 export { $api, $authApi, $authFormDataApi}
 export { BASE_API_URL, BASE_URL }
 export { apiRoutes }
+export default $api
