@@ -6,6 +6,11 @@ import ValidateWrapper from "../components/utils/ValidateWrapper";
 import {useDispatch} from "react-redux";
 import {useUserAction} from "../store/slices/user/actions";
 import {useAppSelector} from "../store";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import {SlSocialVkontakte} from "react-icons/sl";
+import {BsTelegram} from "react-icons/bs";
+import {FcGoogle} from "react-icons/fc";
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -60,6 +65,22 @@ const Login = () => {
                             }} />
                             <span className='color-main'>Забыли пароль</span>
                         </label>
+                        <div className='mt-3'>
+                            <div className={'d-flex align-items-center gap-5'}>
+                                Войти через
+                                <div className={'d-flex gap-2'}>
+                                    <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'50px', height:'50px', borderRadius:'25px'}}>
+                                        <SlSocialVkontakte color={'blue'} size={30} />
+                                    </div>
+                                    <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'50px', height:'50px', borderRadius:'25px'}}>
+                                        <BsTelegram color={'#32A8E2'} size={30} />
+                                    </div>
+                                    <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'50px', height:'50px', borderRadius:'25px'}}>
+                                        <FcGoogle color={'blue'} size={30} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </section>
             </Container>
