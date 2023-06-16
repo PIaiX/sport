@@ -1055,7 +1055,7 @@ main {
     opacity: 1;
 }
 
-.event img {
+.event img, .command article img {
     width: 100%;
     height: 200px;
     -o-object-fit: cover;
@@ -1066,19 +1066,19 @@ main {
 }
 
 @media (max-width: 1399px) {
-    .event img {
+    .event img, .command article img {
         height: 170px;
     }
 }
 
 @media (max-width: 991px) {
-    .event img {
+    .event img, .command article img {
         height: 140px;
     }
 }
 
 @media (max-width: 575px) {
-    .event img {
+    .event img, .command article img {
         height: 50vw;
     }
 }

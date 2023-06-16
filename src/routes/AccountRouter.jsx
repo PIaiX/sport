@@ -13,6 +13,7 @@ import EditBanners from "../pages/account/EditBanners";
 import EditNews from "../pages/account/EditNews";
 import AddNew from "../pages/account/AddNew";
 import AddBanner from "../pages/account/AddBanner";
+import CommandEditPage from "../pages/CommandEditPage";
 
 const AccountRouter = () => {
     const isAdmin = useAppSelector(state => state?.app?.isAdmin)
@@ -39,6 +40,8 @@ const AccountRouter = () => {
                 <Route path='events' element={<AccEvents/>}/>
                 <Route path='events/add' element={<AddEvent/>}/>
                 <Route path='events/:id' element={<AddEvent/>}/>
+                <Route path='command/add' element={<CommandEditPage/>}/>
+                <Route path='command/:id' element={<CommandEditPage/>}/>
                 <Route path='*' element={<NotFound/>}/>
             </Route>
         </Routes>

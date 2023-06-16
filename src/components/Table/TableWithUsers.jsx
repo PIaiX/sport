@@ -1,10 +1,9 @@
-import React, {memo, useContext, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import ParticipantControl from "../utils/ParticipantControl";
 import TournamentBracket from "../TournamentBracket";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {AcceptRequest, GetAcceptRequests} from "../../services/table";
-import {EventContext, UserContext} from "../../pages/account/AddEvent";
+import {GetAcceptRequests} from "../../services/table";
 
 const au = [
     {
@@ -90,49 +89,49 @@ const TableWithUsers = (props) => {
     const [tab, setTab] = useState()
 
     useEffect(() => {
-        if(tab){
-            GetAcceptRequests(event?.id).then(res=>{
-                if(res && res.length>0){
-                    const users = res?.map(element=>element?.user)
+        if (tab) {
+            GetAcceptRequests(event?.id).then(res => {
+                if (res && res.length > 0) {
+                    const users = res?.map(element => element?.user)
                     setAcceptUsers(users)
                 }
             })
         }
     }, [tab])
     useEffect(() => {
-        if(!tab)
+        if (!tab)
             setTab(event?.categories[0]?.id)
 
         setCategoriesTab(event?.categories?.map(element => ({
             age: element.weightCategory?.ageCategory?.ageFrom + '-' + element.weightCategory?.ageCategory?.ageTo,
             gender: element?.gender,
             weight: element?.weightCategory?.weightFrom + '-' + element?.weightCategory?.weightTo,
-            count:element?._count?.participants,
+            count: element?._count?.participants,
             id: element?.id
         })))
     }, [event])
 
     return (
         <>
-            {acceptUsers?.length>0 && !readOnly &&
+            {acceptUsers?.length > 0 && !readOnly &&
                 <div className={'py-2'}>
-                <fieldset>
-                    <legend className='mb-0'>Заявки</legend>
-                    <ul className='list-unstyled row row-cols-1 row-cols-md-2 g-2 g-sm-3 g-md-4'>
-                        {acceptUsers?.map((element, index) =>
-                            <li key={index}>
-                                <ParticipantControl
-                                    {...element}
-                                    eventId={event?.id}
-                                    onChange={()=>{
-                                        setAcceptUsers(acceptUsers.filter(user=>user.id!=element.id))
-                                    }}
-                                />
-                            </li>
-                        )}
-                    </ul>
-                </fieldset>
-            </div>
+                    <fieldset>
+                        <legend className='mb-0'>Заявки</legend>
+                        <ul className='list-unstyled row row-cols-1 row-cols-md-2 g-2 g-sm-3 g-md-4'>
+                            {acceptUsers?.map((element, index) =>
+                                <li key={index}>
+                                    <ParticipantControl
+                                        {...element}
+                                        eventId={event?.id}
+                                        onChange={() => {
+                                            setAcceptUsers(acceptUsers.filter(user => user.id != element.id))
+                                        }}
+                                    />
+                                </li>
+                            )}
+                        </ul>
+                    </fieldset>
+                </div>
             }
             <div>
                 <Row>
@@ -152,7 +151,7 @@ const TableWithUsers = (props) => {
                         </Col>
                     )}
                 </div>
-                <fieldset  className={'bg-for-table'}>
+                <fieldset className={'bg-for-table'}>
                     <legend>Турнирная таблица</legend>
                     <TournamentBracket
                         readOnly={readOnly}
@@ -160,7 +159,7 @@ const TableWithUsers = (props) => {
                         tab={tab}
                         event={event}
                         setEvent={setEvent}
-                        tournamentTableId={event?.categories?.find(element=>element.id==tab)?.tournamentTable?.id}
+                        tournamentTableId={event?.categories?.find(element => element.id == tab)?.tournamentTable?.id}
                     />
                 </fieldset>
 

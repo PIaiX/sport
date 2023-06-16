@@ -12,6 +12,7 @@ import useAnchor from "../../hooks/useAnchor";
 import {onImageHandler} from "../../helpers/onImageHandler";
 import {useImageViewer} from '../../hooks/imageViewer'
 import {checkPhotoPath} from "../../helpers/checkPhotoPath";
+import {useNavigate} from "react-router-dom";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -37,21 +38,26 @@ const Profile = () => {
     const {handleSubmit, register, formState: {errors}, setValue, clearErrors, getValues, control} = useForm()
     const {user} = useAppSelector(state => state.user)
     const {editMe} = useUserAction()
-    const { field: { value: genderValue, onChange: genderOnChange, ...genderField } } = useController({ name: 'gender', control, rules:{required:'Выберите значение'} });
+    const {field: {value: genderValue, onChange: genderOnChange, ...genderField}} = useController({
+        name: 'gender',
+        control,
+        rules: {required: 'Выберите значение'}
+    });
     const [myRef, executeScroll] = useAnchor()
 
     const [setImageToNull, setSetImageToNull] = useState(false)
     const [avatar, setAvatar] = useState(null)
     let photo = useImageViewer(avatar?.image)
+    const navigate = useNavigate()
 
-    const SubmitUserClick = ({password, gender, birthDate,  ...data}) => {
-        let request = {...data, gender:gender?.value, birthDate:birthDate+'T21:00:00.000Z'}
+    const SubmitUserClick = ({password, gender, birthDate, ...data}) => {
+        let request = {...data, gender: gender?.value, birthDate: birthDate + 'T21:00:00.000Z'}
         const formData = new FormData()
         for (const key in request) {
             formData.append(key, request[key])
         }
         formData.append('image', avatar?.image)
-        if(setImageToNull)
+        if (setImageToNull)
             formData.append('setImageToNull', true)
         editMe(formData)
         executeScroll()
@@ -71,13 +77,13 @@ const Profile = () => {
         setValue('height', user?.height)
         setValue('isPublicProfile', !user?.isPublicProfile)
         setValue('gender',
-            user?.gender!==null?
-                sexList[user?.gender==true?0:1]
+            user?.gender !== null ?
+                sexList[user?.gender == true ? 0 : 1]
                 : null
         )
     }, [user])
 
-    const DelImage = () =>{
+    const DelImage = () => {
         setAvatar(null)
         setSetImageToNull(true)
     }
@@ -87,21 +93,29 @@ const Profile = () => {
             <h1>Личные данные</h1>
             <form onSubmit={handleSubmit(SubmitUserClick)}>
                 <Row className={'mb-3'}>
-                    <img className={'col-sm-8 col-md-6 col-xl-5 img-profile'}
-                         src={avatar?photo?.data_url:checkPhotoPath( setImageToNull?'':user?.image) } />
-                    <div className={'d-flex gap-2 mt-2'}>
-                        <div className="file-upload">
-                            <button className="btn-4">Загрузить фото</button>
-                            <input type="file" onChange={(e) => {
-                                setSetImageToNull(false)
-                                onImageHandler(e, setAvatar, 'image')
-                            }} />
+                    <Col sm={8} md={6} xl={6}>
+                        <img className={'img-profile w-100'}
+                             src={avatar ? photo?.data_url : checkPhotoPath(setImageToNull ? '' : user?.image)}/>
+                        <div className={'d-flex gap-2 mt-2'}>
+                            <div className="file-upload">
+                                <button className="btn-4">Загрузить фото</button>
+                                <input type="file" onChange={(e) => {
+                                    setSetImageToNull(false)
+                                    onImageHandler(e, setAvatar, 'image')
+                                }}/>
+                            </div>
+                            {
+                                (photo || user?.image)
+                                &&
+                                <input type={'button'} onClick={DelImage} className={'btn-5'} value={'Удалить фото'}/>
+                            }
                         </div>
-                        {
-                            (photo || user?.image)
-                            && <input type={'button'} onClick={DelImage} className={'btn-5'} value={'Удалить фото'}/>
-                        }
-                    </div>
+                    </Col>
+                    <Col className={'d-flex justify-content-center align-items-center py-3'}>
+                        <div onClick={() => window.open('https://www.alfastrah.ru/individuals/life/protection-family/calc/?tag=ruchamp&utm_source=ruchamp_ru&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family')}>
+                            <button className="btn-4">Приобрести страховку</button>
+                        </div>
+                    </Col>
                 </Row>
                 <Row className='gx-4 gx-xxl-5'>
                     <Col md={6}>
@@ -151,15 +165,15 @@ const Profile = () => {
                                     <ValidateWrapper error={errors?.patronymic}>
                                         <input className='mb-3' type="text" placeholder='Отчество'
                                                {...register('patronymic',
-                                               //     {
-                                               //     required: 'Поле обязательно к заполнению',
-                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
-                                               //     pattern: {
-                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
-                                               //         message: "Для ввода допускаются только буквы"
-                                               //     },
-                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               // }
+                                                   //     {
+                                                   //     required: 'Поле обязательно к заполнению',
+                                                   //     minLength: {value: 2, message: 'Минимум 2 символа'},
+                                                   //     pattern: {
+                                                   //         value: /^[A-Za-z-А-Яа-я]+$/i,
+                                                   //         message: "Для ввода допускаются только буквы"
+                                                   //     },
+                                                   //     maxLength: {value: 50, message: 'Максимум 50 символов',},
+                                                   // }
                                                )}
                                         />
                                     </ValidateWrapper>
@@ -203,15 +217,13 @@ const Profile = () => {
                                 </Col>
                                 <Col md={9}>
                                     <input type="password" placeholder='Пароль' autoComplete="new-password"
-                                           {...register('password', {
-                                           })}
+                                           {...register('password', {})}
                                     />
                                 </Col>
                             </Row>
                             <label className='mt-3'>
                                 <input type="checkbox"
-                                       {...register('isPublicProfile', {
-                                       })}
+                                       {...register('isPublicProfile', {})}
                                 />
                                 <span>Скрыть профиль</span>
                             </label>
@@ -232,7 +244,7 @@ const Profile = () => {
                                         <input type="date"
                                                className='mb-3'
                                                placeholder='Дата рождения'
-                                               {...register('birthDate', )}
+                                               {...register('birthDate',)}
                                         />
                                     </ValidateWrapper>
                                 </Col>
@@ -242,8 +254,8 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.height}>
                                         <input type="text" placeholder='Рост'
-                                               {...register('height',{
-                                                   valueAsNumber:true,
+                                               {...register('height', {
+                                                   valueAsNumber: true,
                                                    required: 'Поле обязательно к заполнению'
                                                })}
                                         />
@@ -255,7 +267,7 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.weight}>
                                         <input type="text" placeholder='Вес'
-                                               {...register('weight',{
+                                               {...register('weight', {
                                                    required: 'Поле обязательно к заполнению',
                                                    valueAsNumber: true
                                                })}
@@ -289,7 +301,9 @@ const Profile = () => {
                             />
                             <div className="d-flex mt-3">
                                 <button type='button' className='btn-1'>Вступить</button>
-                                <button type='button' className='btn-4 ms-4'>Создать</button>
+                                <button onClick={() => navigate('/account/command/add')} type='button'
+                                        className='btn-4 ms-4'>Создать
+                                </button>
                             </div>
 
                         </fieldset>
@@ -304,8 +318,8 @@ const Profile = () => {
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.phone}>
                                         <input className='mb-3' type="tel" placeholder='+7 900 000 00 00'
-                                               onClick={(e)=>{
-                                                   if(!getValues('phone') || getValues('phone').length===0)
+                                               onClick={(e) => {
+                                                   if (!getValues('phone') || getValues('phone').length === 0)
                                                        setValue('phone', '+7')
                                                    SelectToEndForPhoneInput(e)
                                                }}
@@ -358,15 +372,15 @@ const Profile = () => {
                                     <ValidateWrapper error={errors?.region}>
                                         <input type="tel" placeholder='Регион'
                                                {...register('region',
-                                               //     {
-                                               //     required: 'Поле обязательно к заполнению',
-                                               //     minLength: {value: 2, message: 'Минимум 2 символа'},
-                                               //     pattern: {
-                                               //         value: /^[A-Za-z-А-Яа-я]+$/i,
-                                               //         message: "Для ввода допускаются только буквы"
-                                               //     },
-                                               //     maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                               // }
+                                                   //     {
+                                                   //     required: 'Поле обязательно к заполнению',
+                                                   //     minLength: {value: 2, message: 'Минимум 2 символа'},
+                                                   //     pattern: {
+                                                   //         value: /^[A-Za-z-А-Яа-я]+$/i,
+                                                   //         message: "Для ввода допускаются только буквы"
+                                                   //     },
+                                                   //     maxLength: {value: 50, message: 'Максимум 50 символов',},
+                                                   // }
                                                )}
                                         />
                                     </ValidateWrapper>
