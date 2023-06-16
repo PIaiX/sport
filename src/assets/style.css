@@ -800,13 +800,13 @@ header .container nav ul li:not(:first-child) {
     margin-left: 1em;
 }
 
-header .container nav ul li a {
+header .container nav ul li a, header .container nav ul li div {
     font-size: 1.2em;
     color: #004AAD;
     transition: 0.3s ease;
 }
 
-header .container nav ul li a:hover, header .container nav ul li a:focus, header .container nav ul li a:active, header .container nav ul li a.active {
+header .container nav ul li div:hover, header .container nav ul li a:hover, header .container nav ul li a:focus, header .container nav ul li a:active, header .container nav ul li a.active {
     color: #4797FF;
 }
 
