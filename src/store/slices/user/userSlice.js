@@ -1,5 +1,20 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getMe, login, logout, refreshAuth, editMe, verification, registration, JoinEvent, myRequests, getMyEvents} from './actions'
+import {
+    getMe,
+    login,
+    logout,
+    refreshAuth,
+    editMe,
+    verification,
+    registration,
+    JoinEvent,
+    myRequests,
+    getMyEvents,
+    getMyOwnCommands,
+    getRequestsCommands,
+    getMyRequests,
+    sendRequestToTeam, leaveTeam
+} from './actions'
 const initialState={
     user:null,
     checked:false,
@@ -98,6 +113,22 @@ const userSlice= createSlice({
         },
         [JoinEvent.fulfilled]:(state, action)=>{
             state.user.requests = [...state.user.requests, {event:{...action.payload, id:action.payload.eventId}}]
+        },
+        [getMyOwnCommands.fulfilled]:(state, action)=>{
+            state.user.myOwnCommands = action.payload?.map(element=>element.id)
+        },
+        [getRequestsCommands.fulfilled]:(state, action)=>{
+            state.user.myRequestsCommands = action.payload?.map(element=>element.id)
+        },
+        [getMyRequests.fulfilled]:(state, action)=>{
+            state.user.myRequests = action.payload?.map(element=>element.teamId)
+        },
+        [sendRequestToTeam.fulfilled]:(state, action)=>{
+            state.user.myRequests.push(action.payload)
+        },
+        [leaveTeam.fulfilled]:(state, action)=>{
+            const id = action.payload
+            state.user.myRequestsCommands=state.user.myRequestsCommands?.filter(element=>element!=id)
         }
     }
 })

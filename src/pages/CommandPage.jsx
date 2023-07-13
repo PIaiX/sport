@@ -1,47 +1,50 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from "react-bootstrap/Container";
 import {checkPhotoPath} from "../helpers/checkPhotoPath";
 import Participant from "../components/utils/Participant";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import {Link, useParams} from "react-router-dom";
+import {getOneTeam, getParticipants} from "../services/team";
+import {useAppAction, useAppSelector} from "../store";
+import Medals from "../components/Medals/Medals";
+import {useUserAction} from "../store/slices/user/actions";
 
-const c = {
-    id: 2, name: 'Команда 4', count: 7, image: 'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg', wins:2,
-    participants: [
-        {
-            id: 60,
-            email: "taratatataaaa@mail.ru",
-            role: "USER",
-            firstName: "Игнорь",
-            image: "",
-            lastName: "Игорев",
-            patronymic: null,
-            gender: true,
-            isVerified: true,
-            isPublicProfile: true,
-            birthDate: "2004-04-27T21:00:00.000Z",
-            height: 170,
-            weight: 61,
-            phone: "+79616548238",
-            address: null,
-            city: null,
-            district: null,
-            region: null
-        },
-        {
-            firstName: 'Heroi',
-            lastName: 'Make',
-            birthDate: "2000-04-27T21:00:00.000Z",
-            city: 'Kazan',
-            gender: true,
-            weight: '23',
-            image: null
-        },
-    ]
-
-}
 const CommandPage = () => {
-    const [command, setCommand] = useState(c)
+    const {id} = useParams()
+    const {setAlert} = useAppAction()
+    const {sendRequestToTeam, leaveTeam} = useUserAction()
+    const [acceptUsers, setAcceptUsers] = useState()
+    const [command, setCommand] = useState()
+
+    const myCommands = useAppSelector(state => state.user.user?.myOwnCommands)
+    const myRequests = useAppSelector(state => state.user.user?.myRequests)
+    const myRequestsCommands = useAppSelector(state => state.user.user?.myRequestsCommands)
+
+    const isMyOwnCommands = myCommands?.find(element=>element==id)
+    const isMyRequestsCommands = myRequestsCommands?.find(element=>element==id)
+    const isRequestSended = myRequests?.find(element=>element==id)
+
+    useEffect(()=>{
+        getOneTeam(id).then(res=>setCommand(res))
+    }, [])
+
+    useEffect(()=>{
+        getParticipants(id).then(setAcceptUsers)
+    }, [isMyRequestsCommands])
+
+    const sendRequest = ()=>{
+        sendRequestToTeam(id)
+            .then(()=>
+                setAlert({message: 'Запрос отправлен!', typeAlert: 'good'}))
+    }
+
+    const leaveTeamOut = ()=>{
+        leaveTeam(id)
+            .then(()=>
+                setAlert({message: 'Вы покинули команду!', typeAlert: 'good'}))
+    }
+
     return (
         <main>
             <Container>
@@ -53,11 +56,25 @@ const CommandPage = () => {
                             </Col>
                             <Col>
                                 <h1>Название: {command?.name}</h1>
-                                <h3>Колличеcтво побед: {command?.wins}</h3>
-                                <div className="d-flex mt-3">
-                                    <button type='button' className='btn-1'>Вступить</button>
-                                </div>
+                                <Medals {...command?.medals}>
+                                        <h3>Колличеcтво побед: {command?.wins}</h3>
+                                </Medals>
 
+                                <div className="d-flex mt-3">
+                                    {isMyOwnCommands?
+                                        <Link to={`/account/command/add/${id}`}>
+                                            <button type='button' className='btn-1'>Редактировать</button>
+                                        </Link>
+                                        :
+                                        isMyRequestsCommands?
+                                            <button type='button' onClick={leaveTeamOut} className='btn-1'>Выйти</button>
+                                            :
+                                            isRequestSended?
+                                                <button type='button' className='btn-1'>Запрос отправлен</button>
+                                                :
+                                                <button type='button' onClick={sendRequest} className='btn-1'>Вступить</button>
+                                    }
+                                </div>
                             </Col>
                         </Row>
                     </article>
@@ -65,26 +82,26 @@ const CommandPage = () => {
                     <div className='card-body'>
                         <h1>Участники</h1>
                         {
-                            command?.participants?.length != 0 &&
+                            acceptUsers?.length != 0 &&
                             <div className='participant head'>
                                 <div className='name'>Участник</div>
                                 <div className="birthDate">Год рождения</div>
                                 <ul className="params">
-                                    <li>
-                                        Полных лет
-                                    </li>
                                     <li>
                                         Пол
                                     </li>
                                     <li>
                                         Вес
                                     </li>
+                                    <li>
+                                        Медали
+                                    </li>
                                 </ul>
                             </div>
                         }
                         <ul className='list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-1 g-2 g-sm-3 g-md-4 g-lg-2'>
                             {
-                                command?.participants?.map((element, index) =>
+                                acceptUsers?.map((element, index) =>
                                     <li key={index}>
                                         <Participant
                                             approved={true}

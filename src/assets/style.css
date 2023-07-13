@@ -2501,7 +2501,7 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
     color: #004AAD;
 }
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=style.module.css.map */
 
 .validate-wrapper {
     position: relative;
@@ -2786,4 +2786,22 @@ footer .container nav ul li a:hover, footer .container nav ul li a:focus {
 }
 .alert.neutral {
     background: #2e5193;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+}
+.star-rating svg {
+    font-size: 1.5em;
+}
+.star-rating svg:not(:first-child) {
+    margin-left: 0.25em;
+}
+@media (max-width: 1199px) {
+    .star-rating svg {
+        font-size: 1.35em;
+    }
 }

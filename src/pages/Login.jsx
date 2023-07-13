@@ -21,7 +21,6 @@ const Login = () => {
 
     useEffect(()=>{
         if(loginError){
-            console.log(loginError)
             loginError.indexOf('password')!==-1 && setError('password', {message:'Неверный пароль'})
             loginError.indexOf('email')!==-1 && setError('email', {message:'Неверный email'})
             login(null)

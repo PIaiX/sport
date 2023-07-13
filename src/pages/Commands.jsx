@@ -1,52 +1,60 @@
-import React, {useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {checkPhotoPath} from "../helpers/checkPhotoPath";
-import EventCard from "../components/EventCard";
 import CommandCard from "../components/CommandCard";
 import {RiSearch2Line} from "react-icons/ri";
 import {useForm} from "react-hook-form";
-
-const c=[
-    {id:2, name:'Команда 1', count:6, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-    {id:2, name:'Команда 2', count:3, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-    {id:2, name:'Команда 3', count:26, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-    {id:2, name:'Команда 4', count:7, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-    {id:2, name:'Команда 1', count:6, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-    {id:2, name:'Команда 2', count:3, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-    {id:2, name:'Команда 3', count:26, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-    {id:2, name:'Команда 4', count:7, image:'users/d6e10f99-a4a7-4080-a844-aebba5df714c-n3.jpg'},
-]
+import {getAllTeams} from "../services/team";
+import NavPagination from "../components/NavPagination";
+import useAnchor from "../hooks/useAnchor";
 
 const Commands = () => {
-    const [commands, setCommands] = useState(c)
-    const {handleSubmit} = useForm()
-    const onSubmit = (data)=>{
-        alert('Поиск')
+    const [commands, setCommands] = useState()
+    const {handleSubmit, register} = useForm()
+    const [filter, setFilter] = useReducer((state, newState) => ({...state, ...newState}), {skip: 0, take: 12})
+    const [myRef, executeScroll] = useAnchor()
+    const [maxValue, setMaxValue] = useState()
+    const onSubmit = (data) => {
+        setFilter(data)
     }
+
+    useEffect(() => {
+        getAllTeams(filter).then(res => {
+            if (res) {
+                setMaxValue(res?.meta?.total)
+                setCommands((prevState)=>{
+                    if (prevState!==undefined)
+                        executeScroll()
+                    return res?.body
+                })
+            }
+        })
+    }, [filter])
+
     return (
         <main>
-            <Container >
+            <Container className={'py-2'}>
                 <div className={'py-5 d-flex flex-column gap-5 w-100'}>
-                    <div style={{ width:'300px'}}>
-                        <h1>Раздел команд</h1>
+                    <div style={{width: '300px'}}>
+                        <h1 ref={myRef}>Раздел команд</h1>
                         <form action="" className={'form-search '} onSubmit={handleSubmit(onSubmit)}>
-                            <input type="search" placeholder='Найти' style={{boxShadow:'0 0 1px 1px silver'}}/>
-                            <button type='submit' className='btn-1' >
-                                <RiSearch2Line />
+                            <input type="search" {...register('search')} placeholder='Найти' style={{boxShadow: '0 0 1px 1px silver'}}/>
+                            <button type='submit' className='btn-1'>
+                                <RiSearch2Line/>
                             </button>
                         </form>
 
                     </div>
                     <Row xs={1} sm={2} md={3} xl={4} className='gx-4 gy-4 gy-md-5'>
-                        {commands?.map((element, index)=>
+                        {commands?.map((element, index) =>
                             <Col key={index}>
                                 <CommandCard {...element} />
                             </Col>
                         )}
                     </Row>
                 </div>
+                <NavPagination {...filter} maxValue={maxValue} onChange={(e) => setFilter({...e})}/>
             </Container>
         </main>
     );

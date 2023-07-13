@@ -6,7 +6,7 @@ import NotFound from "../pages/NotFound";
 import {useAppAction, useAppSelector} from "../store";
 import {useDispatch} from "react-redux";
 import {initFingerprint} from "../store/slices/app/Action";
-import {getMe, refreshAuth, myRequests, getMyEvents, useUserAction} from '../store/slices/user/actions'
+import {getMe, getRequestsCommands, refreshAuth, useUserAction} from '../store/slices/user/actions'
 import ChangeLocation from "./ChangeLocation";
 import useAnchor from "../hooks/useAnchor";
 import Alert from "../components/utils/Alert";
@@ -15,7 +15,7 @@ const AppLayout = () => {
     const {fingerprint, notFound} = useAppSelector(state => state.app)
     const {setNotFound, CheckedBad} = useAppAction()
     const {pathname} = useLocation()
-    const {myRequests, getMyEvents} = useUserAction()
+    const {myRequests, getMyEvents, getMyOwnCommands, myRequestsCommands, getMyRequests} = useUserAction()
     const [myRef, executeScroll] = useAnchor()
     const dispatch = useDispatch()
     useLayoutEffect(() => {
@@ -31,6 +31,9 @@ const AppLayout = () => {
                         if (res) {
                             myRequests()
                             getMyEvents()
+                            getMyOwnCommands()
+                            getRequestsCommands()
+                            getMyRequests()
                         }
                     })
                 })

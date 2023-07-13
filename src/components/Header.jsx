@@ -42,6 +42,7 @@ const Header = () => {
                                     <li>
                                         <a onClick={(e) => e.preventDefault()}>
                                             <div
+                                                style={{fontSize:'1em'}}
                                                 onClick={() => window.open('https://www.alfastrah.ru/individuals/life/protection-family/calc/?tag=ruchamp&utm_source=ruchamp_ru&utm_medium=cpa&utm_campaign=partner_link&utm_content=protection-family')}>
                                                 Страхование
                                             </div>

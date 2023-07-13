@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
-import {RiCloseLine} from "react-icons/ri";
 import {useController, useForm} from 'react-hook-form'
 import {useAppSelector} from "../../store";
 import ValidateWrapper from "../../components/utils/ValidateWrapper";
@@ -12,7 +11,7 @@ import useAnchor from "../../hooks/useAnchor";
 import {onImageHandler} from "../../helpers/onImageHandler";
 import {useImageViewer} from '../../hooks/imageViewer'
 import {checkPhotoPath} from "../../helpers/checkPhotoPath";
-import {useNavigate} from "react-router-dom";
+import Commands from "../../components/teams";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -48,7 +47,6 @@ const Profile = () => {
     const [setImageToNull, setSetImageToNull] = useState(false)
     const [avatar, setAvatar] = useState(null)
     let photo = useImageViewer(avatar?.image)
-    const navigate = useNavigate()
 
     const SubmitUserClick = ({password, gender, birthDate, ...data}) => {
         let request = {...data, gender: gender?.value, birthDate: birthDate + 'T21:00:00.000Z'}
@@ -278,35 +276,7 @@ const Profile = () => {
                         </fieldset>
                     </Col>
                     <Col md={6}>
-                        <fieldset>
-                            <legend>Ваши команды</legend>
-                            <ul className='list-info mb-4'>
-                                <li>
-                                    <h6>Название команды</h6>
-                                    <button type='button' className='red fs-11'><RiCloseLine/></button>
-                                </li>
-                                <li>
-                                    <h6>Название команды</h6>
-                                    <button type='button' className='red fs-11'><RiCloseLine/></button>
-                                </li>
-                            </ul>
-
-                            <h5>Вступить в команду</h5>
-                            <Select
-                                name="sex"
-                                placeholder="Выберите команду"
-                                classNamePrefix="simple-select"
-                                className="simple-select-container borderless w-100"
-                                options={sexList}
-                            />
-                            <div className="d-flex mt-3">
-                                <button type='button' className='btn-1'>Вступить</button>
-                                <button onClick={() => navigate('/account/command/add')} type='button'
-                                        className='btn-4 ms-4'>Создать
-                                </button>
-                            </div>
-
-                        </fieldset>
+                        <Commands />
                     </Col>
                     <Col xs={12} xl={6}>
                         <fieldset>
@@ -370,19 +340,7 @@ const Profile = () => {
                                 </Col>
                                 <Col md={9}>
                                     <ValidateWrapper error={errors?.region}>
-                                        <input type="tel" placeholder='Регион'
-                                               {...register('region',
-                                                   //     {
-                                                   //     required: 'Поле обязательно к заполнению',
-                                                   //     minLength: {value: 2, message: 'Минимум 2 символа'},
-                                                   //     pattern: {
-                                                   //         value: /^[A-Za-z-А-Яа-я]+$/i,
-                                                   //         message: "Для ввода допускаются только буквы"
-                                                   //     },
-                                                   //     maxLength: {value: 50, message: 'Максимум 50 символов',},
-                                                   // }
-                                               )}
-                                        />
+                                        <input type="tel" placeholder='Регион'{...register('region')}/>
                                     </ValidateWrapper>
                                 </Col>
                             </Row>

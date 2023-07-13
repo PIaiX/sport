@@ -38,7 +38,7 @@ $authApi.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config
-        if (error?.response?.status === 400 && originalRequest && !originalRequest._isRetry) {
+        if (error?.response?.status !== 400 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
             try {
                 const response = await $api.get(apiRoutes.AUTH_REFRESH)
@@ -109,6 +109,16 @@ const apiRoutes = {
     GET_AGE_CATEGORY: 'discipline/ageCategory/byDisciplineId',
     GET_RANK_CATEGORY: 'discipline/rank/byDisciplineId',
 
+    //team
+    TEAM:'team',
+    MY_OWN_TEAMS:'team/my',
+    MY_REQUESTS_TEAMS:'team/participant',
+    SEND_REQUEST_TO_TEAM:'team/requests',
+    MY_REQUESTS_TEAM:'team/requests/my',
+    LEAVE_TEAM:'team',
+    GET_REQUESTS_TO_JOIN_TEAM:'team/requests',
+    ACCEPT_REQUESTS:'team/requests/accept',
+    KICK_USER:'team/kick',
     //document
     GET_DOCUMENT: 'documents',
 

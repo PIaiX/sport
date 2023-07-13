@@ -7,13 +7,16 @@ import {useDispatch} from "react-redux";
 const VerifyCheck = ({children}) => {
 
     const user = useAppSelector(state => state?.user?.user)
-    const {myRequests, getMyEvents}  =useUserAction()
+    const {myRequests, getMyEvents, getMyOwnCommands, getRequestsCommands, getMyRequests}  =useUserAction()
     const dispatch = useDispatch()
     useEffect(()=>{
         dispatch(getMe()).then(res=>{
             if(res){
                 myRequests()
                 getMyEvents()
+                getMyOwnCommands()
+                getRequestsCommands()
+                getMyRequests()
             }
         })    },[])
 
