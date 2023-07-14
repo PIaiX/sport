@@ -12,6 +12,8 @@ import {onImageHandler} from "../../helpers/onImageHandler";
 import {useImageViewer} from '../../hooks/imageViewer'
 import {checkPhotoPath} from "../../helpers/checkPhotoPath";
 import Commands from "../../components/teams";
+import {getCountOfUsers, useAppAction} from "../../store/slices/app/Action";
+import CountOfUsers from "../../components/CountOFUsers/CountOfUsers";
 
 const sexList = [
     {value: true, label: 'Мужской'},
@@ -34,6 +36,7 @@ const yearsList = [
 ];
 
 const Profile = () => {
+    const isAdmin = useAppSelector(state => state?.app?.isAdmin)
     const {handleSubmit, register, formState: {errors}, setValue, clearErrors, getValues, control} = useForm()
     const {user} = useAppSelector(state => state.user)
     const {editMe} = useUserAction()
@@ -88,6 +91,9 @@ const Profile = () => {
 
     return (
         <section className='account-box' ref={myRef}>
+            {isAdmin &&
+                <CountOfUsers />
+            }
             <h1>Личные данные</h1>
             <form onSubmit={handleSubmit(SubmitUserClick)}>
                 <Row className={'mb-3'}>

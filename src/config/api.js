@@ -72,6 +72,7 @@ const apiRoutes = {
     //user
     USER_ACTIONS: 'user',
     USER_UPDATE_PASSWORD: 'user/updatePassword',
+    GET_COUNT_OF_USERS:'users/count',
 
     //banner
     GET_BANNERS: 'banner/paginate',

@@ -1,11 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {getMe, login, logout} from "../user/actions";
 import axios from '../../../config/api'
+import {getCountOfUsers} from "./Action";
 const initialState={
     notFound:false,
     isAdmin:false,
     fingerprint:null,
-    alertSlice:null
+    alertSlice:null,
 }
 const AppSlice = createSlice({
     name:'app',
@@ -26,6 +27,8 @@ const AppSlice = createSlice({
         [login.fulfilled]:(state, action)=>{
             if(action?.payload?.user?.role=='ADMIN')
                 state.isAdmin=true
+            else
+                state.isAdmin=false
         },
         [logout.fulfilled]:(state, action)=>{
             state.isAdmin=false;
@@ -33,6 +36,9 @@ const AppSlice = createSlice({
         [getMe.fulfilled]:(state, action)=>{
             if(action.payload?.role=='ADMIN')
                 state.isAdmin=true
+        },
+        [getCountOfUsers.fulfilled]:(state, action)=>{
+            state.countOfUsers = action.payload?._all
         }
     }
 })
